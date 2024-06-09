@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Utilisateur {
+  id           Int         @id @default(autoincrement())
+  nom          String
+  prenom       String
+  email        String      @unique
+  motDePasse   String
+  adresse      String?
+  telephone    String?
+  role         Role        @default(USER)
+  images       Image[]     @relation("UtilisateurImages")
+  commandes    Commande[]
+  avis         Avis[]
+
+  @@map("utilisateurs")
+}
+
+model Categorie {
+  id            Int       @id @default(autoincrement())
+  nomCategorie String
+  produits      Produit[]
+
+  @@map("categories")
+}
+
+model Produit {
+  id              Int        @id @default(autoincrement())
+  nomProduit      String
+  description     String
+  prix            Float
+  quantiteEnStock Int
+  idCategorie     Int
+  categorie       Categorie  @relation(fields: [idCategorie], references: [id], onDelete: Cascade)
+  images          Image[]    @relation("ProduitImages")
+  avis            Avis[]
+  commandes       Commande[]
+
+  @@map("produits")
+}
+
+model Commande {
+  id             Int         @id @default(autoincrement())
+  dateCommande   DateTime    @default(now())
+  idUtilisateur  Int
+  utilisateur    Utilisateur @relation(fields: [idUtilisateur], references: [id])
+  statutCommande String
+  paiements      Paiement[]
+  produits       Produit[]
+  prixUnitaire   Float
+
+  @@map("commandes")
+}
+
+model Paiement {
+  id              Int      @id @default(autoincrement())
+  idCommande      Int
+  commande        Commande @relation(fields: [idCommande], references: [id])
+  datePaiement    DateTime @default(now())
+  montant         Float
+  methodePaiement String
+
+  @@map("paiements")
+}
+
+model Avis {
+  id            Int         @id @default(autoincrement())
+  idProduit     Int
+  produit       Produit     @relation(fields: [idProduit], references: [id], onDelete: Cascade)
+  idUtilisateur Int
+  utilisateur   Utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade)
+  note          Int
+  commentaire   String
+  dateAvis      DateTime    @default(now())
+
+  @@map("avis")
+}
+
+model Image {
+  id            Int         @id @default(autoincrement())
+  urlImage      String
+  idUtilisateur Int?
+  utilisateur   Utilisateur? @relation("UtilisateurImages", fields: [idUtilisateur], references: [id], onDelete: Cascade)
+  produitId     Int?
+  produit       Produit?     @relation("ProduitImages", fields: [produitId], references: [id], onDelete: Cascade)
+
+  @@map("images")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
