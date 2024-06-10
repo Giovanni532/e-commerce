@@ -71,22 +71,9 @@ model Produit {
   categorie       Categorie  @relation(fields: [idCategorie], references: [id], onDelete: Cascade)
   images          Image[]    @relation("ProduitImages")
   avis            Avis[]
-  commandes       Commande[]
+  commandeProduits CommandeProduit[]
 
   @@map("produits")
-}
-
-model Commande {
-  id             Int         @id @default(autoincrement())
-  dateCommande   DateTime    @default(now())
-  idUtilisateur  String
-  utilisateur    Utilisateur @relation(fields: [idUtilisateur], references: [id])
-  statutCommande String
-  paiements      Paiement[]
-  produits       Produit[]
-  prixUnitaire   Float
-
-  @@map("commandes")
 }
 
 model Paiement {
@@ -98,6 +85,32 @@ model Paiement {
   methodePaiement String
 
   @@map("paiements")
+}
+
+model Commande {
+  id             Int               @id @default(autoincrement())
+  dateCommande   DateTime          @default(now())
+  idUtilisateur  String
+  utilisateur    Utilisateur       @relation(fields: [idUtilisateur], references: [id])
+  statutCommande String
+  paiements      Paiement[]
+  commandeProduits CommandeProduit[]
+  prixTotal      Float
+
+  @@map("commandes")
+}
+
+model CommandeProduit {
+  id          Int      @id @default(autoincrement())
+  idCommande  Int
+  idProduit   Int
+  quantite    Int
+  prixUnitaire Float
+  commande    Commande @relation(fields: [idCommande], references: [id], onDelete: Cascade)
+  produit     Produit  @relation(fields: [idProduit], references: [id], onDelete: Cascade)
+
+  @@map("commande_produits")
+  @@unique([idCommande, idProduit])
 }
 
 model Avis {
