@@ -7,26 +7,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id                String  @id @default(cuid())
+  idUtilisateur     String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  utilisateur Utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id            String      @id @default(cuid())
+  sessionToken  String      @unique
+  utilisateurId String
+  expires       DateTime
+  utilisateur   Utilisateur @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+}
+
 model Utilisateur {
-  id           Int         @id @default(autoincrement())
-  nom          String
-  prenom       String
-  email        String      @unique
-  motDePasse   String
-  adresse      String?
-  telephone    String?
-  role         Role        @default(USER)
-  images       Image[]     @relation("UtilisateurImages")
-  commandes    Commande[]
-  avis         Avis[]
+  id            String     @id @default(cuid())
+  nom           String?
+  prenom        String?
+  email         String?    @unique
+  password      String?
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  role          Role       @default(USER)
+  commandes     Commande[]
+  avis          Avis[]
 
   @@map("utilisateurs")
 }
 
 model Categorie {
-  id            Int       @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   nomCategorie String
-  produits      Produit[]
+  produits     Produit[]
 
   @@map("categories")
 }
@@ -49,7 +79,7 @@ model Produit {
 model Commande {
   id             Int         @id @default(autoincrement())
   dateCommande   DateTime    @default(now())
-  idUtilisateur  Int
+  idUtilisateur  String
   utilisateur    Utilisateur @relation(fields: [idUtilisateur], references: [id])
   statutCommande String
   paiements      Paiement[]
@@ -74,7 +104,7 @@ model Avis {
   id            Int         @id @default(autoincrement())
   idProduit     Int
   produit       Produit     @relation(fields: [idProduit], references: [id], onDelete: Cascade)
-  idUtilisateur Int
+  idUtilisateur String
   utilisateur   Utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade)
   note          Int
   commentaire   String
@@ -84,12 +114,10 @@ model Avis {
 }
 
 model Image {
-  id            Int         @id @default(autoincrement())
-  urlImage      String
-  idUtilisateur Int?
-  utilisateur   Utilisateur? @relation("UtilisateurImages", fields: [idUtilisateur], references: [id], onDelete: Cascade)
-  produitId     Int?
-  produit       Produit?     @relation("ProduitImages", fields: [produitId], references: [id], onDelete: Cascade)
+  id        Int      @id @default(autoincrement())
+  urlImage  String
+  produitId Int?
+  produit   Produit? @relation("ProduitImages", fields: [produitId], references: [id], onDelete: Cascade)
 
   @@map("images")
 }
