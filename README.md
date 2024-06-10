@@ -20,7 +20,6 @@ Template e-commerce avec toutes les features et prêt au **déploiement**.
    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
    NEXT_PUBLIC_FIREBASE_APP_ID=
    NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=
-   EMAIL_ADMIN_FIREBASE=
    NEXT_PUBLIC_STRIPE_PUBLIC_KEY=
    STRIPE_SECRET_KEY=
    
@@ -34,7 +33,8 @@ Template e-commerce avec toutes les features et prêt au **déploiement**.
 
  - NextJS
  - Firebase (Auth)
- - Prisma
+ - Prisma (PostgreSQL)
+ - BDD Supabase
  - Shadcn/UI
  - NextUI
  - Acernity UI

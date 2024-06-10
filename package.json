@@ -13,6 +13,8 @@
     "@nextui-org/react": "^2.4.1",
     "@prisma/adapter-pg": "^5.15.0",
     "@prisma/client": "^5.15.0",
+    "@radix-ui/react-label": "^2.0.2",
+    "@tabler/icons-react": "^3.5.0",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
