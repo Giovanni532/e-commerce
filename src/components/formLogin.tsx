@@ -25,7 +25,7 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
             })
     }
 
-    if (success) {
+    if (success || state.success) {
         return <p>Loading...</p>
     }
 
