@@ -6,14 +6,17 @@ import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 import { Chrome } from 'lucide-react'
 import { AuthGoogle, AuthSignup } from '@/app/auth/action/authAction'
+import { Button } from '@nextui-org/react'
+import { useFormState } from 'react-dom'
 
 interface FormSignupProps {
     handleChange: () => void;
 }
 
 const FormSignup = ({ handleChange }: FormSignupProps) => {
+    const [state, action] = useFormState(AuthSignup, { message: '', success: false })
     return (
-        <form className="my-8" action={AuthSignup}>
+        <form className="my-8" action={action}>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                 <LabelInputContainer>
                     <Label htmlFor="prenom">Prénom</Label>
@@ -32,13 +35,20 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                 <Label htmlFor="password">Password</Label>
                 <Input id="password" name="password" placeholder="••••••••" type="password" />
             </LabelInputContainer>
-            <button
+            {state.success ?
+                null
+                :
+                <div className='text-center'>{state.message}</div>
+
+            }
+            <Button
+                variant='solid'
                 className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
                 type="submit"
             >
-                Signup
+                S'inscrire
                 <BottomGradient />
-            </button>
+            </Button>
             <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
             <div className="flex flex-col space-y-4">
                 <button
@@ -52,7 +62,7 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                     <BottomGradient />
                 </button>
             </div>
-            <p onClick={handleChange}>Vous avez déjà un compte ?</p>
+            <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous avez déjà un compte ?</p>
         </form>
     );
 }

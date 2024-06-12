@@ -3,49 +3,69 @@
 import { dbPrisma } from "@/db";
 import { authWithGoogle } from "@/db/firebase/auth/authWithGoogle";
 import Login from "@/db/firebase/auth/login";
-import Signup from "@/db/firebase/auth/signup"
+import Signup from "@/db/firebase/auth/signup";
+import { signupSchema, loginSchema } from "@/schema/formSchema";
 
-export async function AuthSignup(formData: FormData) {
+type FormState = {
+    message: string,
+    success: boolean
+  }
+
+export async function AuthSignup(prevState: FormState, formData: FormData) {
     const prenom = formData.get("prenom") as string;
     const nom = formData.get("nom") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    if (typeof email !== "string" || typeof password !== "string" || typeof prenom !== "string" || typeof nom !== "string") {
-        console.error("Invalid form data");
-        return;
+    const signupData = { prenom, nom, email, password };
+
+    // Valide les données avec Zod
+    const validation = signupSchema.safeParse(signupData);
+
+    if (!validation.success) {
+        // Récupère les messages d'erreur et les retourne
+        const errors = validation.error.errors.map((err) => err.message).join(", ");
+        return { message: errors, success: false };
     }
 
     const { result, error } = await Signup({ email, password });
 
     if (error) {
         console.error(error);
+        return { message: error, success: false };
     } else {
-        dbPrisma.utilisateur.create({
+        await dbPrisma.utilisateur.create({
             data: {
                 prenom,
                 nom,
                 email,
             },
         });
+        return { message: "Votre compte à bien été crée vous allez être rediriger", success: true };
     }
 }
 
-export async function AuthLogin(formData: FormData) {
+export async function AuthLogin(prevState: FormState,formData: FormData) {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    if (typeof email !== "string" || typeof password !== "string") {
-        console.error("Invalid form data");
-        return;
+    const loginData = {email, password};
+
+    const validation = loginSchema.safeParse(loginData);
+
+    if (!validation.success) {
+        // Récupère les messages d'erreur et les retourne
+        const errors = validation.error.errors.map((err) => err.message).join(", ");
+        return { message: errors, success: false };
     }
 
     const { result, error } = await Login({ email, password });
 
     if (error) {
         console.error(error);
+        return { message: error, success: false };
     } else {
-        console.log(result);
+        return { message: "Connexion réussie", success: true };
     }
 }
 
