@@ -1,5 +1,4 @@
 import { FormAuth } from "@/components/formAuth";
-import { AuthGoogle, AuthLogin, AuthSignup } from "./action/authAction";
 
 
 export default async function AuthPage() {
@@ -12,7 +11,7 @@ export default async function AuthPage() {
                 Login to aceternity if you can because we don&apos;t have a login flow
                 yet
             </p>
-            <FormAuth loginAction={AuthLogin} signupAction={AuthSignup} googleAction={AuthGoogle} />
+            <FormAuth />
         </div>
     )
 }

@@ -18,7 +18,7 @@ export default async function Signup({ email, password }: SignupProps) {
         error = formatErrorMessage(e);
     }
 
-    return { result, error };
+    return { result , error };
 }
 
 function formatErrorMessage(error: FirebaseError): string {

@@ -1,15 +1,17 @@
 "use server"
 
+import { dbPrisma } from "@/db";
 import { authWithGoogle } from "@/db/firebase/auth/authWithGoogle";
 import Login from "@/db/firebase/auth/login";
 import Signup from "@/db/firebase/auth/signup"
 
 export async function AuthSignup(formData: FormData) {
-    console.log(formData)
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const prenom = formData.get("prenom") as string;
+    const nom = formData.get("nom") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
-    if (typeof email !== "string" || typeof password !== "string") {
+    if (typeof email !== "string" || typeof password !== "string" || typeof prenom !== "string" || typeof nom !== "string") {
         console.error("Invalid form data");
         return;
     }
@@ -19,13 +21,19 @@ export async function AuthSignup(formData: FormData) {
     if (error) {
         console.error(error);
     } else {
-        console.log(result);
+        dbPrisma.utilisateur.create({
+            data: {
+                prenom,
+                nom,
+                email,
+            },
+        });
     }
 }
 
 export async function AuthLogin(formData: FormData) {
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
     if (typeof email !== "string" || typeof password !== "string") {
         console.error("Invalid form data");
@@ -41,8 +49,9 @@ export async function AuthLogin(formData: FormData) {
     }
 }
 
+
 export async function AuthGoogle() {
-   const res = await authWithGoogle()
+    const res = await authWithGoogle()
 
     console.log(res);
 }
