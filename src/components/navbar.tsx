@@ -99,7 +99,7 @@ export default function Navbar() {
                     </Sheet>
                     <div className="relative">
                         <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
-                        <Input type="search" placeholder="Search..." className="pl-8 sm:w-[200px] md:w-[300px]" />
+                        <Input type="search" placeholder="Search..." className="pl-8 sm:w-[200px] md:w-[300px] input-bg" />
                     </div>
                     <div className="flex items-center gap-4">
                         <Button
