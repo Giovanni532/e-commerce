@@ -1,6 +1,5 @@
 import { FormAuth } from "@/components/formAuth";
 
-
 export default async function AuthPage() {
     return (
         <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 bg-white dark:bg-black">

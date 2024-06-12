@@ -7,34 +7,55 @@ import { cn } from '@/lib/utils'
 import { Chrome } from 'lucide-react'
 import { AuthSignup } from '@/app/auth/action/authAction'
 import { Button } from '@nextui-org/react'
-import { useFormState } from 'react-dom'
 import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle'
+import { useRouter } from 'next/navigation'
+import ProgressBar from './progress-bar'
 
 interface FormSignupProps {
     handleChange: () => void;
 }
 
 const FormSignup = ({ handleChange }: FormSignupProps) => {
-    const [success, setSuccess] = useState(false);
-    const [state, action] = useFormState(AuthSignup, { message: '', success: false })
+    const [formState, setFormState] = useState({ message: '', success: false, loading: false });
+    const router = useRouter();
 
-    const googleSubmit = async () => {
-        await authWithGoogle()
-        .then(() => {
-            setSuccess(true)
-        })
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setFormState({ ...formState, loading: true });
+
+        const form = e.target as HTMLFormElement;
+        const formData = new FormData(form);
+
+        const result = await AuthSignup(formData);
+        setFormState(result);
+
+        if (result.success) {
+            setTimeout(() => { router.push('/') }, 2000);
+        }
     }
 
-    if(success || state.success){
-        return <p>Loading...</p>
+
+    const googleSubmit = async () => {
+        setFormState({ ...formState, loading: true });
+        await authWithGoogle()
+            .then(() => {
+                setFormState({ ...formState, success: true, loading: false });
+            })
+            .catch((error) => {
+                setFormState({ ...formState, message: error.message, success: false, loading: false });
+            });
+    }
+
+    if (formState.success) {
+        return <ProgressBar title="Redirection en cours ..." description="Vous aller être rediriger vers votre profil" />
     }
 
     return (
-        <form className="my-8" action={action}>
+        <form className="my-8" onSubmit={handleSubmit}>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                 <LabelInputContainer>
-                    <Label htmlFor="prenom">Prénom</Label>
-                    <Input id="prenom" name='prenom' placeholder="Tyler" type="text" />
+                    <Label htmlFor="prenom">Prenom</Label>
+                    <Input id="prenom" name="prenom" placeholder="Tyler" type="text" />
                 </LabelInputContainer>
                 <LabelInputContainer>
                     <Label htmlFor="nom">Nom</Label>
@@ -49,16 +70,13 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                 <Label htmlFor="password">Password</Label>
                 <Input id="password" name="password" placeholder="••••••••" type="password" />
             </LabelInputContainer>
-            {state.success ?
-                null
-                :
-                <div className='text-center'>{state.message}</div>
-
-            }
+            <div>{formState.message}</div>
             <Button
                 variant='solid'
-                className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+                color='primary'
+                className="w-full"
                 type="submit"
+                isLoading={formState.loading}
             >
                 S'inscrire
                 <BottomGradient />
@@ -76,7 +94,7 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                     <BottomGradient />
                 </button>
             </div>
-            <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous avez déjà un compte ?</p>
+            <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous n'avez pas de compte ?</p>
         </form>
     );
 }

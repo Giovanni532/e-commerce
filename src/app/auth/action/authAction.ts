@@ -6,12 +6,7 @@ import Login from "@/db/firebase/auth/login";
 import Signup from "@/db/firebase/auth/signup";
 import { signupSchema, loginSchema } from "@/schema/formSchema";
 
-type FormState = {
-    message: string,
-    success: boolean
-  }
-
-export async function AuthSignup(prevState: FormState, formData: FormData) {
+export async function AuthSignup(formData: FormData) {
     const prenom = formData.get("prenom") as string;
     const nom = formData.get("nom") as string;
     const email = formData.get("email") as string;
@@ -23,14 +18,14 @@ export async function AuthSignup(prevState: FormState, formData: FormData) {
 
     if (!validation.success) {
         const errors = validation.error.errors.map((err) => err.message).join(", ");
-        return { message: errors, success: false };
+        return { message: errors, success: false, loading: false };
     }
 
     const { result, error } = await Signup({ email, password });
 
     if (error) {
         console.error(error);
-        return { message: error, success: false };
+        return { message: error, success: false, loading: false };
     } else {
         await dbPrisma.utilisateur.create({
             data: {
@@ -39,33 +34,33 @@ export async function AuthSignup(prevState: FormState, formData: FormData) {
                 email,
             },
         });
-        return { message: "Votre compte à bien été crée vous allez être rediriger", success: true };
+        return { message: "Compte crée avec succes", success: true, loading: false };
     }
 }
 
-export async function AuthLogin(prevState: FormState,formData: FormData) {
+export async function AuthLogin(formData: FormData) {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const loginData = {email, password};
+    const loginData = { email, password };
 
     const validation = loginSchema.safeParse(loginData);
 
     if (!validation.success) {
         const errors = validation.error.errors.map((err) => err.message).join(", ");
-        return { message: errors, success: false };
+        return { message: errors, success: false, loading: false };;
     }
 
     const { result, error } = await Login({ email, password });
 
     if (error) {
         console.error(error);
-        return { message: error, success: false };
+        return { message: error, success: false, loading: false };
     } else {
-        return { message: "Connexion réussie", success: true };
+        return { message: "Connexion réussie", success: true, loading: false };
     }
 }
 
-export async function AuthGoogle (){
+export async function AuthGoogle() {
     return await authWithGoogle();
 }
