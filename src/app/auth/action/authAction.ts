@@ -19,11 +19,9 @@ export async function AuthSignup(prevState: FormState, formData: FormData) {
 
     const signupData = { prenom, nom, email, password };
 
-    // Valide les données avec Zod
     const validation = signupSchema.safeParse(signupData);
 
     if (!validation.success) {
-        // Récupère les messages d'erreur et les retourne
         const errors = validation.error.errors.map((err) => err.message).join(", ");
         return { message: errors, success: false };
     }
@@ -54,7 +52,6 @@ export async function AuthLogin(prevState: FormState,formData: FormData) {
     const validation = loginSchema.safeParse(loginData);
 
     if (!validation.success) {
-        // Récupère les messages d'erreur et les retourne
         const errors = validation.error.errors.map((err) => err.message).join(", ");
         return { message: errors, success: false };
     }
@@ -69,9 +66,6 @@ export async function AuthLogin(prevState: FormState,formData: FormData) {
     }
 }
 
-
-export async function AuthGoogle() {
-    const res = await authWithGoogle()
-
-    console.log(res);
+export async function AuthGoogle (){
+    return await authWithGoogle();
 }

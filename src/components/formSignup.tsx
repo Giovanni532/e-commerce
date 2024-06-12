@@ -1,20 +1,34 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 import { Chrome } from 'lucide-react'
-import { AuthGoogle, AuthSignup } from '@/app/auth/action/authAction'
+import { AuthSignup } from '@/app/auth/action/authAction'
 import { Button } from '@nextui-org/react'
 import { useFormState } from 'react-dom'
+import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle'
 
 interface FormSignupProps {
     handleChange: () => void;
 }
 
 const FormSignup = ({ handleChange }: FormSignupProps) => {
+    const [success, setSuccess] = useState(false);
     const [state, action] = useFormState(AuthSignup, { message: '', success: false })
+
+    const googleSubmit = async () => {
+        await authWithGoogle()
+        .then(() => {
+            setSuccess(true)
+        })
+    }
+
+    if(success){
+        return <p>Loading...</p>
+    }
+
     return (
         <form className="my-8" action={action}>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
@@ -53,7 +67,7 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
             <div className="flex flex-col space-y-4">
                 <button
                     className="relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-                    onClick={AuthGoogle}
+                    onClick={googleSubmit}
                 >
                     <Chrome className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
                     <span className="text-neutral-700 dark:text-neutral-300 text-sm">
