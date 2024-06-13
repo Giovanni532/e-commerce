@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
@@ -6,15 +8,22 @@ import {
     SheetClose,
     SheetContent,
     SheetDescription,
-    SheetFooter,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { Menu, ShoppingCart, Ribbon, Search } from 'lucide-react';
+import { useUserProvider } from "@/provider/userProvider";
+import Logout from "@/db/firebase/auth/logout";
 
 
 export default function Navbar() {
+    const { currentUser, userData } = useUserProvider();
+
+    const handleLogout = async () => {
+        await Logout();
+    }
+
     return (
         <div className="relative">
             <header className="flex h-16 w-full items-center justify-between px-4 md:px-6">
