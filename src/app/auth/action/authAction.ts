@@ -1,7 +1,6 @@
 "use server"
 
 import { dbPrisma } from "@/db";
-import { authWithGoogle } from "@/db/firebase/auth/authWithGoogle";
 import Login from "@/db/firebase/auth/login";
 import Signup from "@/db/firebase/auth/signup";
 import { signupSchema, loginSchema } from "@/schema/formSchema";
@@ -17,24 +16,29 @@ export async function AuthSignup(formData: FormData) {
     const validation = signupSchema.safeParse(signupData);
 
     if (!validation.success) {
-        const errors = validation.error.errors.map((err) => err.message).join(", ");
+        const errors = validation.error.errors.reduce((acc, err) => {
+            acc[err.path[0]] = err.message;
+            return acc;
+        }, {} as Record<string, string>);
+
         return { message: errors, success: false, loading: false };
     }
 
-    const { result, error } = await Signup({ email, password });
+    const { uid, error } = await Signup({ email, password });
 
     if (error) {
-        console.error(error);
-        return { message: error, success: false, loading: false };
+        return { message: { erreur: error }, success: false, loading: false };
     } else {
+        let idFirebase = uid;
         await dbPrisma.utilisateur.create({
             data: {
+                idFirebase,
                 prenom,
                 nom,
                 email,
             },
         });
-        return { message: "Compte crée avec succes", success: true, loading: false };
+        return { message: { succes: "Compte créé avec succès" }, success: true, loading: false };
     }
 }
 
@@ -47,20 +51,37 @@ export async function AuthLogin(formData: FormData) {
     const validation = loginSchema.safeParse(loginData);
 
     if (!validation.success) {
-        const errors = validation.error.errors.map((err) => err.message).join(", ");
-        return { message: errors, success: false, loading: false };;
+        const errors = validation.error.errors.reduce((acc, err) => {
+            acc[err.path[0]] = err.message;
+            return acc;
+        }, {} as Record<string, string>);
+        return { message: errors, success: false, loading: false };
     }
 
-    const { result, error } = await Login({ email, password });
+    const { error } = await Login({ email, password });
 
     if (error) {
-        console.error(error);
-        return { message: error, success: false, loading: false };
+        return { message: { erreur: error }, success: false, loading: false };
     } else {
-        return { message: "Connexion réussie", success: true, loading: false };
+        return { message: { succes: "Connexion réussie" }, success: true, loading: false };
     }
 }
 
-export async function AuthGoogle() {
-    return await authWithGoogle();
+export const checkUser = async (id: string, email: string, prenom: string, nom: string) => {
+    const userExist = await dbPrisma.utilisateur.findFirst({
+        where: {
+            idFirebase: id,
+        },
+    });
+
+    if (!userExist) {
+        await dbPrisma.utilisateur.create({
+            data: {
+                idFirebase: id,
+                email,
+                nom,
+                prenom,
+            },
+        });
+    }
 }

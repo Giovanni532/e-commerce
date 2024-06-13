@@ -1,23 +1,22 @@
 "use client"
 
-import React, { useState } from 'react'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { cn } from '@/lib/utils'
-import { Chrome } from 'lucide-react'
-import { AuthLogin } from '@/app/auth/action/authAction'
-import { Button } from '@nextui-org/react'
-import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle'
-import { useRouter } from 'next/navigation'
-import ProgressBar from './progress-bar'
-import ButtonGoogle from './buttonGoogle'
+import React, { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
+import { AuthLogin, checkUser } from '@/app/auth/action/authAction';
+import { Button } from '@nextui-org/react';
+import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle';
+import { useRouter } from 'next/navigation';
+import ProgressBar from './progress-bar';
+import ButtonGoogle from './buttonGoogle';
 
 interface FormLoginProps {
     handleChange: () => void;
 }
 
 const FormLogin = ({ handleChange }: FormLoginProps) => {
-    const [formState, setFormState] = useState({ message: '', success: false, loading: false });
+    const [formState, setFormState] = useState({ message: {} as Record<string, string>, success: false, loading: false });
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -31,24 +30,22 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
         setFormState(result);
 
         if (result.success) {
-            setTimeout(() => {router.push('/')}, 2000);
+            setTimeout(() => { router.push('/') }, 2000);
         }
     }
 
-
     const googleSubmit = async () => {
-        setFormState({ ...formState, loading: true });
-        await authWithGoogle()
-            .then(() => {
-                setFormState({ ...formState, success: true, loading: false });
-            })
-            .catch((error) => {
-                setFormState({ ...formState, message: error.message, success: false, loading: false });
-            });
+        setFormState({ message: { global: "Connexion en cours." }, success: false, loading: true });
+        const res = await authWithGoogle();
+        setFormState({ ...res });
+        if (res.success) {
+            await checkUser(res.user.uid, res.user.email ? res.user.email : "", res.user.displayName ? res.user.displayName.split(" ")[0] : "", res.user.displayName ? res.user.displayName.split(" ")[1] : "");
+            setTimeout(() => { router.push('/') }, 2000);
+        }
     }
 
     if (formState.success) {
-        return <ProgressBar description="Vous allez être redirigée merci de patientez ..." />
+        return <ProgressBar description="Vous allez être redirigée merci de patientez ..." />;
     }
 
     return (
@@ -56,12 +53,14 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
             <LabelInputContainer className="mb-4">
                 <Label htmlFor="email">Email Address</Label>
                 <Input id="email" name="email" placeholder="projectmayhem@fc.com" type="email" />
+                {formState.message.email && <p className="text-red-500 text-sm">{formState.message.email}</p>}
             </LabelInputContainer>
             <LabelInputContainer className="mb-4">
                 <Label htmlFor="password">Password</Label>
                 <Input id="password" name="password" placeholder="••••••••" type="password" />
+                {formState.message.password && <p className="text-red-500 text-sm">{formState.message.password}</p>}
             </LabelInputContainer>
-            <div>{formState.message}</div>
+            {formState.message.erreur && <p className="text-red-500 text-sm text-center mb-2">{formState.message.erreur}</p>}
             <Button
                 variant='solid'
                 color='primary'
@@ -74,9 +73,7 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
             </Button>
             <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
             <div className="flex flex-col space-y-4">
-            <div className="flex flex-col space-y-4">
-                <ButtonGoogle googleSubmit={googleSubmit} BottomGradient={BottomGradient}/>
-            </div>
+                <ButtonGoogle googleSubmit={googleSubmit} BottomGradient={BottomGradient} />
             </div>
             <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous n'avez pas de compte ?</p>
         </form>

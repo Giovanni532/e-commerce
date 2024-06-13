@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
-import { AuthSignup } from '@/app/auth/action/authAction'
+import { AuthSignup, checkUser } from '@/app/auth/action/authAction'
 import { Button } from '@nextui-org/react'
 import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle'
 import { useRouter } from 'next/navigation'
@@ -16,7 +16,7 @@ interface FormSignupProps {
 }
 
 const FormSignup = ({ handleChange }: FormSignupProps) => {
-    const [formState, setFormState] = useState({ message: '', success: false, loading: false });
+    const [formState, setFormState] = useState({ message: {} as Record<string, string>, success: false, loading: false });
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -36,14 +36,17 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
 
 
     const googleSubmit = async () => {
-        setFormState({ ...formState, loading: true });
-        await authWithGoogle()
-            .then(() => {
-                setFormState({ ...formState, success: true, loading: false });
-            })
-            .catch((error) => {
-                setFormState({ ...formState, message: error.message, success: false, loading: false });
-            });
+        setFormState({ message: { global: "Connexion en cours." }, success: false, loading: true });
+        const res = await authWithGoogle();
+        setFormState({ ...res });
+        if (res.success) {
+            await checkUser(res.user.uid,
+                res.user.email ? res.user.email : "",
+                res.user.displayName ? res.user.displayName.split(" ")[0] : "",
+                res.user.displayName ? res.user.displayName.split(" ")[1] : ""
+                );
+            setTimeout(() => { router.push('/') }, 2000);
+        }
     }
 
     if (formState.success) {
@@ -56,21 +59,25 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                 <LabelInputContainer>
                     <Label htmlFor="prenom">Prenom</Label>
                     <Input id="prenom" name="prenom" placeholder="Tyler" type="text" />
+                    {formState.message.prenom && <p className="text-red-500 text-sm">{formState.message.prenom}</p>}
                 </LabelInputContainer>
                 <LabelInputContainer>
                     <Label htmlFor="nom">Nom</Label>
                     <Input id="nom" name='nom' placeholder="Durden" type="text" />
+                    {formState.message.nom && <p className="text-red-500 text-sm">{formState.message.nom}</p>}
                 </LabelInputContainer>
             </div>
             <LabelInputContainer className="mb-4">
                 <Label htmlFor="email">Email Address</Label>
                 <Input id="email" name="email" placeholder="projectmayhem@fc.com" type="email" />
+                {formState.message.email && <p className="text-red-500 text-sm">{formState.message.email}</p>}
             </LabelInputContainer>
             <LabelInputContainer className="mb-4">
                 <Label htmlFor="password">Password</Label>
                 <Input id="password" name="password" placeholder="••••••••" type="password" />
+                {formState.message.password && <p className="text-red-500 text-sm">{formState.message.password}</p>}
             </LabelInputContainer>
-            <div>{formState.message}</div>
+            {formState.message.erreur && <p className="text-red-500 text-sm text-center mb-2">{formState.message.erreur}</p>}
             <Button
                 variant='solid'
                 color='primary'
@@ -83,9 +90,9 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
             </Button>
             <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
             <div className="flex flex-col space-y-4">
-                <ButtonGoogle googleSubmit={googleSubmit} BottomGradient={BottomGradient}/>
+                <ButtonGoogle googleSubmit={googleSubmit} BottomGradient={BottomGradient} />
             </div>
-            <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous n'avez pas de compte ?</p>
+            <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous avez un compte ?</p>
         </form>
     );
 }

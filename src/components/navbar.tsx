@@ -11,7 +11,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import { Menu, ShoppingCart, X, Ribbon, Search } from 'lucide-react';
+import { Menu, ShoppingCart, Ribbon, Search } from 'lucide-react';
 
 
 export default function Navbar() {
