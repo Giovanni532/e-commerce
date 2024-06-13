@@ -10,14 +10,16 @@ import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle'
 import { useRouter } from 'next/navigation'
 import ProgressBar from './progress-bar'
 import ButtonGoogle from './buttonGoogle'
+import { useUserProvider } from '@/provider/userProvider'
 
 interface FormSignupProps {
     handleChange: () => void;
 }
 
 const FormSignup = ({ handleChange }: FormSignupProps) => {
-    const [formState, setFormState] = useState({ message: {} as Record<string, string>, success: false, loading: false });
+    const [formState, setFormState] = useState({ user: {}, message: {} as Record<string, string>, success: false, loading: false });
     const router = useRouter();
+    const {setCurrentUser} = useUserProvider();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,15 +30,12 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
 
         const result = await AuthSignup(formData);
         setFormState(result);
-
-        if (result.success) {
-            setTimeout(() => { router.push('/') }, 2000);
-        }
+        setCurrentUser(result.user.userPrisma);
     }
 
 
     const googleSubmit = async () => {
-        setFormState({ message: { global: "Connexion en cours." }, success: false, loading: true });
+        setFormState({ user: {user: ""},message: { global: "Connexion en cours." }, success: false, loading: true });
         const res = await authWithGoogle();
         setFormState({ ...res });
         if (res.success) {
@@ -45,11 +44,11 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                 res.user.displayName ? res.user.displayName.split(" ")[0] : "",
                 res.user.displayName ? res.user.displayName.split(" ")[1] : ""
             );
-            setTimeout(() => { router.push('/') }, 2000);
         }
     }
 
     if (formState.success) {
+        setTimeout(() => { router.push('/') }, 2000);
         return <ProgressBar description="Vous allez être redirigée merci de patientez ..." />
     }
 

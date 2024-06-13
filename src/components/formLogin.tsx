@@ -10,14 +10,16 @@ import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle';
 import { useRouter } from 'next/navigation';
 import ProgressBar from './progress-bar';
 import ButtonGoogle from './buttonGoogle';
+import { useUserProvider } from '@/provider/userProvider'
 
 interface FormLoginProps {
     handleChange: () => void;
 }
 
 const FormLogin = ({ handleChange }: FormLoginProps) => {
-    const [formState, setFormState] = useState({ message: {} as Record<string, string>, success: false, loading: false });
+    const [formState, setFormState] = useState({ user: {} || null, message: {} as Record<string, string>, success: false, loading: false });
     const router = useRouter();
+    const {setCurrentUser} = useUserProvider();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,23 +30,24 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
 
         const result = await AuthLogin(formData);
         setFormState(result);
-
-        if (result.success) {
-            setTimeout(() => { router.push('/') }, 2000);
-        }
+        setCurrentUser(result.user);
     }
 
     const googleSubmit = async () => {
-        setFormState({ message: { global: "Connexion en cours." }, success: false, loading: true });
+        setFormState({ user: {user: null},message: { global: "Connexion en cours." }, success: false, loading: true });
         const res = await authWithGoogle();
         setFormState({ ...res });
         if (res.success) {
-            await checkUser(res.user.uid, res.user.email ? res.user.email : "", res.user.displayName ? res.user.displayName.split(" ")[0] : "", res.user.displayName ? res.user.displayName.split(" ")[1] : "");
-            setTimeout(() => { router.push('/') }, 2000);
+            await checkUser(res.user.uid,
+                res.user.email ? res.user.email : "",
+                res.user.displayName ? res.user.displayName.split(" ")[0] : "",
+                res.user.displayName ? res.user.displayName.split(" ")[1] : ""
+            );
         }
     }
 
     if (formState.success) {
+        setTimeout(() => { router.push('/') }, 2000);
         return <ProgressBar description="Vous allez être redirigée merci de patientez ..." />;
     }
 

@@ -1,12 +1,12 @@
-// useProviderContext.tsx
+"use client"
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/db';
-import { findUser } from './action/providerAction';
 
 interface ProviderContextProps {
-  currentUser: User | null;
-  userData: any;
+  currentUser: {} | null;
+  setCurrentUser: (user: any | null) => void;
 }
 
 const ProviderContext = createContext<ProviderContextProps | undefined>(undefined);
@@ -14,7 +14,7 @@ const ProviderContext = createContext<ProviderContextProps | undefined>(undefine
 export const useUserProvider = () => {
   const context = useContext(ProviderContext);
   if (!context) {
-    throw new Error("useProvider must be used within a UserProvider");
+    throw new Error("useUserProvider must be used within a UserProvider");
   }
   return context;
 };
@@ -25,21 +25,12 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
-
-      if (user) {
-        const dbUser = await findUser(user.uid);
-
-        setUserData(dbUser);
-      } else {
-        setUserData(null);
-      }
     });
 
     return () => unsubscribe();
@@ -47,7 +38,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const value: ProviderContextProps = {
     currentUser,
-    userData,
+    setCurrentUser,
   };
 
   return (
