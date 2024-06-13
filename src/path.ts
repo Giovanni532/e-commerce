@@ -1,0 +1,28 @@
+const paths = {
+    adminDashboardPath(idAdmin: string) {
+        return `/admin/${idAdmin}/dashboard`;
+    },
+    adminDashboardArticlesPath(idAdmin: string) {
+        return `/admin/${idAdmin}/dashboard/articles`;
+    },
+    adminDashboardCommandesPath(idAdmin: string) {
+        return `/admin/${idAdmin}/dashboard/commandes`;
+    },
+    adminDashboardNewArticlePath(idAdmin: string) {
+        return `/admin/${idAdmin}/dashboard/articles/new`;
+    },
+    homePath() {
+        return '/';
+    },
+    articlesPath() {
+        return '/articles';
+    },
+    articleDetailPath(idArticle: string) {
+        return `/articles/${idArticle}`;
+    },
+    userProfilePath(idUser: string) {
+        return `/utilisateur/${idUser}/profile`;
+    }
+}
+
+export default paths;

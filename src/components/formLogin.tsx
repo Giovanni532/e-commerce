@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { AuthLogin, checkUser } from '@/app/auth/action/authAction';
+import { AuthLogin, checkUser } from '@/app/action/authAction';
 import { Button } from '@nextui-org/react';
 import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle';
 import { useRouter } from 'next/navigation';
