@@ -49,34 +49,35 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
     }
 
     return (
-        <form className="my-8" onSubmit={handleSubmit}>
-            <LabelInputContainer className="mb-4">
-                <Label htmlFor="email">Email Address</Label>
-                <Input id="email" name="email" placeholder="projectmayhem@fc.com" type="email" />
-                {formState.message.email && <p className="text-red-500 text-sm">{formState.message.email}</p>}
-            </LabelInputContainer>
-            <LabelInputContainer className="mb-4">
-                <Label htmlFor="password">Password</Label>
-                <Input id="password" name="password" placeholder="••••••••" type="password" />
-                {formState.message.password && <p className="text-red-500 text-sm">{formState.message.password}</p>}
-            </LabelInputContainer>
-            {formState.message.erreur && <p className="text-red-500 text-sm text-center mb-2">{formState.message.erreur}</p>}
-            <Button
-                variant='solid'
-                color='primary'
-                className="w-full"
-                type="submit"
-                isLoading={formState.loading}
-            >
-                Se connecter
-                <BottomGradient />
-            </Button>
-            <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+        <>
+            <form className="my-8" onSubmit={handleSubmit}>
+                <LabelInputContainer className="mb-4">
+                    <Label htmlFor="email">Email Address</Label>
+                    <Input id="email" name="email" placeholder="projectmayhem@fc.com" type="email" />
+                    {formState.message.email && <p className="text-red-500 text-sm">{formState.message.email}</p>}
+                </LabelInputContainer>
+                <LabelInputContainer className="mb-4">
+                    <Label htmlFor="password">Password</Label>
+                    <Input id="password" name="password" placeholder="••••••••" type="password" />
+                    {formState.message.password && <p className="text-red-500 text-sm">{formState.message.password}</p>}
+                </LabelInputContainer>
+                {formState.message.erreur && <p className="text-red-500 text-sm text-center mb-2">{formState.message.erreur}</p>}
+                <Button
+                    variant='solid'
+                    color='primary'
+                    className="w-full"
+                    type="submit"
+                    isLoading={formState.loading}
+                >
+                    Se connecter
+                    <BottomGradient />
+                </Button>
+            </form>
             <div className="flex flex-col space-y-4">
                 <ButtonGoogle googleSubmit={googleSubmit} BottomGradient={BottomGradient} />
             </div>
             <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous n'avez pas de compte ?</p>
-        </form>
+        </>
     );
 }
 

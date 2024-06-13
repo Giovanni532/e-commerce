@@ -44,7 +44,7 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                 res.user.email ? res.user.email : "",
                 res.user.displayName ? res.user.displayName.split(" ")[0] : "",
                 res.user.displayName ? res.user.displayName.split(" ")[1] : ""
-                );
+            );
             setTimeout(() => { router.push('/') }, 2000);
         }
     }
@@ -54,46 +54,47 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
     }
 
     return (
-        <form className="my-8" onSubmit={handleSubmit}>
-            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-                <LabelInputContainer>
-                    <Label htmlFor="prenom">Prenom</Label>
-                    <Input id="prenom" name="prenom" placeholder="Tyler" type="text" />
-                    {formState.message.prenom && <p className="text-red-500 text-sm">{formState.message.prenom}</p>}
+        <>
+            <form className="my-8" onSubmit={handleSubmit}>
+                <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+                    <LabelInputContainer>
+                        <Label htmlFor="prenom">Prenom</Label>
+                        <Input id="prenom" name="prenom" placeholder="Tyler" type="text" />
+                        {formState.message.prenom && <p className="text-red-500 text-sm">{formState.message.prenom}</p>}
+                    </LabelInputContainer>
+                    <LabelInputContainer>
+                        <Label htmlFor="nom">Nom</Label>
+                        <Input id="nom" name='nom' placeholder="Durden" type="text" />
+                        {formState.message.nom && <p className="text-red-500 text-sm">{formState.message.nom}</p>}
+                    </LabelInputContainer>
+                </div>
+                <LabelInputContainer className="mb-4">
+                    <Label htmlFor="email">Email Address</Label>
+                    <Input id="email" name="email" placeholder="projectmayhem@fc.com" type="email" />
+                    {formState.message.email && <p className="text-red-500 text-sm">{formState.message.email}</p>}
                 </LabelInputContainer>
-                <LabelInputContainer>
-                    <Label htmlFor="nom">Nom</Label>
-                    <Input id="nom" name='nom' placeholder="Durden" type="text" />
-                    {formState.message.nom && <p className="text-red-500 text-sm">{formState.message.nom}</p>}
+                <LabelInputContainer className="mb-4">
+                    <Label htmlFor="password">Password</Label>
+                    <Input id="password" name="password" placeholder="••••••••" type="password" />
+                    {formState.message.password && <p className="text-red-500 text-sm">{formState.message.password}</p>}
                 </LabelInputContainer>
-            </div>
-            <LabelInputContainer className="mb-4">
-                <Label htmlFor="email">Email Address</Label>
-                <Input id="email" name="email" placeholder="projectmayhem@fc.com" type="email" />
-                {formState.message.email && <p className="text-red-500 text-sm">{formState.message.email}</p>}
-            </LabelInputContainer>
-            <LabelInputContainer className="mb-4">
-                <Label htmlFor="password">Password</Label>
-                <Input id="password" name="password" placeholder="••••••••" type="password" />
-                {formState.message.password && <p className="text-red-500 text-sm">{formState.message.password}</p>}
-            </LabelInputContainer>
-            {formState.message.erreur && <p className="text-red-500 text-sm text-center mb-2">{formState.message.erreur}</p>}
-            <Button
-                variant='solid'
-                color='primary'
-                className="w-full"
-                type="submit"
-                isLoading={formState.loading}
-            >
-                S'inscrire
-                <BottomGradient />
-            </Button>
-            <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+                {formState.message.erreur && <p className="text-red-500 text-sm text-center mb-2">{formState.message.erreur}</p>}
+                <Button
+                    variant='solid'
+                    color='primary'
+                    className="w-full"
+                    type="submit"
+                    isLoading={formState.loading}
+                >
+                    S'inscrire
+                    <BottomGradient />
+                </Button>
+            </form>
             <div className="flex flex-col space-y-4">
                 <ButtonGoogle googleSubmit={googleSubmit} BottomGradient={BottomGradient} />
             </div>
             <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous avez un compte ?</p>
-        </form>
+        </>
     );
 }
 
