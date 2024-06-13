@@ -41,6 +41,9 @@ export default function Navbar() {
                         </SheetTrigger>
                         <SheetContent side='left'>
                             <Link href="#">Articles</Link>
+                            <Link href="#">Femme</Link>
+                            <Link href="#">Home</Link>
+                            <Link href="#">Contact</Link>
                         </SheetContent>
                     </Sheet>
                     <Link href="/" className="flex items-center">
@@ -52,36 +55,25 @@ export default function Navbar() {
                             href="#"
                             className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                         >
-                            Home
+                            Articles
                         </Link>
                         <Link
                             href="#"
                             className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-
                         >
-                            Shop
+                            Femmes
+                        </Link>
+                        <Link
+                            href="#"
+                            className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+                        >
+                            Hommes
                         </Link>
                         <Link
                             href="#"
                             className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                         >
                             Contact
-                        </Link>
-                    </nav>
-                </div>
-                <div className="flex-1 hidden lg:flex justify-center">
-                    <nav className="flex gap-4">
-                        <Link
-                            href="#"
-                            className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                        >
-                            Features
-                        </Link>
-                        <Link
-                            href="#"
-                            className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                        >
-                            Pricing
                         </Link>
                     </nav>
                 </div>
@@ -110,15 +102,31 @@ export default function Navbar() {
                         <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
                         <Input type="search" placeholder="Search..." className="pl-8 sm:w-[200px] md:w-[300px] input-bg" />
                     </div>
-                    <div className="flex items-center gap-4">
-                        <Button
-                            href="/auth"
-                            as={Link}
-                            variant="ghost"
-                        >
-                            Connexion
-                        </Button>
-                    </div>
+                    {userData ?
+                        <div className="flex items-center gap-4">
+                            <Button
+                                href="/"
+                                as={Link}
+                                variant="ghost"
+                                onClick={handleLogout}
+                            >
+                                Deconnexion
+                            </Button>
+                        </div>
+
+                        :
+
+                        <div className="flex items-center gap-4">
+                            <Button
+                                href="/auth"
+                                as={Link}
+                                variant="ghost"
+                            >
+                                Connexion
+                            </Button>
+                        </div>
+
+                    }
                 </div>
             </header>
             <div className="mobile-menu fixed top-[-100%] left-0 w-full bg-white dark:bg-gray-950 z-50 transition-all duration-300 ease-in-out px-4 md:px-6 py-4">
