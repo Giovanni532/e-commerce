@@ -12,6 +12,7 @@ import ProgressBar from './progress-bar'
 import ButtonGoogle from './buttonGoogle'
 import { useUserProvider } from '@/provider/userProvider'
 import { fetchUserData } from '@/app/action/userAction'
+import { setCookie } from 'cookies-next'
 
 interface FormSignupProps {
     handleChange: () => void;
@@ -33,6 +34,8 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
         setFormState(result);
         const user = await fetchUserData(result.message.uid);
         setCurrentUser(user);
+        setCookie('currentUser', JSON.stringify(user));
+        router.refresh();
     }
 
 
@@ -46,6 +49,10 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                 res.user.displayName ? res.user.displayName.split(" ")[0] : "",
                 res.user.displayName ? res.user.displayName.split(" ")[1] : ""
             );
+            const user = await fetchUserData(res.user.uid);
+            setCurrentUser(user);
+            setCookie('currentUser', JSON.stringify(user));
+            router.refresh();
         }
     }
 
@@ -87,7 +94,7 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                     type="submit"
                     isLoading={formState.loading}
                 >
-                    S'inscrire
+                    S&apos;inscrire
                     <BottomGradient />
                 </Button>
             </form>

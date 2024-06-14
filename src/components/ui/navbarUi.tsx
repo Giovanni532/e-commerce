@@ -9,13 +9,18 @@ import Logout from "@/db/firebase/auth/logout";
 import { UserRound, LogOut } from 'lucide-react';
 
 import paths from "@/path";
+import { deleteCookie, setCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 export default function NavbarUi() {
     const { currentUser, setCurrentUser } = useUserProvider();
+    const router = useRouter();
 
     const handleLogout = async () => {
         await Logout();
         setCurrentUser(null);
+        deleteCookie('currentUser');
+        router.refresh();
     }
 
     return (
@@ -46,8 +51,9 @@ export default function NavbarUi() {
                         </DropdownItem>
                         <DropdownItem
                             key="Deconnexion"
-                            as={Link}
                             color="danger"
+                            as={Link}
+                            onClick={handleLogout}
                             startContent={<LogOut className="text-xl pointer-events-none flex-shrink-0" />}
                             href="#"
                         >

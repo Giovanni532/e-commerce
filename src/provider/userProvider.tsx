@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/db';
 import { fetchUserData } from '@/app/action/userAction';
+import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 
 interface User {
   id: string;
@@ -42,17 +43,26 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        const userData = await fetchUserData(firebaseUser.uid);
-        setCurrentUser(userData);
-      } else {
-        setCurrentUser(null);
-      }
-      setLoading(false);
-    });
+    const storedUser = getCookie('currentUser');
 
-    return () => unsubscribe();
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser as string));
+      setLoading(false);
+    } else {
+      const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+        if (firebaseUser) {
+          const userData = await fetchUserData(firebaseUser.uid);
+          setCurrentUser(userData);
+          setCookie('currentUser', JSON.stringify(userData));
+        } else {
+          setCurrentUser(null);
+          deleteCookie('currentUser');
+        }
+        setLoading(false);
+      });
+
+      return () => unsubscribe();
+    }
   }, []);
 
   const value: ProviderContextProps = {

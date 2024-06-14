@@ -12,6 +12,7 @@ import ProgressBar from './progress-bar';
 import ButtonGoogle from './buttonGoogle';
 import { useUserProvider } from '@/provider/userProvider'
 import { fetchUserData } from '@/app/action/userAction';
+import { setCookie } from 'cookies-next';
 
 interface FormLoginProps {
     handleChange: () => void;
@@ -33,6 +34,8 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
         setFormState(result);
         const user = await fetchUserData(result.message.uid);
         setCurrentUser(user);
+        setCookie('currentUser', JSON.stringify(user));
+        router.refresh();
     }
 
     const googleSubmit = async () => {
@@ -45,6 +48,10 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
                 res.user.displayName ? res.user.displayName.split(" ")[0] : "",
                 res.user.displayName ? res.user.displayName.split(" ")[1] : ""
             );
+            const user = await fetchUserData(res.user.uid);
+            setCurrentUser(user);
+            setCookie('currentUser', JSON.stringify(user));
+            router.refresh();
         }
     }
 
@@ -82,7 +89,7 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
                 {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
                 <ButtonGoogle googleSubmit={googleSubmit} BottomGradient={BottomGradient} />
             </div>
-            <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous n'avez pas de compte ?</p>
+            <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous n&apos;avez pas de compte ?</p>
         </>
     );
 }
