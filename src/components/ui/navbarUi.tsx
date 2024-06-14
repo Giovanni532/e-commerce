@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Search } from 'lucide-react';
 import { useUserProvider } from "@/provider/userProvider";
 import Logout from "@/db/firebase/auth/logout";
+import { UserRound, LogOut } from 'lucide-react';
+
 import paths from "@/path";
 
 export default function NavbarUi() {
@@ -26,20 +28,29 @@ export default function NavbarUi() {
                 <Dropdown placement="bottom-end">
                     <DropdownTrigger>
                         <Avatar
+                            showFallback
                             isBordered
                             as="button"
                             className="transition-transform"
-                            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                            src={currentUser.image ? currentUser.image : ""}
                         />
                     </DropdownTrigger>
                     <DropdownMenu aria-label="Profile Actions" variant="flat">
-                        <DropdownItem key="profile" as={Link} href="/">
-                            Mon profil
+                        <DropdownItem
+                            key="Mon profile"
+                            as={Link}
+                            startContent={<UserRound className="text-xl pointer-events-none flex-shrink-0" />}
+                            href="#"
+                        >
+                            Mon profile
                         </DropdownItem>
-                        <DropdownItem key="avis" as={Link} href="/">
-                            Mes avis
-                        </DropdownItem>
-                        <DropdownItem key="logout" color="danger" onClick={handleLogout}>
+                        <DropdownItem
+                            key="Deconnexion"
+                            as={Link}
+                            color="danger"
+                            startContent={<LogOut className="text-xl pointer-events-none flex-shrink-0" />}
+                            href="#"
+                        >
                             Déconnexion
                         </DropdownItem>
                     </DropdownMenu>
