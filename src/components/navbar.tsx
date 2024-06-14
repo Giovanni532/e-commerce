@@ -1,8 +1,6 @@
-"use client";
 
-import { Button, Badge, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, User } from "@nextui-org/react";
+import { Button, Badge } from "@nextui-org/react";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
 import {
     Sheet,
     SheetClose,
@@ -12,19 +10,11 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import { Menu, ShoppingCart, Ribbon, Search } from 'lucide-react';
-import { useUserProvider } from "@/provider/userProvider";
-import Logout from "@/db/firebase/auth/logout";
+import { Menu, ShoppingCart, Ribbon } from 'lucide-react';
 import paths from "@/path";
+import NavbarUi from "./ui/navbarUi";
 
 export default function Navbar() {
-    const { currentUser, setCurrentUser } = useUserProvider();
-
-    const handleLogout = async () => {
-        await Logout();
-        setCurrentUser(null);
-    }
-
     return (
         <div className="relative">
             <header className="flex h-16 w-full items-center justify-between px-4 md:px-6">
@@ -85,7 +75,7 @@ export default function Navbar() {
                                 variant="light"
                                 isIconOnly
                             >
-                                <Badge color="danger" content={10} shape="circle" size="sm">
+                                <Badge color="danger" content={10} isInvisible={true} shape="circle" size="sm">
                                     <ShoppingCart className="h-6 w-6" />
                                 </Badge>
                             </Button>
@@ -100,68 +90,9 @@ export default function Navbar() {
                             </SheetDescription>
                         </SheetContent>
                     </Sheet>
-                    <div className="relative">
-                        <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
-                        <Input type="search" placeholder="Search..." className="pl-8 sm:w-[200px] md:w-[300px] input-bg" />
-                    </div>
-                    {currentUser ?
-                        <Dropdown placement="bottom-end">
-                            <DropdownTrigger>
-                                <Avatar
-                                    isBordered
-                                    as="button"
-                                    className="transition-transform"
-                                    src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                                />
-                            </DropdownTrigger>
-                            <DropdownMenu aria-label="Profile Actions" variant="flat">
-                                <DropdownItem key="profile" as={Link} href="/">
-                                    Mon profil
-                                </DropdownItem>
-                                <DropdownItem key="avis" as={Link} href="/">
-                                    Mes avis
-                                </DropdownItem>
-                                <DropdownItem key="logout" color="danger" onClick={handleLogout}>
-                                    Déconnexion
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                        :
-                        <div className="flex items-center gap-4">
-                            <Button
-                                href="/auth"
-                                as={Link}
-                                variant="ghost"
-                            >
-                                Connexion
-                            </Button>
-                        </div>
-
-                    }
+                    <NavbarUi />
                 </div>
             </header>
-            <div className="mobile-menu fixed top-[-100%] left-0 w-full bg-white dark:bg-gray-950 z-50 transition-all duration-300 ease-in-out px-4 md:px-6 py-4">
-                <nav className="grid gap-4">
-                    <Link
-                        href="#"
-                        className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                    >
-                        Home
-                    </Link>
-                    <Link
-                        href="#"
-                        className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                    >
-                        Shop
-                    </Link>
-                    <Link
-                        href="#"
-                        className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                    >
-                        Contact
-                    </Link>
-                </nav>
-            </div>
         </div>
     )
 }
