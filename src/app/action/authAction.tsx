@@ -22,24 +22,15 @@ export async function AuthSignup(formData: FormData) {
             return acc;
         }, {} as Record<string, string>);
 
-        return { user: { user: "" }, message: errors, success: false, loading: false };
+        return { message: errors, success: false, loading: false };
     }
 
     const { uid, error } = await Signup({ email, password });
 
     if (error) {
-        return { user: { user: "" }, message: { erreur: error }, success: false, loading: false };
+        return { message: { erreur: error }, success: false, loading: false };
     } else {
-        let idFirebase = uid;
-        const userPrisma = await dbPrisma.utilisateur.create({
-            data: {
-                idFirebase,
-                prenom,
-                nom,
-                email,
-            },
-        });
-        return { user: { userPrisma }, message: { succes: "Compte créé avec succès" }, success: true, loading: false };
+        return { message: { uid }, success: true, loading: false };
     }
 }
 
@@ -56,20 +47,15 @@ export async function AuthLogin(formData: FormData) {
             acc[err.path[0]] = err.message;
             return acc;
         }, {} as Record<string, string>);
-        return { user: { user: null }, message: errors, success: false, loading: false };
+        return { message: errors, success: false, loading: false };
     }
 
-    const { result, error } = await Login({ email, password });
+    const { uid, error } = await Login({ email, password });
 
     if (error) {
-        return { user: { user: null }, message: { erreur: error }, success: false, loading: false };
+        return { message: { erreur: error }, success: false, loading: false };
     } else {
-        const user = await dbPrisma.utilisateur.findUnique({
-            where: {
-                idFirebase: result?.user.uid,
-            },
-        });
-        return { user: user, message: { succes: "Connexion réussie" }, success: true, loading: false };
+        return { message: { uid }, success: true, loading: false };
     }
 }
 

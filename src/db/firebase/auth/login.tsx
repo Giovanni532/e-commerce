@@ -11,14 +11,16 @@ interface LoginProps {
 
 export default async function Login({ email, password }: LoginProps) {
     let result = null,
-        error = null;
+        error = null,
+        uid = "";
     try {
         result = await signInWithEmailAndPassword(auth, email, password)
+        uid = result.user.uid;
     } catch (e: any) {
         error = formatErrorMessage(e);
     }
 
-    return { result, error };
+    return { uid, result, error };
 }
 
 function formatErrorMessage(error: FirebaseError): string {

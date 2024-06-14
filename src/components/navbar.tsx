@@ -17,11 +17,8 @@ import { useUserProvider } from "@/provider/userProvider";
 import Logout from "@/db/firebase/auth/logout";
 import paths from "@/path";
 
-
 export default function Navbar() {
     const { currentUser, setCurrentUser } = useUserProvider();
-
-    console.log(currentUser)
 
     const handleLogout = async () => {
         await Logout();

@@ -11,15 +11,16 @@ import { useRouter } from 'next/navigation'
 import ProgressBar from './progress-bar'
 import ButtonGoogle from './buttonGoogle'
 import { useUserProvider } from '@/provider/userProvider'
+import { fetchUserData } from '@/app/action/userAction'
 
 interface FormSignupProps {
     handleChange: () => void;
 }
 
 const FormSignup = ({ handleChange }: FormSignupProps) => {
-    const [formState, setFormState] = useState({ user: {}, message: {} as Record<string, string>, success: false, loading: false });
+    const [formState, setFormState] = useState({ message: {} as Record<string, string>, success: false, loading: false });
     const router = useRouter();
-    const {setCurrentUser} = useUserProvider();
+    const { setCurrentUser } = useUserProvider();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -30,15 +31,16 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
 
         const result = await AuthSignup(formData);
         setFormState(result);
-        setCurrentUser(result.user.userPrisma);
+        const user = await fetchUserData(result.message.uid);
+        setCurrentUser(user);
     }
 
 
     const googleSubmit = async () => {
-        setFormState({ user: {user: ""},message: { global: "Connexion en cours." }, success: false, loading: true });
+        setFormState({ message: { global: "" }, success: false, loading: true });
         const res = await authWithGoogle();
         setFormState({ ...res });
-        if (res.success) {
+        if (res.user && res.success) {
             await checkUser(res.user.uid,
                 res.user.email ? res.user.email : "",
                 res.user.displayName ? res.user.displayName.split(" ")[0] : "",
@@ -90,6 +92,7 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                 </Button>
             </form>
             <div className="flex flex-col space-y-4">
+                {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
                 <ButtonGoogle googleSubmit={googleSubmit} BottomGradient={BottomGradient} />
             </div>
             <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous avez un compte ?</p>
