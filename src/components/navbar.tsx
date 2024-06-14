@@ -31,37 +31,37 @@ export default function Navbar() {
                             </Button>
                         </SheetTrigger>
                         <SheetContent side='left'>
-                            <Link href="#">Articles</Link>
-                            <Link href="#">Femme</Link>
-                            <Link href="#">Home</Link>
-                            <Link href="#">Contact</Link>
+                            <Link href={paths.articlesPath()}>Articles</Link>
+                            <Link href={paths.articlesPath()}>Femme</Link>
+                            <Link href={paths.articlesPath()}>Homme</Link>
+                            <Link href={paths.articlesPath()}>Contact</Link>
                         </SheetContent>
                     </Sheet>
-                    <Link href="/" className="flex items-center">
+                    <Link href={paths.homePath()} className="flex items-center">
                         <Ribbon className="h-6 w-6" />
                         <span className="sr-only">Acme Inc</span>
                     </Link>
                     <nav className="hidden lg:flex gap-4">
                         <Link
-                            href="#"
+                            href={paths.articlesPath()}
                             className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                         >
                             Articles
                         </Link>
                         <Link
-                            href="#"
+                            href={paths.articlesPath()}
                             className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                         >
                             Femmes
                         </Link>
                         <Link
-                            href="#"
+                            href={paths.articlesPath()}
                             className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                         >
                             Hommes
                         </Link>
                         <Link
-                            href="#"
+                            href={paths.articlesPath()}
                             className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
                         >
                             Contact
