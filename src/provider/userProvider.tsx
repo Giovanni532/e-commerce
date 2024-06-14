@@ -1,12 +1,26 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/db';
+import { fetchUserData } from '@/app/action/userAction';
+
+interface User {
+  id: string;
+  idFirebase: string;
+  nom: string | null;
+  prenom: string | null;
+  email: string | null;
+  emailVerified: Date | null;
+  image: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  role: string;
+}
 
 interface ProviderContextProps {
-  currentUser: {} | null;
-  setCurrentUser: (user: any | null) => void;
+  currentUser: User | null;
+  setCurrentUser: (user: User | null) => void;
 }
 
 const ProviderContext = createContext<ProviderContextProps | undefined>(undefined);
@@ -28,8 +42,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const userData = await fetchUserData(firebaseUser.uid);
+        setCurrentUser(userData);
+      } else {
+        setCurrentUser(null);
+      }
       setLoading(false);
     });
 
