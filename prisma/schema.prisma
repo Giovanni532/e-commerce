@@ -32,13 +32,26 @@ model Categorie {
   @@map("categories")
 }
 
+model SousCategorie {
+  id               Int       @id @default(autoincrement())
+  nomSousCategorie String
+  produits         Produit[]
+
+  @@map("sous-categories")
+}
+
 model Produit {
   id               Int               @id @default(autoincrement())
   nomProduit       String
   description      String
   prix             Float
+  couleur          String
+  etat             String
+  taille           String
+  idSousCategorie  Int
   quantiteEnStock  Int
   idCategorie      Int
+  sousCategorie    SousCategorie     @relation(fields: [idSousCategorie], references: [id], onDelete: Cascade)
   categorie        Categorie         @relation(fields: [idCategorie], references: [id], onDelete: Cascade)
   images           Image[]           @relation("ProduitImages")
   avis             Avis[]
