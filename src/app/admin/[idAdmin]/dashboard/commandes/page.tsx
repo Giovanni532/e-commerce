@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function AdminDashboardCommandes() {
   return (
-    <div>
+    <div className='w-full h-full'>
         AdminDashboardCommandes
     </div>
   )

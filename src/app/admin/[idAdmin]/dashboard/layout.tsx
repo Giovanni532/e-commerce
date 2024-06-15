@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 const tabs = [
     {
         title: (
-            <div className="flex items-start space-x-2">
+            <div className="flex items-center space-x-2">
                 <CircleGauge />
-                <span>Dashboard</span>
+                <p>Dashboard</p>
             </div>
         ),
         value: "dashboard",
@@ -27,11 +27,11 @@ const tabs = [
     },
     {
         title: (
-            <div className="flex items-start space-x-2">
+            <div className="flex items-center space-x-2">
                 <Shirt />
-                <span>Articles</span>
+                <p>Articles</p>
             </div>
-        
+
         ),
         value: "articles",
         content: (
@@ -40,11 +40,11 @@ const tabs = [
     },
     {
         title: (
-            <div className="flex items-start space-x-2">
+            <div className="flex items-center space-x-2">
                 <BarChart4 />
-                <span>Commandes</span>
+                <p>Commandes</p>
             </div>
-        
+
         ),
         value: "commandes",
         content: (
@@ -53,11 +53,11 @@ const tabs = [
     },
     {
         title: (
-            <div className="flex items-start space-x-2">
+            <div className="flex items-center space-x-2">
                 <CirclePlus />
-                <span>Ajouter un article</span>
+                <p>Ajouter un article</p>
             </div>
-        
+
         ),
         value: "newArticle",
         content: (
