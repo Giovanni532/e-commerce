@@ -1,9 +1,12 @@
 "use client"
 
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Label } from './ui/label';
-import { AutocompleteItem, Button, Input, Autocomplete } from '@nextui-org/react';
+import { SelectItem, Button, Input, Select, Textarea } from '@nextui-org/react';
 import { cn } from '@/lib/utils';
+import { createArticle } from '@/app/action/adminAction';
+import { Images } from 'lucide-react';
+import { useFormState } from 'react-dom';
 
 const taille = [
     { key: 'S', label: 'S' },
@@ -36,44 +39,70 @@ const couleur = [
     { key: '#FFC0CB', label: 'Rose' },
 ];
 
-export default function FormArticle() {
+interface FormArticleProps {
+    categorie: { id: number; nomCategorie: string }[];
+    sousCategorie: { id: number; nomSousCategorie: string }[];
+}
+
+export default function FormArticle({ categorie, sousCategorie }: FormArticleProps) {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [formState, action] = useFormState(createArticle, { errors: {} as Record<string, string | null> })
+    const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+
+    const handleButtonClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            setSelectedFiles(event.target.files);
+        }
+    };
+
+    console.log('formState', formState)
+
     return (
-        <form className="my-8 max-w-lg mx-auto">
+        <form className="my-8 max-w-lg mx-auto" action={action}>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                 <LabelInputContainer>
                     <Input id="nomProduit" name="nomProduit" labelPlacement='outside' label="Nom du produit" placeholder="Pull nike" type="text" />
                 </LabelInputContainer>
             </div>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-                <Autocomplete
+                <Select
                     name='taille'
-                    defaultItems={taille}
                     labelPlacement='outside'
-                    label="Choisir une taille"
-                    placeholder="Sélectionner une taille"
+                    label="Sélectionner une taille"
+                    placeholder="S"
                 >
-                    {(taille) => <AutocompleteItem key={taille.key} value={taille.label}>{taille.label}</AutocompleteItem>}
-                </Autocomplete>
-                <Autocomplete
+                    {taille.map((tailleItem) => (
+                        <SelectItem key={tailleItem.key} value={tailleItem.label}>{tailleItem.label}</SelectItem>
+                    ))}
+                </Select>
+                <Select
                     name='couleur'
-                    defaultItems={couleur}
                     labelPlacement='outside'
-                    label="Choisir une couleur"
-                    placeholder="Sélectionner une couleur"
+                    label="Sélectionner une couleur"
+                    placeholder="Rouge"
                 >
-                    {(couleur) => <AutocompleteItem key={couleur.key} value={couleur.label}>{couleur.label}</AutocompleteItem>}
-                </Autocomplete>
+                    {couleur.map((couleurItem) => (
+                        <SelectItem key={couleurItem.key} value={couleurItem.label}>{couleurItem.label}</SelectItem>
+                    ))}
+                </Select>
             </div>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-                <Autocomplete
+                <Select
                     name='etat'
-                    defaultItems={etat}
                     labelPlacement='outside'
-                    label="Choisir un état"
-                    placeholder="Sélectionner un état"
+                    label="Sélectionner un état"
+                    placeholder="Neuf"
                 >
-                    {(etat) => <AutocompleteItem key={etat.key} value={etat.label}>{etat.label}</AutocompleteItem>}
-                </Autocomplete>
+                    {etat.map((etatItem) => (
+                        <SelectItem key={etatItem.key} value={etatItem.label}>{etatItem.label}</SelectItem>
+                    ))}
+                </Select>
                 <LabelInputContainer>
                     <Input
                         type="number"
@@ -90,36 +119,56 @@ export default function FormArticle() {
                 </LabelInputContainer>
             </div>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-                <Autocomplete
-                    name='taille'
-                    defaultItems={taille}
+                <Select
+                    name='idCategorie'
                     labelPlacement='outside'
-                    label="Choisir une taille"
-                    placeholder="Sélectionner une taille"
+                    label="Sélectionner une categorie"
+                    placeholder="Femme"
                 >
-                    {(taille) => <AutocompleteItem key={taille.key} value={taille.label}>{taille.label}</AutocompleteItem>}
-                </Autocomplete>
-                <Autocomplete
-                    name='couleur'
-                    defaultItems={couleur}
+                    {categorie.map((cat) => (
+                        <SelectItem key={cat.id} value={cat.id}>{cat.nomCategorie}</SelectItem>
+                    ))}
+                </Select>
+                <Select
+                    name='idSousCategorie'
                     labelPlacement='outside'
-                    label="Choisir une couleur"
-                    placeholder="Sélectionner une couleur"
+                    label="Sélectionner une sous categorie"
+                    placeholder="Robe"
                 >
-                    {(couleur) => <AutocompleteItem key={couleur.key} value={couleur.label}>{couleur.label}</AutocompleteItem>}
-                </Autocomplete>
+                    {sousCategorie.map((sousCat) => (
+                        <SelectItem key={sousCat.id} value={sousCat.id}>{sousCat.nomSousCategorie}</SelectItem>
+                    ))}
+                </Select>
             </div>
             <LabelInputContainer className="mb-4">
                 <Label htmlFor="description">Ajouter une description</Label>
-                <Input id="description" name="description" placeholder="Pull nike noir, ..." type="text" />
+                <Textarea id="description" name="description" placeholder="Pull nike noir, ..." type="text" />
             </LabelInputContainer>
+            <Button
+                color='success'
+                endContent={<Images />}
+                className="text-white w-full my-4"
+                onClick={handleButtonClick}
+            >
+                {selectedFiles && selectedFiles.length > 0
+                    ? `${selectedFiles.length} images sélectionnées`
+                    : 'Ajoutez des images'}
+            </Button>
+            <input
+                type="file"
+                name='images'
+                multiple
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+            />
             <Button
                 variant='solid'
                 color='primary'
                 className="w-full"
                 type="submit"
             >
-                Creer l'article
+                Créer l'article
             </Button>
         </form>
     )
