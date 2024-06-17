@@ -49,7 +49,6 @@ model Produit {
   etat             String
   taille           String
   idSousCategorie  Int
-  quantiteEnStock  Int
   idCategorie      Int
   sousCategorie    SousCategorie     @relation(fields: [idSousCategorie], references: [id], onDelete: Cascade)
   categorie        Categorie         @relation(fields: [idCategorie], references: [id], onDelete: Cascade)

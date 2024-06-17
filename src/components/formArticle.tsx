@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Label } from './ui/label';
-import { Button, Input, Select, SelectItem } from '@nextui-org/react';
+import { AutocompleteItem, Button, Input, Autocomplete } from '@nextui-org/react';
 import { cn } from '@/lib/utils';
 
 const taille = [
@@ -14,34 +14,104 @@ const taille = [
     { key: 'U', label: 'U' },
 ];
 
+const etat = [
+    { key: 'Neuf', label: 'Neuf' },
+    { key: 'Bon état', label: 'Bon état' },
+    { key: 'Très bon état', label: 'Très bon état' },
+    { key: 'Moyen', label: 'Moyen' },
+    { key: 'Mauvais', label: 'Mauvais' },
+];
+
+const couleur = [
+    { key: '#FF0000', label: 'Rouge' },
+    { key: '#0000FF', label: 'Bleu' },
+    { key: '#00FF00', label: 'Vert' },
+    { key: '#000000', label: 'Noir' },
+    { key: '#FFFFFF', label: 'Blanc' },
+    { key: '#FFFF00', label: 'Jaune' },
+    { key: '#FF00FF', label: 'Magenta' },
+    { key: '#00FFFF', label: 'Cyan' },
+    { key: '#FFA500', label: 'Orange' },
+    { key: '#800080', label: 'Violet' },
+    { key: '#FFC0CB', label: 'Rose' },
+];
+
 export default function FormArticle() {
     return (
         <form className="my-8 max-w-lg mx-auto">
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                 <LabelInputContainer>
-                    <Label htmlFor="nomProduit">Nom de produit</Label>
-                    <Input id="nomProduit" name="nomProduit" placeholder="Pull nike" type="text" />
-                </LabelInputContainer>
-                <LabelInputContainer>
-                    <Label htmlFor="nom">Taille</Label>
-                    <Input id="nom" name='nom' placeholder="Durden" type="text" />
+                    <Input id="nomProduit" name="nomProduit" labelPlacement='outside' label="Nom du produit" placeholder="Pull nike" type="text" />
                 </LabelInputContainer>
             </div>
-            <Select
-                items={taille}
-                label="Favorite Animal"
-                placeholder="Select an animal"
-                className="max-w-xs"
-            >
-                {(taille) => <SelectItem key={taille.key}>{taille.label}</SelectItem>}
-            </Select>
+            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+                <Autocomplete
+                    name='taille'
+                    defaultItems={taille}
+                    labelPlacement='outside'
+                    label="Choisir une taille"
+                    placeholder="Sélectionner une taille"
+                >
+                    {(taille) => <AutocompleteItem key={taille.key} value={taille.label}>{taille.label}</AutocompleteItem>}
+                </Autocomplete>
+                <Autocomplete
+                    name='couleur'
+                    defaultItems={couleur}
+                    labelPlacement='outside'
+                    label="Choisir une couleur"
+                    placeholder="Sélectionner une couleur"
+                >
+                    {(couleur) => <AutocompleteItem key={couleur.key} value={couleur.label}>{couleur.label}</AutocompleteItem>}
+                </Autocomplete>
+            </div>
+            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+                <Autocomplete
+                    name='etat'
+                    defaultItems={etat}
+                    labelPlacement='outside'
+                    label="Choisir un état"
+                    placeholder="Sélectionner un état"
+                >
+                    {(etat) => <AutocompleteItem key={etat.key} value={etat.label}>{etat.label}</AutocompleteItem>}
+                </Autocomplete>
+                <LabelInputContainer>
+                    <Input
+                        type="number"
+                        label="Prix"
+                        name='prix'
+                        placeholder="0.00"
+                        labelPlacement="outside"
+                        startContent={
+                            <div className="pointer-events-none">
+                                <span className="text-default-400 text-small">$</span>
+                            </div>
+                        }
+                    />
+                </LabelInputContainer>
+            </div>
+            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
+                <Autocomplete
+                    name='taille'
+                    defaultItems={taille}
+                    labelPlacement='outside'
+                    label="Choisir une taille"
+                    placeholder="Sélectionner une taille"
+                >
+                    {(taille) => <AutocompleteItem key={taille.key} value={taille.label}>{taille.label}</AutocompleteItem>}
+                </Autocomplete>
+                <Autocomplete
+                    name='couleur'
+                    defaultItems={couleur}
+                    labelPlacement='outside'
+                    label="Choisir une couleur"
+                    placeholder="Sélectionner une couleur"
+                >
+                    {(couleur) => <AutocompleteItem key={couleur.key} value={couleur.label}>{couleur.label}</AutocompleteItem>}
+                </Autocomplete>
+            </div>
             <LabelInputContainer className="mb-4">
-                <Label htmlFor="email">Email Address</Label>
-                <Input id="email" name="email" placeholder="projectmayhem@fc.com" type="email" />
-            </LabelInputContainer>
-            <LabelInputContainer className="mb-4">
-                <Label htmlFor="password">Password</Label>
-                <Input id="password" name="password" placeholder="••••••••" type="password" />
+                <Label htmlFor="description">Ajouter une description</Label>
+                <Input id="description" name="description" placeholder="Pull nike noir, ..." type="text" />
             </LabelInputContainer>
             <Button
                 variant='solid'

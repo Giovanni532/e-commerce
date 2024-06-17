@@ -1,4 +1,3 @@
-
 import { Button, Badge } from "@nextui-org/react";
 import Link from "next/link";
 import {
@@ -14,7 +13,7 @@ import { Menu, ShoppingCart, Ribbon } from 'lucide-react';
 import paths from "@/path";
 import NavbarUi from "./ui/navbarUi";
 
-export default function Navbar() {
+export default async function Navbar() {
     return (
         <div className="relative">
             <header className="flex h-16 w-full items-center justify-between px-4 md:px-6">
