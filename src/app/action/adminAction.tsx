@@ -1,6 +1,6 @@
 "use server"
 
-import { dbPrisma } from "@/db";
+import dbPrisma from "@/db";
 import { newArticleSchema } from "@/schema/formSchema";
 
 let categoriesCache: any = null;

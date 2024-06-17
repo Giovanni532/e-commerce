@@ -1,6 +1,6 @@
 "use server"
 
-import { dbPrisma } from "@/db";
+import dbPrisma from "@/db";
 import Login from "@/db/firebase/auth/login";
 import Signup from "@/db/firebase/auth/signup";
 import { signupSchema, loginSchema } from "@/schema/formSchema";

@@ -1,6 +1,6 @@
 "use server"
 
-import { dbPrisma } from "@/db";
+import dbPrisma from "@/db";
 
 export async function fetchUserData(idFirebase: string) {
     let data = null;
