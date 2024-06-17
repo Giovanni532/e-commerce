@@ -1,6 +1,6 @@
 "use server"
 
-import dbPrisma from "@/db";
+import dbPrisma, { dbSupabase } from "@/db";
 import { newArticleSchema } from "@/schema/formSchema";
 
 let categoriesCache: any = null;
@@ -46,8 +46,6 @@ export async function createArticle(formState: any, formData: FormData) {
         images
     };
 
-    console.log('article', article)
-
     const validation = newArticleSchema.safeParse(article);
 
     if (!validation.success) {
@@ -59,27 +57,47 @@ export async function createArticle(formState: any, formData: FormData) {
         return { errors };
     }
 
-    const res = await dbPrisma.produit.create({
-        data: {
-            nomProduit,
-            taille,
-            couleur,
-            etat,
-            prix: parseFloat(prix),
-            description,
-            idSousCategorie: parseInt(idSousCategorie),
-            idCategorie: parseInt(idCategorie),
-            images: {
-                create: Array.from(images).map((image) => ({
-                    urlImage: image.name
-                }))
-            }
-        }
-    });
+    try {
+        const uploadedImages = await Promise.all(Array.from(images).map(async (image) => {
+            const { data, error } = await dbSupabase.storage
+                .from('e-commerce')
+                .upload(`public/${image.name}`, image);
 
-    if (!res) {
+            if (error) {
+                console.error('Error uploading image:', error);
+                throw new Error('Error uploading image');
+            }
+
+            return data?.path ? `https://<your-supabase-url>/storage/v1/object/public/${data.path}` : null;
+        }));
+
+        const validImageUrls = uploadedImages.filter(url => url !== null) as string[];
+
+        const res = await dbPrisma.produit.create({
+            data: {
+                nomProduit,
+                taille,
+                couleur,
+                etat,
+                prix: parseFloat(prix),
+                description,
+                idSousCategorie: parseInt(idSousCategorie),
+                idCategorie: parseInt(idCategorie),
+                images: {
+                    create: validImageUrls.map((urlImage) => ({
+                        urlImage
+                    }))
+                }
+            }
+        });
+
+        if (!res) {
+            return { errors: { global: "Une erreur est survenue, veuillez réessayer." } };
+        }
+
+        return { errors: {} };
+    } catch (error) {
+        console.error('Error creating article:', error);
         return { errors: { global: "Une erreur est survenue, veuillez réessayer." } };
     }
-
-    return { errors: {} };
 }

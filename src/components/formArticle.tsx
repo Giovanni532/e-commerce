@@ -68,41 +68,51 @@ export default function FormArticle({ categorie, sousCategorie }: FormArticlePro
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                 <LabelInputContainer>
                     <Input id="nomProduit" name="nomProduit" labelPlacement='outside' label="Nom du produit" placeholder="Pull nike" type="text" />
+                    {formState.errors.nomProduit && <p className="text-red-500 text-sm">{formState.errors.nomProduit}</p>}
                 </LabelInputContainer>
             </div>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-                <Select
-                    name='taille'
-                    labelPlacement='outside'
-                    label="Sélectionner une taille"
-                    placeholder="S"
-                >
-                    {taille.map((tailleItem) => (
-                        <SelectItem key={tailleItem.key} value={tailleItem.label}>{tailleItem.label}</SelectItem>
-                    ))}
-                </Select>
-                <Select
-                    name='couleur'
-                    labelPlacement='outside'
-                    label="Sélectionner une couleur"
-                    placeholder="Rouge"
-                >
-                    {couleur.map((couleurItem) => (
-                        <SelectItem key={couleurItem.key} value={couleurItem.label}>{couleurItem.label}</SelectItem>
-                    ))}
-                </Select>
+                <div className="flex flex-col w-full">
+                    <Select
+                        name='taille'
+                        labelPlacement='outside'
+                        label="Sélectionner une taille"
+                        placeholder="S"
+                    >
+                        {taille.map((tailleItem) => (
+                            <SelectItem key={tailleItem.key} value={tailleItem.label}>{tailleItem.label}</SelectItem>
+                        ))}
+                    </Select>
+                    {formState.errors.taille && <p className="text-red-500 text-sm">{formState.errors.taille}</p>}
+                </div>
+                <div className="flex flex-col w-full">
+                    <Select
+                        name='couleur'
+                        labelPlacement='outside'
+                        label="Sélectionner une couleur"
+                        placeholder="Rouge"
+                    >
+                        {couleur.map((couleurItem) => (
+                            <SelectItem key={couleurItem.key} value={couleurItem.label}>{couleurItem.label}</SelectItem>
+                        ))}
+                    </Select>
+                    {formState.errors.couleur && <p className="text-red-500 text-sm">{formState.errors.couleur}</p>}
+                </div>
             </div>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-                <Select
-                    name='etat'
-                    labelPlacement='outside'
-                    label="Sélectionner un état"
-                    placeholder="Neuf"
-                >
-                    {etat.map((etatItem) => (
-                        <SelectItem key={etatItem.key} value={etatItem.label}>{etatItem.label}</SelectItem>
-                    ))}
-                </Select>
+                <div className="flex flex-col w-full">
+                    <Select
+                        name='etat'
+                        labelPlacement='outside'
+                        label="Sélectionner un état"
+                        placeholder="Neuf"
+                    >
+                        {etat.map((etatItem) => (
+                            <SelectItem key={etatItem.key} value={etatItem.label}>{etatItem.label}</SelectItem>
+                        ))}
+                    </Select>
+                    {formState.errors.etat && <p className="text-red-500 text-sm">{formState.errors.etat}</p>}
+                </div>
                 <LabelInputContainer>
                     <Input
                         type="number"
@@ -116,33 +126,41 @@ export default function FormArticle({ categorie, sousCategorie }: FormArticlePro
                             </div>
                         }
                     />
+                    {formState.errors.prix && <p className="text-red-500 text-sm">{formState.errors.prix}</p>}
                 </LabelInputContainer>
             </div>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-                <Select
-                    name='idCategorie'
-                    labelPlacement='outside'
-                    label="Sélectionner une categorie"
-                    placeholder="Femme"
-                >
-                    {categorie.map((cat) => (
-                        <SelectItem key={cat.id} value={cat.id}>{cat.nomCategorie}</SelectItem>
-                    ))}
-                </Select>
-                <Select
-                    name='idSousCategorie'
-                    labelPlacement='outside'
-                    label="Sélectionner une sous categorie"
-                    placeholder="Robe"
-                >
-                    {sousCategorie.map((sousCat) => (
-                        <SelectItem key={sousCat.id} value={sousCat.id}>{sousCat.nomSousCategorie}</SelectItem>
-                    ))}
-                </Select>
+                <div className="flex flex-col w-full">
+                    <Select
+                        name='idCategorie'
+                        labelPlacement='outside'
+                        label="Sélectionner une categorie"
+                        placeholder="Femme"
+                    >
+                        {categorie.map((cat) => (
+                            <SelectItem key={cat.id} value={cat.id}>{cat.nomCategorie}</SelectItem>
+                        ))}
+                    </Select>
+                    {formState.errors.idCategorie && <p className="text-red-500 text-sm">{formState.errors.idCategorie}</p>}
+                </div>
+                <div className="flex flex-col w-full">
+                    <Select
+                        name='idSousCategorie'
+                        labelPlacement='outside'
+                        label="Sélectionner une sous categorie"
+                        placeholder="Robe"
+                    >
+                        {sousCategorie.map((sousCat) => (
+                            <SelectItem key={sousCat.id} value={sousCat.id}>{sousCat.nomSousCategorie}</SelectItem>
+                        ))}
+                    </Select>
+                    {formState.errors.idSousCategorie && <p className="text-red-500 text-sm">{formState.errors.idSousCategorie}</p>}
+                </div>
             </div>
             <LabelInputContainer className="mb-4">
                 <Label htmlFor="description">Ajouter une description</Label>
                 <Textarea id="description" name="description" placeholder="Pull nike noir, ..." type="text" />
+                {formState.errors.description && <p className="text-red-500 text-sm">{formState.errors.description}</p>}
             </LabelInputContainer>
             <Button
                 color='success'
