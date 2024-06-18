@@ -74,8 +74,6 @@ export default function FormArticle({ categorie, sousCategorie }: FormArticlePro
         setTimeout(() => setFormState({ ...result }), 500);
     };
 
-    console.log(submittedSuccessfully)
-
     useEffect(() => {
         if (submittedSuccessfully) {
             setFormState({ errors: {}, loading: false });
