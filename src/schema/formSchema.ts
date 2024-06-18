@@ -1,17 +1,15 @@
 import { z } from "zod";
 
-
 export const newArticleSchema = z.object({
-    nomProduit: z.string().min(3, {message: "Nom du produit invalide"}),
-    taille: z.string().min(1, {message: "Taille invalide"}),
-    couleur: z.string().min(1, {message: "Couleur invalide"}),
-    etat: z.string().min(1, {message: "Etat invalide"}),
-    prix: z.string().min(1, {message: "Prix invalide"}),
-    description: z.string().min(10, {message: "Description invalide"}),
-    idSousCategorie: z.string().min(1, {message: "Sous categorie invalide"}),
-    idCategorie: z.string().min(1, {message: "Categorie invalide"}),
-    images: z.any()
-})
+    nomProduit: z.string().min(3, { message: "Nom du produit invalide" }),
+    taille: z.string().min(1).nullable().refine((val) => val !== null && val !== '', { message: "Taille invalide" }),
+    couleur: z.string().min(1).nullable().refine((val) => val !== null && val !== '', { message: "Couleur invalide" }),
+    etat: z.string().min(1).nullable().refine((val) => val !== null && val !== '', { message: "Etat invalide" }),
+    prix: z.string().min(1, { message: "Prix invalide" }),
+    description: z.string().min(10, { message: "Description invalide" }),
+    idSousCategorie: z.string().min(1).nullable().refine((val) => val !== null && val !== '', { message: "Sous categorie invalide" }),
+    idCategorie: z.string().min(1).nullable().refine((val) => val !== null && val !== '', { message: "Categorie invalide" }),
+});
 
 export const loginSchema = z.object({
     email: z.string().min(8, {message: "Email invalide"})

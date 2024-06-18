@@ -66,10 +66,15 @@ export default function FormArticle({ categorie, sousCategorie }: FormArticlePro
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setFormState({ ...formState, loading: true });
+        if (!selectedFiles || selectedFiles.length === 0) {
+            setFormState({ errors: { images: 'Une image est requise' }, loading: false });
+            return;
+        }
         const result = await createArticle(formState, new FormData(event.currentTarget));
         if (Object.keys(result.errors).length === 0) {
             setSubmittedSuccessfully(true);
         }
+
         setTimeout(() => setFormState({ ...result }), 500);
     };
 
@@ -203,15 +208,16 @@ export default function FormArticle({ categorie, sousCategorie }: FormArticlePro
                 />
             </LabelInputContainer>
             <Button
-                color='success'
+                color={!!formState.errors.images ? 'danger' : 'success'}
                 endContent={<Images />}
-                className="text-white w-full my-4"
+                className={!!formState.errors.images ? 'w-full text-white my-2' : 'w-full text-white my-4'}
                 onClick={handleButtonClick}
             >
                 {selectedFiles && selectedFiles.length > 0
                     ? `${selectedFiles.length} images sélectionnées`
                     : 'Ajoutez des images'}
             </Button>
+            {formState.errors.images && <p className="text-red-500 text-center text-sm mb-2">Une image est requise</p>}
             <input
                 type="file"
                 name='images'

@@ -5,23 +5,14 @@ import { newArticleSchema } from "@/schema/formSchema";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from "@/db";
 
-let categoriesCache: any = null;
-let sousCategoriesCache: any = null;
-
 export async function fetchCategories() {
-    if (!categoriesCache) {
-        const response = await dbPrisma.categorie.findMany();
-        categoriesCache = response;
-    }
-    return categoriesCache;
+    const response = await dbPrisma.categorie.findMany();
+    return response
 }
 
 export async function fetchSousCategories() {
-    if (!sousCategoriesCache) {
-        const response = await dbPrisma.sousCategorie.findMany();
-        sousCategoriesCache = response;
-    }
-    return sousCategoriesCache;
+    const response = await dbPrisma.sousCategorie.findMany();
+    return response;
 }
 
 
