@@ -1,7 +1,9 @@
 "use server"
 
-import dbPrisma, { dbSupabase } from "@/db";
+import dbPrisma from "@/db";
 import { newArticleSchema } from "@/schema/formSchema";
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from "@/db";
 
 let categoriesCache: any = null;
 let sousCategoriesCache: any = null;
@@ -54,24 +56,19 @@ export async function createArticle(formState: any, formData: FormData) {
             return acc;
         }, {} as Record<string, string>);
 
-        return { errors };
+        return { errors, loading: false };
     }
 
+
     try {
-        const uploadedImages = await Promise.all(Array.from(images).map(async (image) => {
-            const { data, error } = await dbSupabase.storage
-                .from('e-commerce')
-                .upload(`public/${image.name}`, image);
+        const idImage = (await dbPrisma.produit.findMany()).length;
 
-            if (error) {
-                console.error('Error uploading image:', error);
-                throw new Error('Error uploading image');
-            }
-
-            return data?.path ? `https://<your-supabase-url>/storage/v1/object/public/${data.path}` : null;
+        const uploadedImageUrls = await Promise.all(Array.from(images).map(async (file) => {
+            const storageRef = ref(storage, `e-commerce/produit/${idImage}/${file.name}`);
+            await uploadBytes(storageRef, file);
+            const downloadURL = await getDownloadURL(storageRef);
+            return downloadURL;
         }));
-
-        const validImageUrls = uploadedImages.filter(url => url !== null) as string[];
 
         const res = await dbPrisma.produit.create({
             data: {
@@ -83,21 +80,17 @@ export async function createArticle(formState: any, formData: FormData) {
                 description,
                 idSousCategorie: parseInt(idSousCategorie),
                 idCategorie: parseInt(idCategorie),
-                images: {
-                    create: validImageUrls.map((urlImage) => ({
-                        urlImage
-                    }))
-                }
+                urlsImages: uploadedImageUrls
             }
         });
 
         if (!res) {
-            return { errors: { global: "Une erreur est survenue, veuillez réessayer." } };
+            return { errors: { global: "Une erreur est survenue, veuillez réessayer." }, loading: false };
         }
 
-        return { errors: {} };
+        return { errors: {}, loading: false };
     } catch (error) {
         console.error('Error creating article:', error);
-        return { errors: { global: "Une erreur est survenue, veuillez réessayer." } };
+        return { errors: { global: "Une erreur est survenue, veuillez réessayer." }, loading: false };
     }
 }

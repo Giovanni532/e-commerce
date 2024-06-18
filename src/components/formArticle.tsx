@@ -46,7 +46,7 @@ interface FormArticleProps {
 
 export default function FormArticle({ categorie, sousCategorie }: FormArticleProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [formState, action] = useFormState(createArticle, { errors: {} as Record<string, string | null> })
+    const [formState, setFormState] = useState({ errors: {} as Record<string, string | null>, loading: false });
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
 
     const handleButtonClick = () => {
@@ -61,10 +61,15 @@ export default function FormArticle({ categorie, sousCategorie }: FormArticlePro
         }
     };
 
-    console.log('formState', formState)
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setFormState({ ...formState, loading: true });
+        const result = await createArticle(formState, new FormData(event.currentTarget));
+        setTimeout(() => setFormState({ ...result }), 500);
+    };
 
     return (
-        <form className="my-8 max-w-lg mx-auto" action={action}>
+        <form className="my-8 max-w-lg mx-auto" onSubmit={handleSubmit}>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                 <LabelInputContainer>
                     <Input id="nomProduit" name="nomProduit" labelPlacement='outside' label="Nom du produit" placeholder="Pull nike" type="text" />
@@ -185,8 +190,9 @@ export default function FormArticle({ categorie, sousCategorie }: FormArticlePro
                 color='primary'
                 className="w-full"
                 type="submit"
+                isLoading={formState.loading}
             >
-                Créer l'article
+                {formState.loading ? 'En cours...' : 'Créer l\'article'}
             </Button>
         </form>
     )

@@ -1,12 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { createClient } from '@supabase/supabase-js';
 import { initializeApp, getApps } from "firebase/app";
+import { getStorage } from 'firebase/storage';
 import { getAuth } from "firebase/auth";
-
-const supabaseBucket = createClient(
-    process.env.NEXT_PUBLIC_DATABASE_BUCKET_URL as string,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
-);
 
 const prismaClientSingleton = () => {
   return new PrismaClient()
@@ -31,6 +26,6 @@ const firebaseConfig = {
 };
 
 export default dbPrisma
-export const dbSupabase = supabaseBucket;
 export const dbFirebase = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+export const storage = getStorage(dbFirebase);
 export const auth = getAuth(dbFirebase);

@@ -52,7 +52,7 @@ model Produit {
   idCategorie      Int
   sousCategorie    SousCategorie     @relation(fields: [idSousCategorie], references: [id], onDelete: Cascade)
   categorie        Categorie         @relation(fields: [idCategorie], references: [id], onDelete: Cascade)
-  images           Image[]           @relation("ProduitImages")
+  urlsImages       String[]
   avis             Avis[]
   commandeProduits CommandeProduit[]
 
@@ -107,15 +107,6 @@ model Avis {
   dateAvis      DateTime    @default(now())
 
   @@map("avis")
-}
-
-model Image {
-  id        Int      @id @default(autoincrement())
-  urlImage  String
-  produitId Int?
-  produit   Produit? @relation("ProduitImages", fields: [produitId], references: [id], onDelete: Cascade)
-
-  @@map("images")
 }
 
 enum Role {
