@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Label } from './ui/label';
+import { useToast } from "@/components/ui/use-toast"
 import { SelectItem, Button, Input, Select, Textarea } from '@nextui-org/react';
 import { cn } from '@/lib/utils';
 import { createArticle } from '@/app/action/adminAction';
@@ -44,6 +44,7 @@ interface FormArticleProps {
 }
 
 export default function FormArticle({ categorie, sousCategorie }: FormArticleProps) {
+    const { toast } = useToast()
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [formState, setFormState] = useState({ errors: {} as Record<string, string | null>, loading: false });
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
@@ -73,6 +74,9 @@ export default function FormArticle({ categorie, sousCategorie }: FormArticlePro
         const result = await createArticle(formState, new FormData(event.currentTarget));
         if (Object.keys(result.errors).length === 0) {
             setSubmittedSuccessfully(true);
+            toast({
+                description: "Article créé avec succès",
+            })
         }
 
         setTimeout(() => setFormState({ ...result }), 500);
