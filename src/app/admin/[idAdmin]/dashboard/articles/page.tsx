@@ -1,4 +1,4 @@
-import { fetchArticles } from '@/app/action/adminAction'
+import { fetchArticles, fetchCategories, fetchSousCategories } from '@/app/action/adminAction'
 import TableDataArticles from '@/components/tableDataArticles';
 import React from 'react'
 
@@ -49,12 +49,20 @@ const statusOptions = [
 
 export default async function AdminDashboardArticles() {
   const articles = await fetchArticles()
+  const categories = await fetchCategories()
+  const sousCategories = await fetchSousCategories()
   return (
     <div>
       <h2 className='text-center my-6 text-3xl font-bold text-gray-800'>
         Gestion des Articles
       </h2>
-      <TableDataArticles columns={columns} articles={articles} statusOptions={statusOptions} />
+      <TableDataArticles
+        columns={columns}
+        articles={articles}
+        statusOptions={statusOptions}
+        categories={categories}
+        sousCategories={sousCategories}
+      />
     </div>
   )
 }

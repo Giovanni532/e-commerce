@@ -1,0 +1,220 @@
+"use client"
+
+import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Checkbox, Input, SelectItem, Select, Textarea } from "@nextui-org/react";
+import { Pencil } from "lucide-react";
+
+const taille = [
+    { key: 'S', label: 'S' },
+    { key: 'M', label: 'M' },
+    { key: 'L', label: 'L' },
+    { key: 'XL', label: 'XL' },
+    { key: 'XXL', label: 'XXL' },
+    { key: 'U', label: 'U' },
+];
+
+const etat = [
+    { key: 'Neuf', label: 'Neuf' },
+    { key: 'Bon état', label: 'Bon état' },
+    { key: 'Très bon état', label: 'Très bon état' },
+    { key: 'Moyen', label: 'Moyen' },
+    { key: 'Mauvais', label: 'Mauvais' },
+];
+
+const couleur = [
+    { key: '#FF0000', label: 'Rouge' },
+    { key: '#0000FF', label: 'Bleu' },
+    { key: '#00FF00', label: 'Vert' },
+    { key: '#000000', label: 'Noir' },
+    { key: '#FFFFFF', label: 'Blanc' },
+    { key: '#FFFF00', label: 'Jaune' },
+    { key: '#FF00FF', label: 'Magenta' },
+    { key: '#00FFFF', label: 'Cyan' },
+    { key: '#FFA500', label: 'Orange' },
+    { key: '#800080', label: 'Violet' },
+    { key: '#FFC0CB', label: 'Rose' },
+];
+
+interface ModalEditProps {
+    isCommande: boolean;
+    article?: any;
+    commande?: any;
+    categories?: any;
+    sousCategories?: any;
+}
+
+export default function ModalEdit({ isCommande, article, commande, categories, sousCategories }: ModalEditProps) {
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+    return (
+        <>
+            <span
+                onClick={onOpen}
+                className="text-lg text-default-400 cursor-pointer active:opacity-50"
+            >
+                <Pencil className="text-sm pointer-events-none flex-shrink-0" />
+            </span>
+            <Modal
+                scrollBehavior="outside"
+                backdrop="blur"
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                motionProps={{
+                    variants: {
+                        enter: {
+                            y: 0,
+                            opacity: 1,
+                            transition: {
+                                duration: 0.3,
+                                ease: "easeOut",
+                            },
+                        },
+                        exit: {
+                            y: -20,
+                            opacity: 0,
+                            transition: {
+                                duration: 0.2,
+                                ease: "easeIn",
+                            },
+                        },
+                    }
+                }}
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">{isCommande ? "Modifiez le statut de la commande" : "Modifiez l'article"}</ModalHeader>
+                            {isCommande ? (
+                                <>
+                                    <ModalBody>
+                                        <Input
+                                            autoFocus
+                                            label="Satut de la commande"
+                                            placeholder={commande.statut}
+                                            variant="bordered"
+                                        />
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="danger" variant="flat" onPress={onClose}>
+                                            Annuler la modification
+                                        </Button>
+                                        <Button color="primary" onPress={onClose}>
+                                            Modifiez
+                                        </Button>
+                                    </ModalFooter>
+                                </>
+                            )
+                                :
+                                (
+                                    <>
+                                        <form>
+                                            <ModalBody>
+                                                <Input
+                                                    autoFocus
+                                                    label="Nom de l'article"
+                                                    name="nomProduit"
+                                                    labelPlacement="outside"
+                                                    placeholder={article.nomProduit}
+                                                    variant="bordered"
+                                                    type="text"
+                                                />
+                                                <div className="flex flex-col w-full">
+                                                    <Select
+                                                        name='taille'
+                                                        labelPlacement='outside'
+                                                        label="Sélectionner une taille"
+                                                        placeholder={article.taille}
+                                                    >
+                                                        {taille.map((tailleItem) => (
+                                                            <SelectItem key={tailleItem.key} value={tailleItem.label}>{tailleItem.label}</SelectItem>
+                                                        ))}
+                                                    </Select>
+                                                </div>
+                                                <div className="flex flex-col w-full">
+                                                    <Select
+                                                        name='couleur'
+                                                        labelPlacement='outside'
+                                                        label="Sélectionner une couleur"
+                                                        placeholder={article.couleur}
+                                                    >
+                                                        {couleur.map((couleurItem) => (
+                                                            <SelectItem key={couleurItem.key} value={couleurItem.label}>{couleurItem.label}</SelectItem>
+                                                        ))}
+                                                    </Select>
+                                                </div>
+                                                <div className="flex flex-col w-full">
+                                                    <Select
+                                                        name='etat'
+                                                        labelPlacement='outside'
+                                                        label="Sélectionner un état"
+                                                        placeholder={article.etat}
+                                                    >
+                                                        {etat.map((etatItem) => (
+                                                            <SelectItem key={etatItem.key} value={etatItem.label}>{etatItem.label}</SelectItem>
+                                                        ))}
+                                                    </Select>
+                                                </div>
+                                                <div className="flex flex-col w-full">
+                                                    <Select
+                                                        name='idCategorie'
+                                                        labelPlacement='outside'
+                                                        label="Sélectionner une categorie"
+                                                        placeholder={article.categorie.nomCategorie}
+                                                    >
+                                                        {categories.map((cat: any) => (
+                                                            <SelectItem key={cat.id} value={cat.id}>{cat.nomCategorie}</SelectItem>
+                                                        ))}
+                                                    </Select>
+                                                </div>
+                                                <div className="flex flex-col w-full">
+                                                    <Select
+                                                        name='idSousCategorie'
+                                                        labelPlacement='outside'
+                                                        label="Sélectionner une sous categorie"
+                                                        placeholder={article.sousCategorie.nomSousCategorie}
+                                                    >
+                                                        {sousCategories.map((sousCat: any) => (
+                                                            <SelectItem key={sousCat.id} value={sousCat.id}>{sousCat.nomSousCategorie}</SelectItem>
+                                                        ))}
+                                                    </Select>
+                                                </div>
+                                                <Input
+                                                    type="number"
+                                                    label="Prix"
+                                                    name='prix'
+                                                    placeholder="0.00"
+                                                    labelPlacement="outside"
+                                                    startContent={
+                                                        <div className="pointer-events-none">
+                                                            <span className="text-default-400 text-small">$</span>
+                                                        </div>
+                                                    }
+                                                />
+                                                <Textarea
+                                                    labelPlacement='outside'
+                                                    label="Ajoutez une description"
+                                                    id="description"
+                                                    name="description"
+                                                    placeholder={article.description}
+                                                    type="text"
+                                                />
+                                            </ModalBody>
+                                            <ModalFooter>
+                                                <Button color="danger" variant="flat" onPress={onClose}>
+                                                    Fermer
+                                                </Button>
+                                                <Button color="primary" onPress={onClose}>
+                                                    Modifiez
+                                                </Button>
+                                            </ModalFooter>
+                                        </form>
+                                    </>
+                                )
+                            }
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+        </>
+    );
+}

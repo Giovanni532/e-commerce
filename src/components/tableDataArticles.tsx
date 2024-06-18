@@ -21,9 +21,10 @@ import {
     SortDescriptor,
     Tooltip
 } from "@nextui-org/react";
-import { Pencil, Eye, Trash2, Search, ChevronDown, EllipsisVertical } from 'lucide-react';
+import { Eye, Search, ChevronDown } from 'lucide-react';
 import { capitalize } from '@/lib/utils';
 import ModalDelete from './modalDelete';
+import ModalEdit from './modalEdit';
 
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
@@ -48,11 +49,13 @@ interface TableDataProps {
         idCategorie: number;
         urlsImages: string[]
     }[],
-    statusOptions: { name: string, key: string }[]
+    statusOptions: { name: string, key: string }[],
+    categories: { id: number, nomCategorie: string }[],
+    sousCategories: { id: number, nomSousCategorie: string }[]
 }
 
 
-export default function TableDataArticles({ columns, articles, statusOptions }: TableDataProps) {
+export default function TableDataArticles({ columns, articles, statusOptions, categories, sousCategories }: TableDataProps) {
     type Articles = typeof articles[0];
     const [filterValue, setFilterValue] = React.useState("");
     const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
@@ -126,12 +129,17 @@ export default function TableDataArticles({ columns, articles, statusOptions }: 
                                 <Eye />
                             </span>
                         </Tooltip>
-                        <Tooltip content="Edit user">
+                        <Tooltip content="Modifiez l'article">
                             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <Pencil />
+                                <ModalEdit
+                                    isCommande={false}
+                                    article={article}
+                                    categories={categories}
+                                    sousCategories={sousCategories}
+                                />
                             </span>
                         </Tooltip>
-                        <Tooltip color="danger" content="Supprimer la commande">
+                        <Tooltip color="danger" content="Supprimer l'article">
                             <span className="text-lg text-danger cursor-pointer active:opacity-50">
                                 <ModalDelete isCommande={false} id={article.id} nomArticle={article.nomProduit} />
                             </span>

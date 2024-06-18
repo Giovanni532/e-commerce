@@ -20,7 +20,12 @@ export async function fetchSousCategories() {
 }
 
 export async function fetchArticles() {
-    const response = await dbPrisma.produit.findMany();
+    const response = await dbPrisma.produit.findMany({
+        include: {
+            sousCategorie: true,
+            categorie: true
+        }
+    });
     return response;
 }
 
