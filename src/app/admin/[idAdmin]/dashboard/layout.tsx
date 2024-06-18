@@ -4,7 +4,9 @@ import { CircleGauge, CirclePlus, BarChart4, Shirt } from 'lucide-react';
 import AdminDashboard from "./page";
 import AdminDashboardArticles from "./articles/page";
 import AdminDashboardCommandes from "./commandes/page";
-import AdminDashboardArticleNew from "./articles/new/page";
+import AdminDashboardArticleNew from "./new/article/page";
+import AdminDashboardNewCategorie from "./new/categorie/page";
+import AdminDashboardNewSousCategorie from "./new/sousCategorie/page";
 
 
 export const metadata: Metadata = {
@@ -62,6 +64,32 @@ const tabs = [
         value: "newArticle",
         content: (
             <AdminDashboardArticleNew />
+        ),
+    },
+    {
+        title: (
+            <div className="flex items-center space-x-2">
+                <CirclePlus />
+                <p>Ajouter une catégorie</p>
+            </div>
+
+        ),
+        value: "newCategorie",
+        content: (
+            <AdminDashboardNewCategorie />
+        ),
+    },
+    {
+        title: (
+            <div className="flex items-center space-x-2">
+                <CirclePlus />
+                <p>Ajouter une sous-catégorie</p>
+            </div>
+
+        ),
+        value: "newSousCategorie",
+        content: (
+            <AdminDashboardNewSousCategorie />
         ),
     },
 ];

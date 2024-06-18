@@ -4,6 +4,10 @@ import dbPrisma from "@/db";
 import { newArticleSchema } from "@/schema/formSchema";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from "@/db";
+import { revalidatePath } from "next/cache";
+import { toast } from "@/components/ui/use-toast";
+
+// Fetch categories, sous-categories, articles and commandes
 
 export async function fetchCategories() {
     const response = await dbPrisma.categorie.findMany();
@@ -33,6 +37,32 @@ export async function fetchCommandes() {
     return response;
 }
 
+
+// Create a new article
+
+export async function createSousCategorie(formData: FormData) {
+    const nomSousCategorie = formData.get("nomSousCategorie") as string;
+
+    await dbPrisma.sousCategorie.create({
+        data: {
+            nomSousCategorie
+        }
+    });
+
+    revalidatePath("/");
+}
+
+export async function createCategorie(formData: FormData) {
+    const nomCategorie = formData.get("nomCategorie") as string;
+
+    await dbPrisma.categorie.create({
+        data: {
+            nomCategorie
+        }
+    });
+
+    revalidatePath("/");
+}
 
 export async function createArticle(formState: any, formData: FormData) {
     const nomProduit = formData.get("nomProduit") as string;
@@ -95,7 +125,7 @@ export async function createArticle(formState: any, formData: FormData) {
         if (!res) {
             return { errors: { global: "Une erreur est survenue, veuillez réessayer." }, loading: false };
         }
-
+        revalidatePath("/");
         return { errors: {}, loading: false };
     } catch (error) {
         console.error('Error creating article:', error);
