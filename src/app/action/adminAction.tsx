@@ -15,6 +15,11 @@ export async function fetchSousCategories() {
     return response;
 }
 
+export async function fetchArticles() {
+    const response = await dbPrisma.produit.findMany();
+    return response;
+}
+
 
 export async function createArticle(formState: any, formData: FormData) {
     const nomProduit = formData.get("nomProduit") as string;
