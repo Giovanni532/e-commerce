@@ -157,3 +157,56 @@ export async function deleteCommande(id: number) {
     });
     revalidatePath("/");
 }
+
+// Update article
+
+export async function updateArticle(id: number, formData: FormData) {
+    const nomProduit = formData.get("nomProduit") as string;
+    const taille = formData.get("taille") as string;
+    const couleur = formData.get("couleur") as string;
+    const etat = formData.get("etat") as string;
+    const prix = formData.get("prix") as string;
+    const description = formData.get("description") as string;
+    const idSousCategorie = formData.get("idSousCategorie") as string;
+    const idCategorie = formData.get("idCategorie") as string;
+
+    const article = {
+        nomProduit,
+        taille,
+        couleur,
+        etat,
+        prix,
+        description,
+        idSousCategorie,
+        idCategorie,
+    };
+
+    console.log(article);
+    console.log(id);
+
+    try {
+
+        const res = await dbPrisma.produit.update({
+            where: {
+                id
+            },
+            data: {
+                nomProduit,
+                taille,
+                couleur,
+                etat,
+                prix: parseFloat(prix),
+                description,
+                idSousCategorie: parseInt(idSousCategorie),
+                idCategorie: parseInt(idCategorie),
+            }
+        });
+
+        if (!res) {
+            throw new Error("Une erreur est survenue.");
+        }
+        revalidatePath("/");
+    } catch (error) {
+        throw new Error("Une erreur est survenue.");
+    }
+}

@@ -3,6 +3,8 @@
 import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Checkbox, Input, SelectItem, Select, Textarea } from "@nextui-org/react";
 import { Pencil } from "lucide-react";
+import { updateArticle } from "@/app/action/adminAction";
+import { toast } from "./ui/use-toast";
 
 const taille = [
     { key: 'S', label: 'S' },
@@ -45,6 +47,18 @@ interface ModalEditProps {
 
 export default function ModalEdit({ isCommande, article, commande, categories, sousCategories }: ModalEditProps) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [formState, setFormState] = React.useState({
+        nomProduit: article.nomProduit,
+        taille: article.taille,
+        couleur: article.couleur,
+        etat: article.etat,
+        prix: article.prix,
+        description: article.description,
+        idSousCategorie: article.idSousCategorie.nomSousCategorie,
+        idCategorie: article.idCategorie.nomCategorie,
+    });
+
+    const updateArticleAction = updateArticle.bind(null, article.id, formState)
 
     return (
         <>
@@ -107,7 +121,7 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
                                 :
                                 (
                                     <>
-                                        <form>
+                                        <form action={updateArticleAction}>
                                             <ModalBody>
                                                 <Input
                                                     autoFocus
@@ -203,7 +217,7 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
                                                 <Button color="danger" variant="flat" onPress={onClose}>
                                                     Fermer
                                                 </Button>
-                                                <Button color="primary" onPress={onClose}>
+                                                <Button type="submit" color="primary" onPress={onClose}>
                                                     Modifiez
                                                 </Button>
                                             </ModalFooter>
