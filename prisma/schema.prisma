@@ -48,6 +48,7 @@ model Produit {
   couleur          String
   etat             String
   taille           String
+  statut           String            @default("En vente")
   idSousCategorie  Int
   idCategorie      Int
   sousCategorie    SousCategorie     @relation(fields: [idSousCategorie], references: [id], onDelete: Cascade)

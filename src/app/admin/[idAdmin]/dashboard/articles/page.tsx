@@ -1,27 +1,36 @@
 import { fetchArticles } from '@/app/action/adminAction'
-import TableData from '@/components/tableData'
+import TableDataArticles from '@/components/tableDataArticles';
 import React from 'react'
 
 const columns = [
   {
     key: 'id',
-    label: "Numéro d'article"
+    label: "Numéro d'article",
+    sortable: true
   },
   {
     key: 'nomProduit',
-    label: 'Nom Produit'
+    label: 'Nom Produit',
   },
   {
     key: 'taille',
-    label: 'Taille'
+    label: 'Taille',
+    sortable: true
   },
   {
     key: 'etat',
-    label: 'Etat'
+    label: 'Etat',
+    sortable: true
   },
   {
     key: 'prix',
-    label: 'Prix'
+    label: 'Prix',
+    sortable: true
+  },
+  {
+    key: 'statut',
+    label: 'Statut',
+    sortable: true
   },
   {
     key: 'description',
@@ -31,15 +40,21 @@ const columns = [
     key: 'action',
     label: 'Action'
   },
-
 ]
+
+const statusOptions = [
+  { name: "En vente", key: "En vente" },
+  { name: "Vendu", key: "Vendu" },
+];
 
 export default async function AdminDashboardArticles() {
   const articles = await fetchArticles()
   return (
     <div>
-      <h1 className='text-center my-4'>AdminDashboardArticles</h1>
-      <TableData columns={columns} articles={articles} />
+      <h2 className='text-center my-6 text-3xl font-bold text-gray-800'>
+        Gestion des Articles
+      </h2>
+      <TableDataArticles columns={columns} articles={articles} statusOptions={statusOptions} />
     </div>
   )
 }
