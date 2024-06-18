@@ -59,7 +59,6 @@ export async function createArticle(formState: any, formData: FormData) {
         return { errors, loading: false };
     }
 
-
     try {
         const idImage = (await dbPrisma.produit.findMany()).length;
 

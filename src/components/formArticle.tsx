@@ -1,12 +1,11 @@
 "use client"
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Label } from './ui/label';
 import { SelectItem, Button, Input, Select, Textarea } from '@nextui-org/react';
 import { cn } from '@/lib/utils';
 import { createArticle } from '@/app/action/adminAction';
 import { Images } from 'lucide-react';
-import { useFormState } from 'react-dom';
 
 const taille = [
     { key: 'S', label: 'S' },
@@ -48,6 +47,9 @@ export default function FormArticle({ categorie, sousCategorie }: FormArticlePro
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [formState, setFormState] = useState({ errors: {} as Record<string, string | null>, loading: false });
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+    const [submittedSuccessfully, setSubmittedSuccessfully] = useState(false);
+    const formRef = useRef<HTMLFormElement>(null);
+
 
     const handleButtonClick = () => {
         if (fileInputRef.current) {
@@ -65,11 +67,26 @@ export default function FormArticle({ categorie, sousCategorie }: FormArticlePro
         event.preventDefault();
         setFormState({ ...formState, loading: true });
         const result = await createArticle(formState, new FormData(event.currentTarget));
+        console.log(result)
+        if (Object.keys(result.errors).length === 0) {
+            setSubmittedSuccessfully(true);
+        }
         setTimeout(() => setFormState({ ...result }), 500);
     };
 
+    console.log(submittedSuccessfully)
+
+    useEffect(() => {
+        if (submittedSuccessfully) {
+            setFormState({ errors: {}, loading: false });
+            setSelectedFiles(null);
+            formRef.current?.reset();
+            setSubmittedSuccessfully(false);
+        }
+    }, [submittedSuccessfully]);
+
     return (
-        <form className="my-8 max-w-lg mx-auto" onSubmit={handleSubmit}>
+        <form className="my-8 max-w-lg mx-auto" onSubmit={handleSubmit} ref={formRef}>
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                 <LabelInputContainer>
                     <Input id="nomProduit" name="nomProduit" labelPlacement='outside' label="Nom du produit" placeholder="Pull nike" type="text" />
