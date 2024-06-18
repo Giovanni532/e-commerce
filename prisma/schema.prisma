@@ -54,7 +54,6 @@ model Produit {
   sousCategorie    SousCategorie     @relation(fields: [idSousCategorie], references: [id], onDelete: Cascade)
   categorie        Categorie         @relation(fields: [idCategorie], references: [id], onDelete: Cascade)
   urlsImages       String[]
-  avis             Avis[]
   commandeProduits CommandeProduit[]
 
   @@map("produits")
@@ -73,10 +72,14 @@ model Paiement {
 
 model Commande {
   id               Int               @id @default(autoincrement())
-  dateCommande     DateTime          @default(now())
+  dateCommande     String
   idUtilisateur    String
   utilisateur      Utilisateur       @relation(fields: [idUtilisateur], references: [id])
-  statutCommande   String
+  statut           String
+  adresse          String
+  ville            String
+  codePostal       String
+  dateLivraison    String
   paiements        Paiement[]
   commandeProduits CommandeProduit[]
   prixTotal        Float
@@ -85,13 +88,11 @@ model Commande {
 }
 
 model CommandeProduit {
-  id           Int      @id @default(autoincrement())
-  idCommande   Int
-  idProduit    Int
-  quantite     Int
-  prixUnitaire Float
-  commande     Commande @relation(fields: [idCommande], references: [id], onDelete: Cascade)
-  produit      Produit  @relation(fields: [idProduit], references: [id], onDelete: Cascade)
+  id         Int      @id @default(autoincrement())
+  idCommande Int
+  idProduit  Int
+  commande   Commande @relation(fields: [idCommande], references: [id], onDelete: Cascade)
+  produit    Produit  @relation(fields: [idProduit], references: [id], onDelete: Cascade)
 
   @@unique([idCommande, idProduit])
   @@map("commande_produits")
@@ -99,8 +100,6 @@ model CommandeProduit {
 
 model Avis {
   id            Int         @id @default(autoincrement())
-  idProduit     Int
-  produit       Produit     @relation(fields: [idProduit], references: [id], onDelete: Cascade)
   idUtilisateur String
   utilisateur   Utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade)
   note          Int

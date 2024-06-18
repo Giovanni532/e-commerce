@@ -44,9 +44,9 @@ export default function TabsAdmin({ tabs: propTabs }: { tabs: TabType[] }) {
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 50 }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: 0.2 }}
                     >
-                        <Card className={isTabletOrMobile ? 'mx-4 my-4': 'mx-4'}>
+                        <Card className={isTabletOrMobile ? 'mx-4 my-4' : 'mx-4'}>
                             <CardBody>
                                 {currentTabContent}
                             </CardBody>

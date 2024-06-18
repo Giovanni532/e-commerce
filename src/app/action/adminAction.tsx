@@ -20,6 +20,19 @@ export async function fetchArticles() {
     return response;
 }
 
+export async function fetchCommandes() {
+    const response = await dbPrisma.commande.findMany({
+        include: {
+            commandeProduits: {
+                include: {
+                    produit: true
+                }
+            }
+        }
+    });
+    return response;
+}
+
 
 export async function createArticle(formState: any, formData: FormData) {
     const nomProduit = formData.get("nomProduit") as string;
