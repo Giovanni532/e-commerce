@@ -18,10 +18,12 @@ import {
     Chip,
     Selection,
     ChipProps,
-    SortDescriptor
+    SortDescriptor,
+    Tooltip
 } from "@nextui-org/react";
 import { Pencil, Eye, Trash2, Search, ChevronDown, EllipsisVertical } from 'lucide-react';
 import { capitalize } from '@/lib/utils';
+import ModalDelete from './modalDelete';
 
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
@@ -118,35 +120,22 @@ export default function TableDataArticles({ columns, articles, statusOptions }: 
                 );
             case "action":
                 return (
-                    <div className="relative flex justify-start items-center gap-2">
-                        <Dropdown>
-                            <DropdownTrigger>
-                                <Button isIconOnly size="sm" variant="light">
-                                    <EllipsisVertical className="text-default-300" />
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu variant='flat'>
-                                <DropdownItem
-                                    key="details"
-                                    startContent={<Eye className="text-xl pointer-events-none flex-shrink-0" />}
-                                >
-                                    Details
-                                </DropdownItem>
-                                <DropdownItem
-                                    key="edit"
-                                    startContent={<Pencil className="text-xl pointer-events-none flex-shrink-0" />}
-                                >
-                                    Modifier
-                                </DropdownItem>
-                                <DropdownItem
-                                    key="remove"
-                                    color='danger'
-                                    startContent={<Trash2 className="text-xl pointer-events-none flex-shrink-0" />}
-                                >
-                                    Supprimer
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
+                    <div className="relative flex items-center gap-2">
+                        <Tooltip content="Details">
+                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                <Eye />
+                            </span>
+                        </Tooltip>
+                        <Tooltip content="Edit user">
+                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                <Pencil />
+                            </span>
+                        </Tooltip>
+                        <Tooltip color="danger" content="Supprimer la commande">
+                            <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                                <ModalDelete isCommande={false} id={article.id} nomArticle={article.nomProduit} />
+                            </span>
+                        </Tooltip>
                     </div>
                 );
             case "prix":

@@ -38,7 +38,7 @@ export async function fetchCommandes() {
 }
 
 
-// Create a new article
+// Create a new article or category
 
 export async function createSousCategorie(formData: FormData) {
     const nomSousCategorie = formData.get("nomSousCategorie") as string;
@@ -131,4 +131,24 @@ export async function createArticle(formState: any, formData: FormData) {
         console.error('Error creating article:', error);
         return { errors: { global: "Une erreur est survenue, veuillez réessayer." }, loading: false };
     }
+}
+
+// Delete article or commandes
+
+export async function deleteArticle(id: number) {
+    await dbPrisma.produit.delete({
+        where: {
+            id
+        }
+    });
+    revalidatePath("/");
+}
+
+export async function deleteCommande(id: number) {
+    await dbPrisma.commande.delete({
+        where: {
+            id
+        }
+    });
+    revalidatePath("/");
 }

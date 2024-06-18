@@ -18,10 +18,13 @@ import {
     Chip,
     Selection,
     ChipProps,
-    SortDescriptor
+    SortDescriptor,
+    useDisclosure,
+    Tooltip
 } from "@nextui-org/react";
 import { Pencil, Eye, Trash2, Search, ChevronDown, EllipsisVertical } from 'lucide-react';
 import { capitalize } from '@/lib/utils';
+import ModalDelete from './modalDelete';
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
     EnAttente: "success",
@@ -49,6 +52,7 @@ interface TableDataProps {
 }
 
 export default function TableDataCommandes({ columns, commandes, statusOptions }: TableDataProps) {
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
     type Commandes = typeof commandes[0];
     const [filterValue, setFilterValue] = React.useState("");
     const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
@@ -116,35 +120,22 @@ export default function TableDataCommandes({ columns, commandes, statusOptions }
                 );
             case "action":
                 return (
-                    <div className="relative flex justify-start items-center gap-2">
-                        <Dropdown>
-                            <DropdownTrigger>
-                                <Button isIconOnly size="sm" variant="light">
-                                    <EllipsisVertical className="text-default-300" />
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu variant='flat'>
-                                <DropdownItem
-                                    key="details"
-                                    startContent={<Eye className="text-xl pointer-events-none flex-shrink-0" />}
-                                >
-                                    Details
-                                </DropdownItem>
-                                <DropdownItem
-                                    key="edit"
-                                    startContent={<Pencil className="text-xl pointer-events-none flex-shrink-0" />}
-                                >
-                                    Modifier
-                                </DropdownItem>
-                                <DropdownItem
-                                    key="remove"
-                                    color='danger'
-                                    startContent={<Trash2 className="text-xl pointer-events-none flex-shrink-0" />}
-                                >
-                                    Supprimer
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
+                    <div className="relative flex items-center gap-2">
+                        <Tooltip content="Details">
+                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                <Eye />
+                            </span>
+                        </Tooltip>
+                        <Tooltip content="Edit user">
+                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                <Pencil />
+                            </span>
+                        </Tooltip>
+                        <Tooltip color="danger" content="Supprimer la commande">
+                            <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                                <ModalDelete isCommande={true} id={commande.id} nomArticle='' />
+                            </span>
+                        </Tooltip>
                     </div>
                 );
             case "prix":
@@ -244,7 +235,7 @@ export default function TableDataCommandes({ columns, commandes, statusOptions }
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span className="text-default-400 text-small">Total de commandes: {commandes.length} </span>
+                    <span className="text-default-400 text-small">Total des commandes: {commandes.length} </span>
                     <label className="flex items-center text-default-400 text-small">
                         Commandes par page:
                         <select

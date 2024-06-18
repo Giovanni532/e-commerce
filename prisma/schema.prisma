@@ -18,8 +18,8 @@ model Utilisateur {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   role          Role       @default(USER)
-  commandes     Commande[]
   avis          Avis[]
+  commandes     Commande[]
 
   @@map("utilisateurs")
 }
@@ -51,10 +51,10 @@ model Produit {
   statut           String            @default("En vente")
   idSousCategorie  Int
   idCategorie      Int
-  sousCategorie    SousCategorie     @relation(fields: [idSousCategorie], references: [id], onDelete: Cascade)
-  categorie        Categorie         @relation(fields: [idCategorie], references: [id], onDelete: Cascade)
   urlsImages       String[]
   commandeProduits CommandeProduit[]
+  categorie        Categorie         @relation(fields: [idCategorie], references: [id], onDelete: Cascade)
+  sousCategorie    SousCategorie     @relation(fields: [idSousCategorie], references: [id], onDelete: Cascade)
 
   @@map("produits")
 }
@@ -62,10 +62,10 @@ model Produit {
 model Paiement {
   id              Int      @id @default(autoincrement())
   idCommande      Int
-  commande        Commande @relation(fields: [idCommande], references: [id])
   datePaiement    DateTime @default(now())
   montant         Float
   methodePaiement String
+  commande        Commande @relation(fields: [idCommande], references: [id])
 
   @@map("paiements")
 }
@@ -74,15 +74,15 @@ model Commande {
   id               Int               @id @default(autoincrement())
   dateCommande     String
   idUtilisateur    String
-  utilisateur      Utilisateur       @relation(fields: [idUtilisateur], references: [id])
   statut           String
   adresse          String
   ville            String
   codePostal       String
   dateLivraison    String
-  paiements        Paiement[]
-  commandeProduits CommandeProduit[]
   prixTotal        Float
+  commandeProduits CommandeProduit[]
+  utilisateur      Utilisateur       @relation(fields: [idUtilisateur], references: [id])
+  paiements        Paiement[]
 
   @@map("commandes")
 }
@@ -101,10 +101,10 @@ model CommandeProduit {
 model Avis {
   id            Int         @id @default(autoincrement())
   idUtilisateur String
-  utilisateur   Utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade)
   note          Int
   commentaire   String
   dateAvis      DateTime    @default(now())
+  utilisateur   Utilisateur @relation(fields: [idUtilisateur], references: [id], onDelete: Cascade)
 
   @@map("avis")
 }
