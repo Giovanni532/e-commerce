@@ -72,6 +72,7 @@ model Paiement {
 
 model Commande {
   id               Int               @id @default(autoincrement())
+  createdAt        DateTime          @default(now())
   dateCommande     String
   idUtilisateur    String
   statut           String

@@ -158,7 +158,7 @@ export async function deleteCommande(id: number) {
     revalidatePath("/");
 }
 
-// Update article
+// Update article or commandes
 
 export async function updateArticle(id: number, formState: any) {
     try {
@@ -208,4 +208,50 @@ export async function updateCommande(id: number, formState: any) {
         console.error('Error updating commande:', error);
         throw new Error("Une erreur est survenue.");
     }
+}
+
+// Data for admin dahsboard
+
+export async function fetchDashboardData() {
+    const articles = await dbPrisma.produit.findMany();
+    const commandes = await dbPrisma.commande.findMany();
+    const utilisateurs = await dbPrisma.utilisateur.findMany();
+
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
+
+    const chiffreAffaires = commandes.reduce((acc, commande) => {
+        const commandeMonth = commande.createdAt.getMonth() + 1;
+        const commandeYear = commande.createdAt.getFullYear();
+        if (commandeMonth === currentMonth && commandeYear === currentYear) {
+            acc += commande.prixTotal;
+        }
+        return acc;
+    }, 0);
+
+    const nombreCommandes = commandes.filter((commande) => {
+        const commandeMonth = commande.createdAt.getMonth() + 1;
+        const commandeYear = commande.createdAt.getFullYear();
+        return commandeMonth === currentMonth && commandeYear === currentYear;
+    }).length;
+
+    const nombreUtilisateurs = utilisateurs.filter((utilisateur) => {
+        const utilisateurMonth = utilisateur.createdAt.getMonth() + 1;
+        const utilisateurYear = utilisateur.createdAt.getFullYear();
+        return utilisateurMonth === currentMonth && utilisateurYear === currentYear;
+    }).length;
+
+    const nombreCommandesLivrees = commandes.filter((commande) => {
+        const commandeMonth = commande.createdAt.getMonth() + 1;
+        const commandeYear = commande.createdAt.getFullYear();
+        return commandeMonth === currentMonth && commandeYear === currentYear && commande.statut === "Livrée";
+    }).length;
+
+    return {
+        chiffreAffaires,
+        nombreCommandes,
+        nombreUtilisateurs,
+        nombreCommandesLivrees
+    };
 }
