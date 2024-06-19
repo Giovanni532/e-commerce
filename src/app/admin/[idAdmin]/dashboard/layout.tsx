@@ -7,6 +7,8 @@ import AdminDashboardCommandes from "./commandes/page";
 import AdminDashboardArticleNew from "./new/article/page";
 import AdminDashboardNewCategorie from "./new/categorie/page";
 import AdminDashboardNewSousCategorie from "./new/sousCategorie/page";
+import { getCookie } from "cookies-next";
+import { cookies } from "next/headers";
 
 
 export const metadata: Metadata = {
@@ -95,6 +97,19 @@ const tabs = [
 ];
 
 export default function AdminLayout() {
+    const userData = getCookie("currentUser", { cookies });
+    let user;
+
+    if (!userData) {
+        return <p>Vous n'êtes pas connecté</p>;
+    } else {
+        user = JSON.parse(userData as string);
+    }
+
+    if (user.role !== "ADMIN") {
+        return <p>Vous n'êtes pas autorisé à accéder à cette page</p>;
+    }
+
     return (
         <main>
             <TabsAdmin tabs={tabs} />
