@@ -160,30 +160,7 @@ export async function deleteCommande(id: number) {
 
 // Update article
 
-export async function updateArticle(id: number, formData: FormData) {
-    const nomProduit = formData.get("nomProduit") as string;
-    const taille = formData.get("taille") as string;
-    const couleur = formData.get("couleur") as string;
-    const etat = formData.get("etat") as string;
-    const prix = formData.get("prix") as string;
-    const description = formData.get("description") as string;
-    const idSousCategorie = formData.get("idSousCategorie") as string;
-    const idCategorie = formData.get("idCategorie") as string;
-
-    const article = {
-        nomProduit,
-        taille,
-        couleur,
-        etat,
-        prix,
-        description,
-        idSousCategorie,
-        idCategorie,
-    };
-
-    console.log(article);
-    console.log(id);
-
+export async function updateArticle(id: number, formState: any) {
     try {
 
         const res = await dbPrisma.produit.update({
@@ -191,14 +168,14 @@ export async function updateArticle(id: number, formData: FormData) {
                 id
             },
             data: {
-                nomProduit,
-                taille,
-                couleur,
-                etat,
-                prix: parseFloat(prix),
-                description,
-                idSousCategorie: parseInt(idSousCategorie),
-                idCategorie: parseInt(idCategorie),
+                nomProduit: formState.nomProduit,
+                taille: formState.taille,
+                couleur: formState.couleur,
+                etat: formState.etat,
+                prix: parseFloat(formState.prix),
+                description: formState.description,
+                idSousCategorie: parseInt(formState.idSousCategorie),
+                idCategorie: parseInt(formState.idCategorie)
             }
         });
 
@@ -207,6 +184,7 @@ export async function updateArticle(id: number, formData: FormData) {
         }
         revalidatePath("/");
     } catch (error) {
+        console.error('Error updating article:', error);
         throw new Error("Une erreur est survenue.");
     }
 }

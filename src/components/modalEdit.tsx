@@ -54,8 +54,8 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
         etat: article.etat,
         prix: article.prix,
         description: article.description,
-        idSousCategorie: article.idSousCategorie.nomSousCategorie,
-        idCategorie: article.idCategorie.nomCategorie,
+        idSousCategorie: article.idSousCategorie,
+        idCategorie: article.idCategorie,
     });
 
     const updateArticleAction = updateArticle.bind(null, article.id, formState)
@@ -131,6 +131,7 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
                                                     placeholder={article.nomProduit}
                                                     variant="bordered"
                                                     type="text"
+                                                    onChange={(e) => setFormState({ ...formState, nomProduit: e.target.value })}
                                                 />
                                                 <div className="flex flex-col w-full">
                                                     <Select
@@ -138,6 +139,7 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
                                                         labelPlacement='outside'
                                                         label="Sélectionner une taille"
                                                         placeholder={article.taille}
+                                                        onChange={(e) => setFormState({ ...formState, taille: e.target.value })}
                                                     >
                                                         {taille.map((tailleItem) => (
                                                             <SelectItem key={tailleItem.key} value={tailleItem.label}>{tailleItem.label}</SelectItem>
@@ -150,6 +152,7 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
                                                         labelPlacement='outside'
                                                         label="Sélectionner une couleur"
                                                         placeholder={article.couleur}
+                                                        onChange={(e) => setFormState({ ...formState, couleur: e.target.value })}
                                                     >
                                                         {couleur.map((couleurItem) => (
                                                             <SelectItem key={couleurItem.key} value={couleurItem.label}>{couleurItem.label}</SelectItem>
@@ -162,6 +165,7 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
                                                         labelPlacement='outside'
                                                         label="Sélectionner un état"
                                                         placeholder={article.etat}
+                                                        onChange={(e) => setFormState({ ...formState, etat: e.target.value })}
                                                     >
                                                         {etat.map((etatItem) => (
                                                             <SelectItem key={etatItem.key} value={etatItem.label}>{etatItem.label}</SelectItem>
@@ -174,6 +178,7 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
                                                         labelPlacement='outside'
                                                         label="Sélectionner une categorie"
                                                         placeholder={article.categorie.nomCategorie}
+                                                        onChange={(e) => setFormState({ ...formState, idCategorie: e.target.value })}
                                                     >
                                                         {categories.map((cat: any) => (
                                                             <SelectItem key={cat.id} value={cat.id}>{cat.nomCategorie}</SelectItem>
@@ -186,6 +191,7 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
                                                         labelPlacement='outside'
                                                         label="Sélectionner une sous categorie"
                                                         placeholder={article.sousCategorie.nomSousCategorie}
+                                                        onChange={(e) => setFormState({ ...formState, idSousCategorie: e.target.value })}
                                                     >
                                                         {sousCategories.map((sousCat: any) => (
                                                             <SelectItem key={sousCat.id} value={sousCat.id}>{sousCat.nomSousCategorie}</SelectItem>
@@ -198,6 +204,7 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
                                                     name='prix'
                                                     placeholder="0.00"
                                                     labelPlacement="outside"
+                                                    onChange={(e) => setFormState({ ...formState, prix: e.target.value })}
                                                     startContent={
                                                         <div className="pointer-events-none">
                                                             <span className="text-default-400 text-small">$</span>
@@ -210,6 +217,7 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
                                                     id="description"
                                                     name="description"
                                                     placeholder={article.description}
+                                                    onChange={(e) => setFormState({ ...formState, description: e.target.value })}
                                                     type="text"
                                                 />
                                             </ModalBody>
