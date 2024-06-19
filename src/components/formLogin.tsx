@@ -31,11 +31,14 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
         const formData = new FormData(form);
 
         const result = await AuthLogin(formData);
+        console.log('Result:', result);
         setFormState(result);
-        const user = await fetchUserData(result.message.uid);
-        setCurrentUser(user);
-        setCookie('currentUser', JSON.stringify(user));
-        router.refresh();
+        const user = await fetchUserData(result.message.uid)
+        if (user) {
+            setCurrentUser(user);
+            setCookie('currentUser', JSON.stringify(user));
+            router.refresh();
+        }
     }
 
     const googleSubmit = async () => {

@@ -30,6 +30,14 @@ export async function AuthSignup(formData: FormData) {
     if (error) {
         return { message: { erreur: error }, success: false, loading: false };
     } else {
+        await dbPrisma.utilisateur.create({
+            data: {
+                idFirebase: uid,
+                email,
+                nom,
+                prenom,
+            },
+        });
         return { message: { uid }, success: true, loading: false };
     }
 }
