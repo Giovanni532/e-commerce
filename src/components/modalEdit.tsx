@@ -1,11 +1,10 @@
 "use client"
 
 import React from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/react";
 import { Pencil } from "lucide-react";
 import FormUpdateArticle from "./formUpdateArticle";
-
-
+import FormUpdateCommande from "./formUpdateCommande";
 
 interface ModalEditProps {
     isCommande: boolean;
@@ -57,24 +56,10 @@ export default function ModalEdit({ isCommande, article, commande, categories, s
                         <>
                             <ModalHeader className="flex flex-col gap-1">{isCommande ? "Modifiez le statut de la commande" : "Modifiez l'article"}</ModalHeader>
                             {isCommande ? (
-                                <>
-                                    <ModalBody>
-                                        <Input
-                                            autoFocus
-                                            label="Satut de la commande"
-                                            placeholder={commande.statut}
-                                            variant="bordered"
-                                        />
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="danger" variant="flat" onPress={onClose}>
-                                            Annuler la modification
-                                        </Button>
-                                        <Button color="primary" onPress={onClose}>
-                                            Modifiez
-                                        </Button>
-                                    </ModalFooter>
-                                </>
+                                <FormUpdateCommande
+                                    commande={commande}
+                                    onClose={onClose}
+                                />
                             )
                                 :
                                 (

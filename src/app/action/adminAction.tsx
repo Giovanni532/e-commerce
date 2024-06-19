@@ -188,3 +188,24 @@ export async function updateArticle(id: number, formState: any) {
         throw new Error("Une erreur est survenue.");
     }
 }
+
+export async function updateCommande(id: number, formState: any) {
+    try {
+        const res = await dbPrisma.commande.update({
+            where: {
+                id
+            },
+            data: {
+                statut: formState.statut
+            }
+        });
+
+        if (!res) {
+            throw new Error("Une erreur est survenue.");
+        }
+        revalidatePath("/");
+    } catch (error) {
+        console.error('Error updating commande:', error);
+        throw new Error("Une erreur est survenue.");
+    }
+}
