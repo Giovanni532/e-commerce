@@ -101,13 +101,13 @@ export default function AdminLayout() {
     let user;
 
     if (!userData) {
-        return <p>Vous n'êtes pas connecté</p>;
+        return <p>Vous n&apos;êtes pas connecté</p>;
     } else {
         user = JSON.parse(userData as string);
     }
 
     if (user.role !== "ADMIN") {
-        return <p>Vous n'êtes pas autorisé à accéder à cette page</p>;
+        return <p>Vous n&apos;êtes pas autorisé à accéder à cette page</p>;
     }
 
     return (
