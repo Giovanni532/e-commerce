@@ -32,7 +32,6 @@ interface DetailsCommandesProps {
 }
 
 export default function DetailsCommandes({ onClose, commandeProduits, id, utilisateur }: DetailsCommandesProps) {
-    console.log(utilisateur)
     return (
         <>
             <ModalHeader>Details de la commande : #{id}</ModalHeader>

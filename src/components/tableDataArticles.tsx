@@ -127,7 +127,7 @@ export default function TableDataArticles({ columns, articles, statusOptions, ca
                     <div className="relative flex items-center gap-2">
                         <Tooltip content="Details">
                             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <ModalDetails isCommande={true} article={article} />
+                                <ModalDetails isCommande={false} article={article} />
                             </span>
                         </Tooltip>
                         <Tooltip content="Modifiez l'article">

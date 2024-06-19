@@ -6,7 +6,12 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'firebasestorage.googleapis.com',
                 pathname: '**',
-            }
+            },
+            {
+                protocol: 'https',
+                hostname: 'plus.unsplash.com',
+                pathname: '**',
+            },
         ]
     }
 };
