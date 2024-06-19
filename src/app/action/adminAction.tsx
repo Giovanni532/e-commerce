@@ -31,6 +31,7 @@ export async function fetchArticles() {
 export async function fetchCommandes() {
     const response = await dbPrisma.commande.findMany({
         include: {
+            utilisateur: true,
             commandeProduits: {
                 include: {
                     produit: true

@@ -124,7 +124,7 @@ export default function TableDataCommandes({ columns, commandes, statusOptions }
                     <div className="relative flex items-center gap-2">
                         <Tooltip content="Details">
                             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <ModalDetails id={commande.id} isCommande={true} commandes={commande} />
+                                <ModalDetails id={commande.id} isCommande={true} commande={commande} />
                             </span>
                         </Tooltip>
                         <Tooltip content="Modifiez la commande">

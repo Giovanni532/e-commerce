@@ -1,7 +1,14 @@
 import { Button, Card, CardBody, ModalBody, ModalFooter, ModalHeader, Image } from '@nextui-org/react'
+import NextImage from 'next/image';
 import React from 'react'
 
 interface DetailsCommandesProps {
+    utilisateur: {
+        id: number,
+        nom: string,
+        prenom: string,
+        email: string,
+    };
     commandeProduits: {
         id: number,
         idProduit: number,
@@ -24,11 +31,13 @@ interface DetailsCommandesProps {
     id: number;
 }
 
-export default function DetailsCommandes({ onClose, commandeProduits, id }: DetailsCommandesProps) {
+export default function DetailsCommandes({ onClose, commandeProduits, id, utilisateur }: DetailsCommandesProps) {
+    console.log(utilisateur)
     return (
         <>
             <ModalHeader>Details de la commande : #{id}</ModalHeader>
             <ModalBody>
+                <p>Livraisons pour : {`${utilisateur.nom} ${utilisateur.prenom}`}</p>
                 <p>Nombre d'articles commandées : {commandeProduits.length}</p>
                 {
                     commandeProduits.map(commandeProduit => (
@@ -42,12 +51,13 @@ export default function DetailsCommandes({ onClose, commandeProduits, id }: Deta
                                 <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center">
                                     <div className="relative col-span-6 md:col-span-4">
                                         <Image
+                                            as={NextImage}
                                             alt="Album cover"
                                             className="object-cover"
                                             height={200}
                                             shadow="md"
                                             src={commandeProduit.produit.urlsImages[0]}
-                                            width="100%"
+                                            width={200}
                                         />
                                     </div>
 
@@ -72,7 +82,6 @@ export default function DetailsCommandes({ onClose, commandeProduits, id }: Deta
                         </Card>
                     ))
                 }
-
             </ModalBody>
             <ModalFooter>
                 <Button color="primary" variant="light" onPress={onClose}>

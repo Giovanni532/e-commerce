@@ -1,20 +1,20 @@
 "use client"
 
 import React from 'react'
-import { Modal, ModalContent, ModalHeader, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import { Modal, ModalContent, useDisclosure } from "@nextui-org/react";
 import { Eye } from 'lucide-react';
 import DetailsCommandes from './detailsCommandes';
-import DetailsArticle from './DetailsArticle';
+import DetailsArticle from './detailsArticle';
 
 interface ModalDetailsProps {
     isCommande: boolean;
-    commandes?: any;
+    commande?: any;
     article?: any;
     id?: any;
 }
 
 
-export default function ModalDetails({ commandes, isCommande, article, id }: ModalDetailsProps) {
+export default function ModalDetails({ commande, isCommande, article, id }: ModalDetailsProps) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     return (
@@ -55,7 +55,7 @@ export default function ModalDetails({ commandes, isCommande, article, id }: Mod
                 <ModalContent>
                     {(onClose) => (
                         isCommande ? (
-                            <DetailsCommandes id={id} onClose={onClose} commandeProduits={commandes.commandeProduits} />
+                            <DetailsCommandes id={id} onClose={onClose} utilisateur={commande.utilisateur} commandeProduits={commande.commandeProduits} />
                         ) : (
                             <DetailsArticle onClose={onClose} article={article} />
                         )
