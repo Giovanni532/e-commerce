@@ -9,7 +9,7 @@ export default async function AdminDashboard() {
       <h2 className='text-center my-6 text-3xl font-bold text-gray-800'>
         Dashboard
       </h2>
-      <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 p-6'>
+      <div>
         <DashboardAdminData
           chiffreAffaires={chiffreAffaires}
           nombreCommandes={nombreCommandes}
