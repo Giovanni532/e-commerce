@@ -19,17 +19,18 @@ import {
     Selection,
     ChipProps,
     SortDescriptor,
-    useDisclosure,
     Tooltip
 } from "@nextui-org/react";
-import { Eye, Search, ChevronDown } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react';
 import { capitalize } from '@/lib/utils';
 import ModalDelete from './modalDelete';
 import ModalEdit from './modalEdit';
+import ModalDetails from './modalDetails';
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
     EnAttente: "success",
     EnCoursDeLivraison: "warning",
+    Expédiée: "primary",
     Livré: "primary",
     Annulé: "danger",
 };
@@ -53,7 +54,6 @@ interface TableDataProps {
 }
 
 export default function TableDataCommandes({ columns, commandes, statusOptions }: TableDataProps) {
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
     type Commandes = typeof commandes[0];
     const [filterValue, setFilterValue] = React.useState("");
     const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
@@ -124,12 +124,12 @@ export default function TableDataCommandes({ columns, commandes, statusOptions }
                     <div className="relative flex items-center gap-2">
                         <Tooltip content="Details">
                             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <Eye />
+                                <ModalDetails id={commande.id} isCommande={true} commandes={commande} />
                             </span>
                         </Tooltip>
                         <Tooltip content="Modifiez la commande">
                             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <ModalEdit isCommande={true} commande={commande}/>
+                                <ModalEdit isCommande={true} commande={commande} />
                             </span>
                         </Tooltip>
                         <Tooltip color="danger" content="Supprimer la commande">

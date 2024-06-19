@@ -21,10 +21,11 @@ import {
     SortDescriptor,
     Tooltip
 } from "@nextui-org/react";
-import { Eye, Search, ChevronDown } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react';
 import { capitalize } from '@/lib/utils';
 import ModalDelete from './modalDelete';
 import ModalEdit from './modalEdit';
+import ModalDetails from './modalDetails';
 
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
@@ -126,7 +127,7 @@ export default function TableDataArticles({ columns, articles, statusOptions, ca
                     <div className="relative flex items-center gap-2">
                         <Tooltip content="Details">
                             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <Eye />
+                                <ModalDetails isCommande={true} article={article} />
                             </span>
                         </Tooltip>
                         <Tooltip content="Modifiez l'article">
