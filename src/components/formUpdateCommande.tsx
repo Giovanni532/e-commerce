@@ -12,7 +12,17 @@ const statut = [
 ];
 
 interface FormUpdateProps {
-    commande: any;
+    commande: {
+        id: number;
+        dateCommande: string;
+        idUtilisateur: string;
+        statut: string;
+        adresse: string;
+        ville: string;
+        codePostal: string;
+        dateLivraison: string;
+        prixTotal: number;
+    },
     onClose: () => void;
 }
 

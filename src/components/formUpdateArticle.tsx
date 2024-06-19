@@ -34,10 +34,21 @@ const couleur = [
 ];
 
 interface FormUpdateProps {
-    article: any;
+    article: {
+        id: number,
+        nomProduit: string,
+        description: string,
+        urlsImages: string[],
+        prix: number,
+        couleur: string,
+        taille: string,
+        etat: string,
+        idCategorie: number,
+        idSousCategorie: number
+    };
     onClose: () => void;
-    categories?: any;
-    sousCategories?: any;
+    categories: { id: number, nomCategorie: string }[];
+    sousCategories: { id: number, nomSousCategorie: string }[];
 }
 
 
@@ -112,8 +123,8 @@ export default function FormUpdateArticle({ article, onClose, categories, sousCa
                         name='idCategorie'
                         labelPlacement='outside'
                         label="Sélectionner une categorie"
-                        placeholder={article.categorie.nomCategorie}
-                        onChange={(e) => setFormState({ ...formState, idCategorie: e.target.value })}
+                        placeholder={categories.find(cat => cat.id === article.idCategorie)?.nomCategorie}
+                        onChange={(e) => setFormState({ ...formState, idCategorie: parseInt(e.target.value) })}
                     >
                         {categories.map((cat: any) => (
                             <SelectItem key={cat.id} value={cat.id}>{cat.nomCategorie}</SelectItem>
@@ -125,8 +136,8 @@ export default function FormUpdateArticle({ article, onClose, categories, sousCa
                         name='idSousCategorie'
                         labelPlacement='outside'
                         label="Sélectionner une sous categorie"
-                        placeholder={article.sousCategorie.nomSousCategorie}
-                        onChange={(e) => setFormState({ ...formState, idSousCategorie: e.target.value })}
+                        placeholder={sousCategories.find(sousCat => sousCat.id === article.idSousCategorie)?.nomSousCategorie}
+                        onChange={(e) => setFormState({ ...formState, idSousCategorie: parseInt(e.target.value) })}
                     >
                         {sousCategories.map((sousCat: any) => (
                             <SelectItem key={sousCat.id} value={sousCat.id}>{sousCat.nomSousCategorie}</SelectItem>
@@ -139,7 +150,7 @@ export default function FormUpdateArticle({ article, onClose, categories, sousCa
                     name='prix'
                     placeholder="0.00"
                     labelPlacement="outside"
-                    onChange={(e) => setFormState({ ...formState, prix: e.target.value })}
+                    onChange={(e) => setFormState({ ...formState, prix: parseFloat(e.target.value) })}
                     startContent={
                         <div className="pointer-events-none">
                             <span className="text-default-400 text-small">$</span>

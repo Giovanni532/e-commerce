@@ -5,7 +5,6 @@ import { newArticleSchema } from "@/schema/formSchema";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from "@/db";
 import { revalidatePath } from "next/cache";
-import { toast } from "@/components/ui/use-toast";
 
 // Fetch categories, sous-categories, articles and commandes
 
@@ -172,10 +171,10 @@ export async function updateArticle(id: number, formState: any) {
                 taille: formState.taille,
                 couleur: formState.couleur,
                 etat: formState.etat,
-                prix: parseFloat(formState.prix),
+                prix: formState.prix,
                 description: formState.description,
-                idSousCategorie: parseInt(formState.idSousCategorie),
-                idCategorie: parseInt(formState.idCategorie)
+                idSousCategorie: formState.idSousCategorie,
+                idCategorie: formState.idCategorie
             }
         });
 
