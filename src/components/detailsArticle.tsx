@@ -28,7 +28,7 @@ interface DetailsArticleProps {
 export default function DetailsArticle({ onClose, article }: DetailsArticleProps) {
     return (
         <>
-            <ModalHeader>Details de l'article : {article.nomProduit}</ModalHeader>
+            <ModalHeader>Details de l&apos;article : {article.nomProduit}</ModalHeader>
             <ModalBody>
                 <Carousel className="w-full max-w-xs mx-auto">
                     <CarouselContent>
@@ -58,7 +58,6 @@ export default function DetailsArticle({ onClose, article }: DetailsArticleProps
                                     <p className="text-gray-500 mb-2">État : {article.etat}</p>
                                     <p className="text-gray-700 mb-2">Description : {article.description}</p>
                                 </div>
-
                             </CarouselItem>
                         ))}
                     </CarouselContent>

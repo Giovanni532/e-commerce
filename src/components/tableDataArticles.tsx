@@ -76,7 +76,7 @@ export default function TableDataArticles({ columns, articles, statusOptions, ca
         if (visibleColumns === "all") return columns;
 
         return columns.filter((column) => Array.from(visibleColumns).includes(column.key));
-    }, [visibleColumns]);
+    }, [columns, visibleColumns]);
 
     const filteredItems = React.useMemo(() => {
         let filteredArticles = [...articles];
@@ -93,7 +93,7 @@ export default function TableDataArticles({ columns, articles, statusOptions, ca
         }
 
         return filteredArticles;
-    }, [articles, filterValue, statusFilter]);
+    }, [hasSearchFilter, statusOptions.length, articles, filterValue, statusFilter]);
 
     const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -152,7 +152,7 @@ export default function TableDataArticles({ columns, articles, statusOptions, ca
             default:
                 return cellValue;
         }
-    }, []);
+    }, [categories, sousCategories]);
 
     const onNextPage = React.useCallback(() => {
         if (page < pages) {
@@ -244,7 +244,7 @@ export default function TableDataArticles({ columns, articles, statusOptions, ca
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span className="text-default-400 text-small">Total d'articles: {articles.length} </span>
+                    <span className="text-default-400 text-small">Total d&apos;articles: {articles.length} </span>
                     <label className="flex items-center text-default-400 text-small">
                         Articles par page:
                         <select
@@ -260,13 +260,15 @@ export default function TableDataArticles({ columns, articles, statusOptions, ca
             </div>
         );
     }, [
+        columns,
+        onClear,
+        statusOptions,
         filterValue,
         statusFilter,
         visibleColumns,
         onSearchChange,
         onRowsPerPageChange,
         articles.length,
-        hasSearchFilter,
     ]);
 
     const bottomContent = React.useMemo(() => {
@@ -296,7 +298,7 @@ export default function TableDataArticles({ columns, articles, statusOptions, ca
                 </div>
             </div>
         );
-    }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
+    }, [filteredItems.length, onNextPage, onPreviousPage, selectedKeys, page, pages]);
 
     return (
         <Table

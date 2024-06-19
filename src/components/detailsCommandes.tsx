@@ -37,7 +37,7 @@ export default function DetailsCommandes({ onClose, commandeProduits, id, utilis
             <ModalHeader>Details de la commande : #{id}</ModalHeader>
             <ModalBody>
                 <p>Livraisons pour : {`${utilisateur.nom} ${utilisateur.prenom}`}</p>
-                <p>Nombre d'articles commandées : {commandeProduits.length}</p>
+                <p>Nombre d&apos;articles commandées : {commandeProduits.length}</p>
                 {
                     commandeProduits.map(commandeProduit => (
                         <Card

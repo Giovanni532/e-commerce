@@ -73,7 +73,7 @@ export default function TableDataCommandes({ columns, commandes, statusOptions }
         if (visibleColumns === "all") return columns;
 
         return columns.filter((column) => Array.from(visibleColumns).includes(column.key));
-    }, [visibleColumns]);
+    }, [columns, visibleColumns]);
 
     const filteredItems = React.useMemo(() => {
         let filteredCommandes = [...commandes];
@@ -90,7 +90,7 @@ export default function TableDataCommandes({ columns, commandes, statusOptions }
         }
 
         return filteredCommandes;
-    }, [commandes, filterValue, statusFilter]);
+    }, [hasSearchFilter, statusOptions.length, commandes, filterValue, statusFilter]);
 
     const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -252,13 +252,15 @@ export default function TableDataCommandes({ columns, commandes, statusOptions }
             </div>
         );
     }, [
+        columns,
+        onClear,
+        statusOptions,
         filterValue,
         statusFilter,
         visibleColumns,
         onSearchChange,
         onRowsPerPageChange,
         commandes.length,
-        hasSearchFilter,
     ]);
 
     const bottomContent = React.useMemo(() => {
@@ -288,7 +290,7 @@ export default function TableDataCommandes({ columns, commandes, statusOptions }
                 </div>
             </div>
         );
-    }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
+    }, [filteredItems.length, onNextPage, onPreviousPage, selectedKeys, page, pages]);
 
     return (
         <Table
