@@ -1,6 +1,7 @@
 import React from 'react'
 import { ModalBody, ModalFooter, Button, Input, SelectItem, Select, Textarea } from "@nextui-org/react";
 import { updateArticle } from '@/app/action/adminAction';
+import { Circle } from 'lucide-react';
 
 const taille = [
     { key: 'S', label: 'S' },
@@ -101,8 +102,16 @@ export default function FormUpdateArticle({ article, onClose, categories, sousCa
                         onChange={(e) => setFormState({ ...formState, couleur: e.target.value })}
                     >
                         {couleur.map((couleurItem) => (
-                            <SelectItem key={couleurItem.key} value={couleurItem.label}>{couleurItem.label}</SelectItem>
-                        ))}
+                            <SelectItem
+                                key={couleurItem.key}
+                                value={couleurItem.label}
+                                startContent={<Circle size={16} color={couleurItem.key}
+                                    style={{ backgroundColor: couleurItem.key }}
+                                    className='rounded-full'
+                                />}
+                            >
+                                {couleurItem.label}
+                            </SelectItem>))}
                     </Select>
                 </div>
                 <div className="flex flex-col w-full">

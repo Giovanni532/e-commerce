@@ -5,7 +5,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { SelectItem, Button, Input, Select, Textarea } from '@nextui-org/react';
 import { cn } from '@/lib/utils';
 import { createArticle } from '@/app/action/adminAction';
-import { Images } from 'lucide-react';
+import { Images, Circle } from 'lucide-react';
 
 const taille = [
     { key: 'S', label: 'S' },
@@ -132,7 +132,16 @@ export default function FormArticle({ categorie, sousCategorie }: FormArticlePro
                         errorMessage={formState.errors.couleur}
                     >
                         {couleur.map((couleurItem) => (
-                            <SelectItem key={couleurItem.key} value={couleurItem.label}>{couleurItem.label}</SelectItem>
+                            <SelectItem
+                                key={couleurItem.key}
+                                value={couleurItem.label}
+                                startContent={<Circle size={16} color={couleurItem.key}
+                                    style={{ backgroundColor: couleurItem.key }}
+                                    className='rounded-full'
+                                />}
+                            >
+                                {couleurItem.label}
+                            </SelectItem>
                         ))}
                     </Select>
                 </div>
