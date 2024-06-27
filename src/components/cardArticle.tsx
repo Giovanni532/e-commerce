@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { Card, Image } from '@nextui-org/react'
+import { Button, Card, CardBody, CardFooter, CardHeader, Image } from '@nextui-org/react'
 import NextImage from 'next/image'
 
 interface CardArticleProps {
@@ -21,23 +21,30 @@ interface CardArticleProps {
 
 export default function CardArticle({ article }: CardArticleProps) {
     return (
-        <Card>
-            <Image
-                src={article.urlsImages[0]}
-                as={NextImage}
-                width={200}
-                height={200}
-                priority
-                alt={article.nomProduit}
-            />
-            <h2>{article.nomProduit}</h2>
-            <p>{article.description}</p>
-            <p>{article.prix}</p>
-            <p>{article.taille}</p>
-            <p>{article.couleur}</p>
-            <p>{article.etat}</p>
-            <p>{article.idCategorie}</p>
-            <p>{article.idSousCategorie}</p>
+        <Card className="py-4" isPressable>
+            <CardHeader className="overflow-visible py-2">
+                <Image
+                    alt={article.nomProduit}
+                    as={NextImage}
+                    className="object-cover rounded-xl h-48"
+                    src={article.urlsImages[0]}
+                    width={270}
+                    height={270}
+                />
+            </CardHeader>
+            <CardBody className="pb-2 pt-2 px-4 flex-col items-start">
+                <h4 className="font-bold text-large">{article.nomProduit}</h4>
+                <small className="text-default-500 pb-1">Etat : {article.etat}</small>
+                <p className="text-tiny uppercase font-bold">Prix : {article.prix}CHF</p>
+            </CardBody>
+            <CardFooter className="justify-between">
+                <Button className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
+                    Notify me
+                </Button>
+                <Button className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
+                    Notify me
+                </Button>
+            </CardFooter>
         </Card>
     )
 }
