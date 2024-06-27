@@ -62,7 +62,7 @@ export default function Articles({ articles, categories, sousCategories }: Artic
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-8 p-4 md:p-8">
-            <Card className='flex flex-col p-4'>
+            <Card className='flex flex-col p-4 md:h-screen md:max-h-[80vh] md:overflow-auto'>
                 <h2 className='p-2'>
                     Filtrer les articles
                 </h2>
