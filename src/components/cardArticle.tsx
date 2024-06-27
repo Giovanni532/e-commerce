@@ -1,10 +1,12 @@
 "use client"
 
 import React from 'react'
-import { Button, Card, CardBody, CardFooter, CardHeader, Image } from '@nextui-org/react'
+import { Card, CardBody, CardFooter, CardHeader, Image } from '@nextui-org/react'
 import NextImage from 'next/image'
 import ButtonBuy from './buttonBuy'
 import ButtonWallet from './buttonWallet'
+import paths from '@/path'
+import { useRouter } from 'next/navigation'
 
 interface CardArticleProps {
     article: {
@@ -22,9 +24,14 @@ interface CardArticleProps {
 }
 
 export default function CardArticle({ article }: CardArticleProps) {
+    const router = useRouter()
+
+    const handlePress = () => {
+        router.push(paths.articleDetailPath(article.id.toString()))
+    }
 
     return (
-        <Card className="py-4 h-96" isPressable>
+        <Card className="py-4 h-96" isPressable={true} onPress={handlePress}>
             <CardHeader className="overflow-visible py-2">
                 <Image
                     alt={article.nomProduit}
