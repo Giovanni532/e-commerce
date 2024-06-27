@@ -79,16 +79,38 @@ export async function createSousCategorie(formState: FormSousCategorie) {
     }
 }
 
-export async function createCategorie(formData: FormData) {
-    const nomCategorie = formData.get("nomCategorie") as string;
+interface FormCategorie {
+    nomCategorie: string;
+    loading: boolean;
+    errors: string;
+    succes: boolean;
+}
 
-    await dbPrisma.categorie.create({
-        data: {
+export async function createCategorie(formState: FormCategorie) {
+    const nomCategorie = formState.nomCategorie;
+
+    if (nomCategorie.length === 0) {
+        return { errors: "Veuillez renseigner le nom de la catégorie", loading: false, succes: false };
+    }
+
+    const existingCategorie = await dbPrisma.categorie.findFirst({
+        where: {
             nomCategorie
         }
     });
 
-    revalidatePath("/");
+    if (existingCategorie) {
+        return { errors: "Cette catégorie existe deja", loading: false, succes: false };
+    } else {
+        await dbPrisma.categorie.create({
+            data: {
+                nomCategorie
+            }
+        });
+
+        revalidatePath("/");
+        return { errors: "", loading: false, succes: true };
+    }
 }
 
 export async function createArticle(formState: any, formData: FormData) {
