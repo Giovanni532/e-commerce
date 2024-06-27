@@ -1,15 +1,11 @@
-import { Button, Badge } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import {
     Sheet,
-    SheetClose,
     SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import { Menu, ShoppingCart, Ribbon } from 'lucide-react';
+import { Menu, Ribbon } from 'lucide-react';
 import paths from "@/path";
 import NavbarUi from "./ui/navbarUi";
 
@@ -68,27 +64,6 @@ export default async function Navbar() {
                     </nav>
                 </div>
                 <div className="flex items-center gap-4">
-                    <Sheet>
-                        <SheetTrigger asChild>
-                            <Button
-                                variant="light"
-                                isIconOnly
-                            >
-                                <Badge color="danger" content={10} isInvisible={true} shape="circle" size="sm">
-                                    <ShoppingCart className="h-6 w-6" />
-                                </Badge>
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent side='right'>
-                            <SheetHeader>
-                                <SheetTitle>Votre panier</SheetTitle>
-                                <SheetClose />
-                            </SheetHeader>
-                            <SheetDescription>
-                                Votre panier est vide
-                            </SheetDescription>
-                        </SheetContent>
-                    </Sheet>
                     <NavbarUi />
                 </div>
             </header>

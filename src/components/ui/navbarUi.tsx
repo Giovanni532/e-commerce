@@ -1,20 +1,36 @@
 "use client";
 
-import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from "@nextui-org/react";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
-import { Search } from 'lucide-react';
-import { useUserProvider } from "@/provider/userProvider";
-import Logout from "@/db/firebase/auth/logout";
-import { UserRound, LogOut, Building } from 'lucide-react';
-
 import paths from "@/path";
-import { deleteCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { deleteCookie } from "cookies-next";
+import { Input } from "@/components/ui/input";
+import Logout from "@/db/firebase/auth/logout";
+import { Search, ShoppingCart } from 'lucide-react';
+import { useUserProvider } from "@/provider/userProvider";
+import { UserRound, LogOut, Building } from 'lucide-react';
+import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Badge } from "@nextui-org/react";
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./sheet";
+import { useStore } from "@/provider/storeProvider";
+import CardArticleSheet from "../cardArticleSheet";
 
 export default function NavbarUi() {
     const { currentUser, setCurrentUser } = useUserProvider();
     const router = useRouter();
+    const { articles } = useStore() as {
+        articles: Array<{
+            id: number;
+            nomProduit: string;
+            description: string;
+            prix: number;
+            taille: string;
+            couleur: string;
+            etat: string;
+            urlsImages: string[];
+            idCategorie: number;
+            idSousCategorie: number;
+        }>
+    };
 
     const handleLogout = async () => {
         await Logout();
@@ -25,6 +41,33 @@ export default function NavbarUi() {
 
     return (
         <>
+            <Sheet>
+                <SheetTrigger asChild>
+                    <Button
+                        variant="light"
+                        isIconOnly
+                    >
+                        <Badge color="danger" content={articles.length} isInvisible={articles.length === 0 ? true : false} shape="circle" size="md">
+                            <ShoppingCart className="h-6 w-6" />
+                        </Badge>
+                    </Button>
+                </SheetTrigger>
+                <SheetContent side='right'>
+                    <SheetHeader>
+                        <SheetTitle>Votre panier</SheetTitle>
+                        <SheetClose />
+                    </SheetHeader>
+                    <SheetDescription>
+                        {articles.length === 0 ? (
+                            <p>Votre panier est vide</p>
+                        ) : (
+                            articles.map(article => (
+                                <CardArticleSheet article={article} />
+                            ))
+                        )}
+                    </SheetDescription>
+                </SheetContent>
+            </Sheet>
             <div className="relative">
                 <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
                 <Input placeholder="Chercher ..." className="pl-8 sm:w-[200px] md:w-[300px] input-bg" />

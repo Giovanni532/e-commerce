@@ -3,6 +3,8 @@
 import React from 'react'
 import { Button, Card, CardBody, CardFooter, CardHeader, Image } from '@nextui-org/react'
 import NextImage from 'next/image'
+import ButtonBuy from './buttonBuy'
+import ButtonWallet from './buttonWallet'
 
 interface CardArticleProps {
     article: {
@@ -40,12 +42,8 @@ export default function CardArticle({ article }: CardArticleProps) {
                 <p className="text-tiny uppercase font-bold">Prix : {article.prix}CHF</p>
             </CardBody>
             <CardFooter className="justify-between">
-                <Button className="text-tiny text-white bg-black/20" variant="flat" color="primary" radius="lg" size="sm">
-                    Achetez
-                </Button>
-                <Button className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
-                    Ajouter au panier
-                </Button>
+                <ButtonBuy />
+                <ButtonWallet article={article} />
             </CardFooter>
         </Card>
     )

@@ -9,7 +9,7 @@ interface StoreProviderProps {
 }
 
 type Article = {
-    idArticle: number;
+    id: number;
     nomProduit: string;
     description: string;
     prix: number;
@@ -32,7 +32,7 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
     }, []);
 
     const addArticle = (article: Article) => {
-        const articleExists = articles.some(existingArticle => existingArticle.idArticle === article.idArticle);
+        const articleExists = articles.some(existingArticle => existingArticle.id === article.id);
         if (!articleExists) {
             const updatedArticles = [...articles, article];
             setArticles(updatedArticles);
@@ -40,18 +40,18 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
         }
     };
 
-    const removeArticle = (idArticle: number) => {
-        const updatedArticles = articles.filter(article => article.idArticle !== idArticle);
+    const removeArticle = (id: number) => {
+        const updatedArticles = articles.filter(article => article.id !== id);
         setArticles(updatedArticles);
         localStorage.setItem('panierArticles', JSON.stringify(updatedArticles));
     };
 
     const removeAllExcept = (articleToBuy: Article) => {
-        const articleExists = articles.some(article => article.idArticle === articleToBuy.idArticle);
+        const articleExists = articles.some(article => article.id === articleToBuy.id);
         let updatedArticles;
 
         if (articleExists) {
-            updatedArticles = articles.filter(article => article.idArticle === articleToBuy.idArticle);
+            updatedArticles = articles.filter(article => article.id === articleToBuy.id);
         } else {
             updatedArticles = [articleToBuy];
         }
