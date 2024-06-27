@@ -20,6 +20,7 @@ interface CardArticleProps {
 }
 
 export default function CardArticle({ article }: CardArticleProps) {
+
     return (
         <Card className="py-4" isPressable>
             <CardHeader className="overflow-visible py-2">
@@ -28,8 +29,9 @@ export default function CardArticle({ article }: CardArticleProps) {
                     as={NextImage}
                     className="object-cover rounded-xl h-48"
                     src={article.urlsImages[0]}
-                    width={270}
-                    height={270}
+                    quality={100}
+                    height={300}
+                    width={400}
                 />
             </CardHeader>
             <CardBody className="pb-2 pt-2 px-4 flex-col items-start">
@@ -38,11 +40,11 @@ export default function CardArticle({ article }: CardArticleProps) {
                 <p className="text-tiny uppercase font-bold">Prix : {article.prix}CHF</p>
             </CardBody>
             <CardFooter className="justify-between">
-                <Button className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
-                    Notify me
+                <Button className="text-tiny text-white bg-black/20" variant="flat" color="primary" radius="lg" size="sm">
+                    Achetez
                 </Button>
                 <Button className="text-tiny text-white bg-black/20" variant="flat" color="default" radius="lg" size="sm">
-                    Notify me
+                    Ajouter au panier
                 </Button>
             </CardFooter>
         </Card>

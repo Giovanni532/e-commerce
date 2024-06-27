@@ -29,7 +29,7 @@ export default async function Navbar() {
                                 <span className="sr-only">Toggle navigation menu</span>
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side='left'>
+                        <SheetContent side='left' className="flex flex-col gap-2">
                             <Link href={paths.articlesPath()}>Articles</Link>
                             <Link href={paths.articlesPath()}>Femme</Link>
                             <Link href={paths.articlesPath()}>Homme</Link>

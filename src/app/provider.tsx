@@ -1,5 +1,6 @@
 'use client'
 
+import { StoreProvider } from "@/provider/storeProvider"
 import { UserProvider } from "@/provider/userProvider"
 import { NextUIProvider } from "@nextui-org/react"
 
@@ -10,10 +11,12 @@ interface ProviderProps {
 
 export default function Provider({ children }: ProviderProps) {
   return (
-    <UserProvider>
-      <NextUIProvider>
-        {children}
-      </NextUIProvider>
-    </UserProvider>
+    <StoreProvider>
+      <UserProvider>
+        <NextUIProvider>
+          {children}
+        </NextUIProvider>
+      </UserProvider>
+    </StoreProvider>
   )
 }

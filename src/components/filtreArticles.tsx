@@ -67,8 +67,8 @@ export default function FiltreArticles({ onFilterChange, categories, sousCategor
                 <CheckboxGroup
                     value={selectedPrice}
                     onValueChange={(value) => handlePriceChange(value as never[])}>
-                    <Checkbox size='sm' key={1} value="asc">Moin cher au plus cher</Checkbox>
-                    <Checkbox size='sm' key={2} value="desc">Plus cher au moins cher</Checkbox>
+                    <Checkbox size='md' key={1} value="asc">Moin cher au plus cher</Checkbox>
+                    <Checkbox size='md' key={2} value="desc">Plus cher au moins cher</Checkbox>
                 </CheckboxGroup>
             </AccordionItem>
             <AccordionItem subtitle="Catégories" aria-label='categories'>
@@ -76,7 +76,7 @@ export default function FiltreArticles({ onFilterChange, categories, sousCategor
                     value={selectedCategories}
                     onValueChange={(value: string[]) => setSelectedCategories(value as never[])}>
                     {categories.map((categorie) => (
-                        <Checkbox key={categorie.id} value={categorie.id.toString()}>{categorie.nomCategorie}</Checkbox>
+                        <Checkbox size="md" key={categorie.id} value={categorie.id.toString()}>{categorie.nomCategorie}</Checkbox>
                     ))}
                 </CheckboxGroup>
             </AccordionItem>
@@ -85,7 +85,7 @@ export default function FiltreArticles({ onFilterChange, categories, sousCategor
                     value={selectedSousCategories}
                     onValueChange={(value: string[]) => setSelectedSousCategories(value as never[])}>
                     {sousCategories.map((sousCategorie) => (
-                        <Checkbox key={sousCategorie.id} value={sousCategorie.id.toString()}>{sousCategorie.nomSousCategorie}</Checkbox>
+                        <Checkbox size="md" key={sousCategorie.id} value={sousCategorie.id.toString()}>{sousCategorie.nomSousCategorie}</Checkbox>
                     ))}
                 </CheckboxGroup>
             </AccordionItem>
@@ -94,7 +94,7 @@ export default function FiltreArticles({ onFilterChange, categories, sousCategor
                     value={selectedEtat}
                     onValueChange={(value: string[]) => setSelectedEtat(value as never[])}>
                     {etat.map((etat) => (
-                        <Checkbox key={etat.key} value={etat.key}>{etat.label}</Checkbox>
+                        <Checkbox size="md" key={etat.key} value={etat.key}>{etat.label}</Checkbox>
                     ))}
                 </CheckboxGroup>
             </AccordionItem>
@@ -103,7 +103,7 @@ export default function FiltreArticles({ onFilterChange, categories, sousCategor
                     value={selectedTaille}
                     onValueChange={(value: string[]) => setSelectedTaille(value as never[])}>
                     {taille.map((taille) => (
-                        <Checkbox key={taille.key} value={taille.key}>{taille.label}</Checkbox>
+                        <Checkbox size="md" key={taille.key} value={taille.key}>{taille.label}</Checkbox>
                     ))}
                 </CheckboxGroup>
             </AccordionItem>

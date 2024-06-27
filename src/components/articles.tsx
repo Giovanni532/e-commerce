@@ -29,7 +29,13 @@ interface ArticlesProps {
 }
 
 export default function Articles({ articles, categories, sousCategories }: ArticlesProps) {
-    const [filters, setFilters] = useState<{ categories: string[], sousCategories: string[], etat: string[], taille: string[], prix: string[] }>({ categories: [], sousCategories: [], etat: [], taille: [], prix: [] });
+    const [filters, setFilters] = useState<{
+        categories: string[],
+        sousCategories: string[],
+        etat: string[],
+        taille: string[],
+        prix: string[]
+    }>({ categories: [], sousCategories: [], etat: [], taille: [], prix: [] });
 
     const handleFilterChange = (newFilters: { categories: string[], sousCategories: string[], etat: string[], taille: string[], prix: string[] }) => {
         setFilters(newFilters);
@@ -62,7 +68,7 @@ export default function Articles({ articles, categories, sousCategories }: Artic
                 </h2>
                 <FiltreArticles onFilterChange={handleFilterChange} categories={categories} sousCategories={sousCategories} />
             </Card>
-            <div className="grid grid-cols-3 md:grid-cols-[240px_1fr] gap-8 p-4 md:p-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 md:p-8">
                 {filteredArticles.length === 0 ? (
                     <h2 className="flex flex-col items-center justify-center p-4">Aucun articles trouvés</h2>
                 ) : (
