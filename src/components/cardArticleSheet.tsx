@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardBody, Image } from "@nextui-org/react";
+import NextImage from "next/image";
 import ButtonBuy from "./buttonBuy";
 import ButtonWallet from "./buttonWallet";
 
@@ -29,25 +30,25 @@ export default function CardArticleSheet({ article }: CardArticleSheetProps) {
                 <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center">
                     <div className="relative col-span-6 md:col-span-4">
                         <Image
-                            alt="Album cover"
-                            className="object-cover"
+                            as={NextImage}
+                            alt={article.nomProduit}
+                            className="object-cover h-24"
                             height={200}
                             shadow="md"
-                            src="https://nextui.org/images/album-cover.png"
-                            width="100%"
+                            src={article.urlsImages[0]}
+                            width={200}
                         />
                     </div>
 
                     <div className="flex flex-col col-span-6 md:col-span-8">
                         <div className="flex justify-between items-start">
                             <div className="flex flex-col gap-0">
-                                <h3 className="font-semibold text-foreground/90">Daily Mix</h3>
-                                <p className="text-small text-foreground/80">12 Tracks</p>
-                                <h1 className="text-large font-medium mt-2">Frontend Radio</h1>
+                                <h1 className="text-large font-medium mt-2">{article.nomProduit}</h1>
+                                <p className="text-small text-foreground/80 pb-2">Prix : {article.prix} CHF</p>
                             </div>
                         </div>
 
-                        <div className="flex w-full items-center justify-center">
+                        <div className="flex w-full items-center justify-between">
                             <ButtonBuy />
                             <ButtonWallet article={article} />
                         </div>

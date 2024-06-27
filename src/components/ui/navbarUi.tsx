@@ -62,7 +62,9 @@ export default function NavbarUi() {
                             <p>Votre panier est vide</p>
                         ) : (
                             articles.map(article => (
-                                <CardArticleSheet article={article} />
+                                <div className="py-2">
+                                    <CardArticleSheet article={article} />
+                                </div>
                             ))
                         )}
                     </SheetDescription>
