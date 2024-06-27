@@ -5,6 +5,7 @@ import NextImage from 'next/image'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import ButtonBuy from '@/components/buttonBuy'
 import ButtonWallet from '@/components/buttonWallet'
+import { notFound } from 'next/navigation'
 
 interface ArticleDetailProps {
   params: {
@@ -14,6 +15,10 @@ interface ArticleDetailProps {
 
 export default async function ArticleDetail({ params }: ArticleDetailProps) {
   const article = await fetchArticlesById(parseInt(params.idArticle))
+
+  if (!article) {
+    return notFound()
+  }
 
   return (
     <div className="flex justify-center pt-20 w-h">

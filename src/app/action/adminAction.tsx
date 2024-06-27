@@ -23,6 +23,9 @@ export async function fetchArticles() {
         include: {
             sousCategorie: true,
             categorie: true
+        },
+        where: {
+            statut: "En vente"
         }
     });
     return response;
