@@ -26,8 +26,8 @@ export default async function ArticleDetail({ params }: ArticleDetailProps) {
                   <Image
                     alt={article.nomProduit}
                     as={NextImage}
-                    className="object-cover object-center rounded-xl"
-                    src={article.urlsImages[0]}
+                    className="object-cover object-center rounded-xl h-80"
+                    src={image}
                     quality={100}
                     height={500}
                     width={500}
