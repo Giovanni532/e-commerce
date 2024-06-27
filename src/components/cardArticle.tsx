@@ -24,7 +24,7 @@ interface CardArticleProps {
 export default function CardArticle({ article }: CardArticleProps) {
 
     return (
-        <Card className="py-4" isPressable>
+        <Card className="py-4 h-96" isPressable>
             <CardHeader className="overflow-visible py-2">
                 <Image
                     alt={article.nomProduit}
