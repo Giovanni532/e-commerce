@@ -67,8 +67,8 @@ export default function FiltreArticles({ onFilterChange, categories, sousCategor
                 <CheckboxGroup
                     value={selectedPrice}
                     onValueChange={(value) => handlePriceChange(value as never[])}>
-                    <Checkbox size='md' key={1} value="asc">Moin cher au plus cher</Checkbox>
-                    <Checkbox size='md' key={2} value="desc">Plus cher au moins cher</Checkbox>
+                    <Checkbox size='sm' key={1} value="asc">Moin cher au plus cher</Checkbox>
+                    <Checkbox size='sm' key={2} value="desc">Plus cher au moins cher</Checkbox>
                 </CheckboxGroup>
             </AccordionItem>
             <AccordionItem subtitle="Catégories" aria-label='categories'>
