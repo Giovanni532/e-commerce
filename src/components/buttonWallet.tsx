@@ -17,10 +17,9 @@ interface ButtonWalletProps {
         idCategorie: number;
         idSousCategorie: number;
     },
-    onClick?: () => void;
 }
 
-export default function ButtonWallet({ article, onClick }: ButtonWalletProps) {
+export default function ButtonWallet({ article }: ButtonWalletProps) {
     const { articles, addArticle, removeArticle } = useStore() as {
         articles: Array<{
             id: number;
@@ -56,9 +55,6 @@ export default function ButtonWallet({ article, onClick }: ButtonWalletProps) {
     };
 
     const handleRemove = () => {
-        if (onClick) {
-            onClick();
-        }
         removeArticle(article.id);
     };
 

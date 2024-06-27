@@ -4,6 +4,7 @@ import { Card } from '@nextui-org/react';
 import React, { useState, useMemo } from 'react';
 import FiltreArticles from './filtreArticles';
 import CardArticle from './cardArticle';
+import { motion } from 'framer-motion';
 
 interface ArticlesProps {
     articles: {
@@ -73,7 +74,15 @@ export default function Articles({ articles, categories, sousCategories }: Artic
                     <h2 className="flex flex-col items-center justify-center p-4">Aucun articles trouvés</h2>
                 ) : (
                     filteredArticles.map((article) => (
-                        <CardArticle key={article.id} article={article} />
+                        <motion.div
+                            key={article.id}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            transition={{ duration: 0.4, exit: { duration: 0.2 } }}
+                        >
+                            <CardArticle article={article} />
+                        </motion.div>
                     ))
                 )}
             </div>

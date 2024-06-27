@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import React from 'react'
-import { Card, CardBody, CardFooter, CardHeader, Image, Skeleton } from '@nextui-org/react'
-import NextImage from 'next/image'
-import ButtonBuy from './buttonBuy'
-import ButtonWallet from './buttonWallet'
-import paths from '@/path'
-import { useRouter } from 'next/navigation'
+import React from 'react';
+import { Card, CardBody, CardFooter, Image, Skeleton } from '@nextui-org/react';
+import NextImage from 'next/image';
+import ButtonBuy from './buttonBuy';
+import ButtonWallet from './buttonWallet';
+import paths from '@/path';
+import { useRouter } from 'next/navigation';
 
 interface CardArticleProps {
     article: {
@@ -25,19 +25,20 @@ interface CardArticleProps {
 
 export default function CardArticle({ article }: CardArticleProps) {
     const [isLoaded, setIsLoaded] = React.useState(false);
-    const router = useRouter()
+    const router = useRouter();
 
     const handlePress = () => {
-        router.push(paths.articleDetailPath(article.id.toString()))
+        router.push(paths.articleDetailPath(article.id.toString()));
     }
 
     React.useEffect(() => {
         setTimeout(() => {
-            setIsLoaded(true)
-        }, 500)
-    }, [isLoaded])
+            setIsLoaded(true);
+        }, 500);
+    }, [isLoaded]);
 
     return (
+
         <Card className="space-y-5 p-4 md:max-h-[55vh] xl:max-h-[45vh] md:overflow-auto" radius="lg" isPressable onPress={handlePress}>
             <div className='flex mx-auto'>
                 <Skeleton isLoaded={isLoaded} className="rounded-lg">
@@ -72,5 +73,5 @@ export default function CardArticle({ article }: CardArticleProps) {
                 </Skeleton>
             </CardFooter>
         </Card>
-    )
+    );
 }
