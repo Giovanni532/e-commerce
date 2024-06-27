@@ -38,7 +38,7 @@ export default function CardArticle({ article }: CardArticleProps) {
     }, [isLoaded])
 
     return (
-        <Card className="space-y-5 p-4 md:max-h-[45vh] md:overflow-auto" radius="lg" isPressable onPress={handlePress}>
+        <Card className="space-y-5 p-4 md:max-h-[55vh] xl:max-h-[45vh] md:overflow-auto" radius="lg" isPressable onPress={handlePress}>
             <div className='flex mx-auto'>
                 <Skeleton isLoaded={isLoaded} className="rounded-lg">
                     <Image
