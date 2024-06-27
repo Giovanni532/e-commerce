@@ -46,7 +46,7 @@ export default function FiltreArticles({ onFilterChange, categories, sousCategor
             taille: selectedTaille,
             prix: selectedPrice
         });
-    }, [selectedCategories, selectedSousCategories, selectedEtat, selectedTaille, selectedPrice]);
+    }, [selectedCategories, selectedSousCategories, selectedEtat, selectedTaille, selectedPrice, onFilterChange]);
 
 
     const handlePriceChange = (value: string[]) => {
