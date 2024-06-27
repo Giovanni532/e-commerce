@@ -63,7 +63,7 @@ export default function NavbarUi() {
                         ) : (
                             articles.map(article => (
                                 <div className="py-2">
-                                    <CardArticleSheet article={article} />
+                                    <CardArticleSheet article={article} key={article.id} />
                                 </div>
                             ))
                         )}

@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useStore } from '@/provider/storeProvider'
-import { Button } from '@nextui-org/react'
-import React from 'react'
+import { useStore } from '@/provider/storeProvider';
+import { Button } from '@nextui-org/react';
+import React from 'react';
 
 interface ButtonWalletProps {
     article: {
@@ -16,10 +16,11 @@ interface ButtonWalletProps {
         urlsImages: string[];
         idCategorie: number;
         idSousCategorie: number;
-    }
-};
+    },
+    onClick?: () => void;
+}
 
-export default function ButtonWallet({ article }: ButtonWalletProps) {
+export default function ButtonWallet({ article, onClick }: ButtonWalletProps) {
     const { articles, addArticle, removeArticle } = useStore() as {
         articles: Array<{
             id: number;
@@ -55,6 +56,9 @@ export default function ButtonWallet({ article }: ButtonWalletProps) {
     };
 
     const handleRemove = () => {
+        if (onClick) {
+            onClick();
+        }
         removeArticle(article.id);
     };
 
@@ -70,5 +74,5 @@ export default function ButtonWallet({ article }: ButtonWalletProps) {
         <Button className="text-tiny text-white bg-black/20" variant="flat" color="primary" radius="lg" size="sm" onClick={handleAdd}>
             Ajoutez au panier
         </Button>
-    )
+    );
 }

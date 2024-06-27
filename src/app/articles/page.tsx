@@ -9,3 +9,15 @@ export default async function ArticlesPage() {
 
   return <Articles articles={articles} categories={categories} sousCategories={sousCategories} />
 }
+
+// Generate static paths
+
+export async function generateStaticParams() {
+  const articles = await fetchArticles();
+
+  return articles.map(article => {
+    return {
+      id: article.id.toString()
+    }
+  })
+}
