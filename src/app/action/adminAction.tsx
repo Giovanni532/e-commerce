@@ -45,16 +45,38 @@ export async function fetchCommandes() {
 
 // Create a new article or category
 
-export async function createSousCategorie(formData: FormData) {
-    const nomSousCategorie = formData.get("nomSousCategorie") as string;
+interface FormSousCategorie {
+    nomSousCategorie: string;
+    loading: boolean;
+    errors: string;
+    succes: boolean;
+}
 
-    await dbPrisma.sousCategorie.create({
-        data: {
+export async function createSousCategorie(formState: FormSousCategorie) {
+    const nomSousCategorie = formState.nomSousCategorie;
+
+    if (nomSousCategorie.length === 0) {
+        return { errors: "Veuillez renseigner le nom de la sous-catégorie", loading: false, succes: false };
+    }
+
+    const existingSousCategorie = await dbPrisma.sousCategorie.findFirst({
+        where: {
             nomSousCategorie
         }
     });
 
-    revalidatePath("/");
+    if (existingSousCategorie) {
+        return { errors: "Cette sous-catégorie existe deja", loading: false, succes: false };
+    } else {
+        await dbPrisma.sousCategorie.create({
+            data: {
+                nomSousCategorie
+            }
+        });
+
+        revalidatePath("/");
+        return { errors: "", loading: false, succes: true };
+    }
 }
 
 export async function createCategorie(formData: FormData) {
@@ -133,7 +155,6 @@ export async function createArticle(formState: any, formData: FormData) {
         revalidatePath("/");
         return { errors: {}, loading: false };
     } catch (error) {
-        console.error('Error creating article:', error);
         return { errors: { global: "Une erreur est survenue, veuillez réessayer." }, loading: false };
     }
 }
