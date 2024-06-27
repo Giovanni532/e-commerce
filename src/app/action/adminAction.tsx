@@ -28,6 +28,15 @@ export async function fetchArticles() {
     return response;
 }
 
+export async function fetchArticlesById(id: number) {
+    const response = await dbPrisma.produit.findFirst({
+        where: {
+            id
+        }
+    });
+    return response;
+}
+
 export async function fetchCommandes() {
     const response = await dbPrisma.commande.findMany({
         include: {

@@ -50,6 +50,7 @@ export default function CardArticle({ article }: CardArticleProps) {
                         quality={100}
                         height={300}
                         width={500}
+                        priority
                     />
                 </Skeleton>
             </div>
