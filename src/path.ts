@@ -14,6 +14,9 @@ const paths = {
     homePath() {
         return '/';
     },
+    authPath() {
+        return '/auth';
+    },
     articlesPath() {
         return '/articles';
     },

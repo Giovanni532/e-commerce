@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { Button, Input } from '@nextui-org/react';
 
-const PaymentForm: React.FC<{ articles: any[] }> = ({ articles }) => {
+const PaymentForm: React.FC<{ articles: any[], prixTotal: number }> = ({ articles, prixTotal }) => {
     const stripe = useStripe();
     const elements = useElements();
     const [isLoading, setIsLoading] = useState(false);
@@ -82,7 +82,8 @@ const PaymentForm: React.FC<{ articles: any[] }> = ({ articles }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className='gap-4'>
+        <form onSubmit={handleSubmit} className='gap-4 p-5'>
+            <h1 className="text-2xl text-center font-bold">Vos informations</h1>
             <div className="flex space-x-4">
                 <Input
                     type="text"
@@ -139,20 +140,24 @@ const PaymentForm: React.FC<{ articles: any[] }> = ({ articles }) => {
                     className="block w-full px-3 py-2"
                 />
             </div>
-            <div className='mx-5 my-2'>
-                <label className="block text-sm font-medium text-gray-700">Numéro de carte</label>
-                <CardElement
-                    options={{ hidePostalCode: true }}
-                    className="my-1 p-3"
-                />
+            <div className='mx-5 my-2 text-center'>
+                <label className="block text-sm text-left font-medium text-gray-700">Numéro de carte</label>
+                <div className='my-2 bg-gray-100 p-3 rounded-lg'>
+                    <CardElement
+                        options={{
+                            hidePostalCode: true,
+                        }}
+                    />
+                </div>
                 <Button
                     type="submit"
                     disabled={!stripe || isLoading}
+                    className='my-4'
                 >
-                    {isLoading ? 'Paiement en cours...' : 'Payer'}
+                    {isLoading ? 'Paiement en cours...' : `Payer ${prixTotal} CHF`}
                 </Button>
             </div>
-            {errorMessage && <div className="mt-2 text-sm text-center text-red-600">{errorMessage}</div>}
+            {errorMessage && <div className="my-2 text-sm text-center text-red-600">{errorMessage}</div>}
         </form>
     );
 };
