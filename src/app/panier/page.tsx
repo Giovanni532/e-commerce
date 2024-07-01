@@ -48,7 +48,7 @@ export default function PanierPage() {
                             <PaymentForm articles={articles} prixTotal={totalArticles} />
                         ) : (
                             <div className='text-center'>
-                                <h2 className="text-2xl font-bold my-5">Vous n'êtes pas connecté</h2>
+                                <h2 className="text-2xl font-bold my-5">Vous n&apos;êtes pas connecté</h2>
                                 <p>Pour continuer vous avez deux options :</p>
                                 <div className="flex justify-between px-10 my-5">
                                     <Button
