@@ -159,38 +159,34 @@ export async function createArticle(formState: any, formData: FormData) {
         return { errors, loading: false };
     }
 
-    try {
-        const idImage = (await dbPrisma.produit.findMany()).length;
+    const idImage = (await dbPrisma.produit.findMany()).length;
 
-        const uploadedImageUrls = await Promise.all(Array.from(images).map(async (file) => {
-            const storageRef = ref(storage, `e-commerce/produit/${idImage}/${file.name}`);
-            await uploadBytes(storageRef, file);
-            const downloadURL = await getDownloadURL(storageRef);
-            return downloadURL;
-        }));
+    const uploadedImageUrls = await Promise.all(Array.from(images).map(async (file) => {
+        const storageRef = ref(storage, `e-commerce/produit/${idImage}/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        return downloadURL;
+    }));
 
-        const res = await dbPrisma.produit.create({
-            data: {
-                nomProduit,
-                taille,
-                couleur,
-                etat,
-                prix: parseFloat(prix),
-                description,
-                idSousCategorie: parseInt(idSousCategorie),
-                idCategorie: parseInt(idCategorie),
-                urlsImages: uploadedImageUrls
-            }
-        });
-
-        if (!res) {
-            return { errors: { global: "Une erreur est survenue, veuillez réessayer." }, loading: false };
+    const res = await dbPrisma.produit.create({
+        data: {
+            nomProduit,
+            taille,
+            couleur,
+            etat,
+            prix: parseFloat(prix),
+            description,
+            idSousCategorie: parseInt(idSousCategorie),
+            idCategorie: parseInt(idCategorie),
+            urlsImages: uploadedImageUrls
         }
-        revalidatePath("/");
-        return { errors: {}, loading: false };
-    } catch (error) {
+    });
+
+    if (!res) {
         return { errors: { global: "Une erreur est survenue, veuillez réessayer." }, loading: false };
     }
+    revalidatePath("/");
+    return { errors: {}, loading: false };
 }
 
 // Delete article or commandes
