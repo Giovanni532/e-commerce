@@ -61,11 +61,23 @@ export default function NavbarUi() {
                         {articles.length === 0 ? (
                             <p>Votre panier est vide</p>
                         ) : (
-                            articles.map(article => (
-                                <div className="py-2" key={article.id}>
-                                    <CardArticleSheet article={article} />
+                            <div>
+                                {articles.map(article => (
+                                    <div className="py-2" key={article.id}>
+                                        <CardArticleSheet article={article} />
+                                    </div>
+                                ))}
+                                <div className="flex justify-center mt-4">
+                                    <SheetClose asChild>
+                                        <Button
+                                            href={paths.panierPath()}
+                                            as={Link}
+                                        >
+                                            Voir le panier
+                                        </Button>
+                                    </SheetClose>
                                 </div>
-                            ))
+                            </div>
                         )}
                     </SheetDescription>
                 </SheetContent>

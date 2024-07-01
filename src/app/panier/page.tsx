@@ -50,7 +50,7 @@ export default function PanierPage() {
                             <div className='text-center'>
                                 <h2 className="text-2xl font-bold my-5">Vous n'êtes pas connecté</h2>
                                 <p>Pour continuer vous avez deux options :</p>
-                                <div className="flex justify-between mx-20">
+                                <div className="flex justify-between px-10 my-5">
                                     <Button
                                         onClick={() => router.push(paths.authPath())}
                                     >

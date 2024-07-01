@@ -2,6 +2,7 @@ import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import {
     Sheet,
+    SheetClose,
     SheetContent,
     SheetTrigger,
 } from "@/components/ui/sheet"
@@ -26,10 +27,18 @@ export default async function Navbar() {
                             </Button>
                         </SheetTrigger>
                         <SheetContent side='left' className="flex flex-col gap-2">
-                            <Link href={paths.articlesPath()}>Articles</Link>
-                            <Link href={paths.articlesPath()}>Femme</Link>
-                            <Link href={paths.articlesPath()}>Homme</Link>
-                            <Link href={paths.articlesPath()}>Contact</Link>
+                            <SheetClose asChild>
+                                <Link href={paths.articlesPath()}>Articles</Link>
+                            </SheetClose>
+                            <SheetClose asChild>
+                                <Link href={paths.articlesPath()}>Femme</Link>
+                            </SheetClose>
+                            <SheetClose asChild>
+                                <Link href={paths.articlesPath()}>Homme</Link>
+                            </SheetClose>
+                            <SheetClose asChild>
+                                <Link href={paths.articlesPath()}>Contact</Link>
+                            </SheetClose>
                         </SheetContent>
                     </Sheet>
                     <Link href={paths.homePath()} className="flex items-center">

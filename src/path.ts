@@ -17,6 +17,9 @@ const paths = {
     authPath() {
         return '/auth';
     },
+    panierPath() {
+        return '/panier';
+    },
     articlesPath() {
         return '/articles';
     },
