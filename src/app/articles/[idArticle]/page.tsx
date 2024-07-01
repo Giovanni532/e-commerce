@@ -4,7 +4,7 @@ import React from 'react'
 import NextImage from 'next/image'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import ButtonBuy from '@/components/buttonBuy'
-import ButtonWallet from '@/components/buttonWallet'
+import ButtonWalletCard from '@/components/buttonWallet'
 import { notFound } from 'next/navigation'
 
 interface ArticleDetailProps {
@@ -21,10 +21,10 @@ export default async function ArticleDetail({ params }: ArticleDetailProps) {
   }
 
   return (
-    <div className="flex justify-center pt-20 w-h">
-      <div className="flex">
-        <div className="w-96 flex flex-col items-center justify-center p-6 rounded-lg">
-          <Carousel className="w-full max-w-md">
+    <div className="flex flex-col lg:flex-row justify-center pt-20 w-full">
+      <div className="flex flex-col lg:flex-row">
+        <div className="w-full lg:w-96 flex flex-col items-center justify-center p-6 rounded-lg">
+          <Carousel className="w-full max-w-sm">
             <CarouselContent>
               {article?.urlsImages.map(image => (
                 <CarouselItem key={image}>
@@ -45,12 +45,12 @@ export default async function ArticleDetail({ params }: ArticleDetailProps) {
             <CarouselNext />
           </Carousel>
         </div>
-        <div className="w-96 p-10">
+        <div className="w-full lg:w-96 p-6 lg:p-10">
           <h1 className="text-3xl font-bold">{article?.nomProduit}</h1>
           <p className="text-xl">Prix : {article?.prix} CHF</p>
           <p className="text-right">Ref: {article?.id}</p>
           <hr className="my-4" />
-          <div className="flex justify-between">
+          <div className="flex flex-row justify-between">
             <p className="border p-3 rounded">
               Taille : {article?.taille}
             </p>
@@ -58,7 +58,8 @@ export default async function ArticleDetail({ params }: ArticleDetailProps) {
               Etat : {article?.etat}
             </p>
           </div>
-          <div className="flex items-center justify-between my-4">
+          <div className="flex flex-col my-4">
+            <div>{article?.description}</div>
             <div className="flex items-center">
               <span>Couleur :</span>
               <div className="mx-2 my-2 w-4 h-4 border rounded-full circle" style={{ backgroundColor: article?.couleur }}></div>
@@ -66,7 +67,7 @@ export default async function ArticleDetail({ params }: ArticleDetailProps) {
           </div>
           <div className="flex flex-col space-y-4">
             <ButtonBuy />
-            {article ? <ButtonWallet article={article} /> : null}
+            {article ? <ButtonWalletCard article={article} /> : null}
           </div>
         </div>
       </div>

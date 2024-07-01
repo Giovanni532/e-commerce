@@ -74,6 +74,7 @@ export default function CardArticle({ article }: CardArticleProps) {
                 </Skeleton>
                 <Skeleton isLoaded={isLoaded} className='rounded-lg'>
                     <Button
+                        onClick={handlePress}
                         className="text-tiny"
                         variant="light"
                         color="primary"
