@@ -1,12 +1,13 @@
 "use client";
 
 import React from 'react';
-import { Card, CardBody, CardFooter, Image, Skeleton } from '@nextui-org/react';
+import { Button, Card, CardBody, CardFooter, Image, Skeleton } from '@nextui-org/react';
 import NextImage from 'next/image';
 import ButtonBuy from './buttonBuy';
-import ButtonWallet from './buttonWallet';
+import { ArrowRight } from 'lucide-react';
 import paths from '@/path';
 import { useRouter } from 'next/navigation';
+import { ButtonWalletOnImage } from './buttonWallet';
 
 interface CardArticleProps {
     article: {
@@ -38,14 +39,16 @@ export default function CardArticle({ article }: CardArticleProps) {
     }, [isLoaded]);
 
     return (
-
-        <Card className="space-y-5 p-4 md:max-h-[55vh] xl:max-h-[50vh] md:overflow-auto" radius="lg" isPressable onPress={handlePress}>
-            <div className='flex mx-auto'>
+        <Card className="space-y-5 p-4" radius="lg" isPressable onPress={handlePress}>
+            <div className='relative mx-auto'>
                 <Skeleton isLoaded={isLoaded} className="rounded-lg">
+                    <div className="absolute top-0 right-0 rounded-xl z-10">
+                        <ButtonWalletOnImage article={article} />
+                    </div>
                     <Image
                         alt={article.nomProduit}
                         as={NextImage}
-                        className="object-cover object-center rounded-xl h-48"
+                        className="object-cover object-center rounded-xl h-48 z-0"
                         src={article.urlsImages[0]}
                         quality={100}
                         height={300}
@@ -59,18 +62,26 @@ export default function CardArticle({ article }: CardArticleProps) {
                     <h4 className="font-bold text-large">{article.nomProduit}</h4>
                 </Skeleton>
                 <Skeleton isLoaded={isLoaded} className="w-4/5 rounded-lg">
-                    <small className="text-default-500 pb-1">Etat : {article.etat}</small>
+                    <small className="text-default-500 pb-1">{article.description}</small>
                 </Skeleton>
                 <Skeleton isLoaded={isLoaded} className="w-2/5 rounded-lg">
                     <p className="text-tiny uppercase font-bold">Prix : {article.prix}CHF</p>
                 </Skeleton>
             </CardBody>
-            <CardFooter className="justify-between">
+            <CardFooter className="justify-between items-center">
                 <Skeleton isLoaded={isLoaded} className='rounded-lg'>
                     <ButtonBuy />
                 </Skeleton>
                 <Skeleton isLoaded={isLoaded} className='rounded-lg'>
-                    <ButtonWallet article={article} />
+                    <Button
+                        className="text-tiny"
+                        variant="light"
+                        color="primary"
+                        radius="lg"
+                        size="sm"
+                        endContent={<ArrowRight className='h-4' />}>
+                        Voir plus
+                    </Button>
                 </Skeleton>
             </CardFooter>
         </Card>

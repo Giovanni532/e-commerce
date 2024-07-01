@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardBody, Image } from "@nextui-org/react";
 import NextImage from "next/image";
 import ButtonBuy from "./buttonBuy";
-import ButtonWallet from "./buttonWallet";
 import { motion, AnimatePresence } from "framer-motion";
+import ButtonWalletCard from "./buttonWallet";
 
 interface CardArticleSheetProps {
     article: {
@@ -37,7 +37,7 @@ export default function CardArticleSheet({ article }: CardArticleSheetProps) {
                 >
                     <CardBody>
                         <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center">
-                            <div className="relative col-span-6 md:col-span-4">
+                            <div className="relative col-span-6 md:col-span-4 mx-auto">
                                 <Image
                                     as={NextImage}
                                     alt={article.nomProduit}
@@ -57,7 +57,7 @@ export default function CardArticleSheet({ article }: CardArticleSheetProps) {
                                 </div>
                                 <div className="flex w-full items-center justify-between">
                                     <ButtonBuy />
-                                    <ButtonWallet article={article} />
+                                    <ButtonWalletCard article={article} />
                                 </div>
                             </div>
                         </div>
