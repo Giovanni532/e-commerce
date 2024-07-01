@@ -43,7 +43,7 @@ export default function CardArticleSheet({ article }: CardArticleSheetProps) {
                                     alt={article.nomProduit}
                                     className="object-cover h-24"
                                     height={200}
-                                    shadow="md"
+                                    shadow="sm"
                                     src={article.urlsImages[0]}
                                     width={200}
                                 />

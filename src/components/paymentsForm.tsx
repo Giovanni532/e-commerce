@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+import { Button, Input } from '@nextui-org/react';
 
 const PaymentForm: React.FC<{ articles: any[] }> = ({ articles }) => {
     const stripe = useStripe();
@@ -59,7 +60,7 @@ const PaymentForm: React.FC<{ articles: any[] }> = ({ articles }) => {
                             line1: formData.adresse,
                             postal_code: formData.codePostal,
                             city: formData.ville,
-                            country: 'CH', // Vous pouvez ajuster le pays ici
+                            country: 'CH',
                         },
                     },
                 },
@@ -81,65 +82,77 @@ const PaymentForm: React.FC<{ articles: any[] }> = ({ articles }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>Prénom</label>
-                <input
+        <form onSubmit={handleSubmit} className='gap-4'>
+            <div className="flex space-x-4">
+                <Input
                     type="text"
                     name="prenom"
+                    label="Prénom"
+                    labelPlacement='outside'
                     value={formData.prenom}
                     onChange={handleChange}
                     required
+                    className="block w-full px-3 py-2"
                 />
-            </div>
-            <div>
-                <label>Nom</label>
-                <input
+                <Input
                     type="text"
                     name="nom"
+                    label="Nom"
+                    labelPlacement='outside'
                     value={formData.nom}
                     onChange={handleChange}
                     required
+                    className="block w-full px-3 py-2"
                 />
             </div>
-            <div>
-                <label>Adresse</label>
-                <input
-                    type="text"
-                    name="adresse"
-                    value={formData.adresse}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div>
-                <label>Code Postal</label>
-                <input
+            <div className="flex space-x-4">
+                <Input
                     type="text"
                     name="codePostal"
+                    label="Code postal"
+                    labelPlacement='outside'
                     value={formData.codePostal}
                     onChange={handleChange}
                     required
+                    className="block w-full px-3 py-2"
                 />
-            </div>
-            <div>
-                <label>Ville</label>
-                <input
+                <Input
                     type="text"
                     name="ville"
+                    label="Ville"
+                    labelPlacement='outside'
                     value={formData.ville}
                     onChange={handleChange}
                     required
+                    className="block w-full px-3 py-2"
                 />
             </div>
             <div>
-                <label>Numéro de carte</label>
-                <CardElement options={{ hidePostalCode: true }} />
+                <Input
+                    type="text"
+                    name="adresse"
+                    label="Adresse"
+                    labelPlacement='outside'
+                    value={formData.adresse}
+                    onChange={handleChange}
+                    required
+                    className="block w-full px-3 py-2"
+                />
             </div>
-            <button type="submit" disabled={!stripe || isLoading}>
-                {isLoading ? 'Paiement en cours...' : 'Payer'}
-            </button>
-            {errorMessage && <div>{errorMessage}</div>}
+            <div className='mx-5 my-2'>
+                <label className="block text-sm font-medium text-gray-700">Numéro de carte</label>
+                <CardElement
+                    options={{ hidePostalCode: true }}
+                    className="my-1 p-3"
+                />
+                <Button
+                    type="submit"
+                    disabled={!stripe || isLoading}
+                >
+                    {isLoading ? 'Paiement en cours...' : 'Payer'}
+                </Button>
+            </div>
+            {errorMessage && <div className="mt-2 text-sm text-center text-red-600">{errorMessage}</div>}
         </form>
     );
 };

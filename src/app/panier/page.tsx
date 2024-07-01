@@ -1,10 +1,11 @@
-// app/panier/page.tsx
 "use client";
 
 import React from 'react';
 import StripeProvider from '@/provider/stripeProvider';
 import { useStore } from '@/provider/storeProvider';
 import PaymentForm from '@/components/paymentsForm';
+import { Card } from '@nextui-org/react';
+import CardArticleSheet from '@/components/cardArticleSheet';
 
 export default function PanierPage() {
     const { articles, removeArticle } = useStore() as {
@@ -25,19 +26,20 @@ export default function PanierPage() {
 
     return (
         <StripeProvider>
-            <div>
-                <h1>Panier</h1>
-                <ul>
-                    {articles.map((article) => (
-                        <li key={article.id}>
-                            <h2>{article.nomProduit}</h2>
-                            <p>{article.description}</p>
-                            <p>{article.prix} CHF</p>
-                            <button onClick={() => removeArticle(article.id)}>Retirer</button>
-                        </li>
-                    ))}
-                </ul>
-                <PaymentForm articles={articles} />
+            <div className="container mx-auto p-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h1 className="text-2xl font-bold mb-4">Votre panier</h1>
+                        {articles.map((article) => (
+                            <div key={article.id} className='my-5'>
+                                <CardArticleSheet article={article} />
+                            </div>
+                        ))}
+                    </div>
+                    <Card className='mt-12'>
+                        <PaymentForm articles={articles} />
+                    </Card>
+                </div>
             </div>
         </StripeProvider>
     );

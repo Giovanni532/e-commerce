@@ -7,9 +7,11 @@ export async function POST(req: NextRequest) {
   try {
     const { articles } = await req.json();
 
+    console.log('articles', articles)
+
     const normalizedArticles = Array.isArray(articles) ? articles : [articles];
 
-    if (!normalizedArticles.length || !normalizedArticles.every(article => article.nomArticle && article.prix)) {
+    if (!normalizedArticles.length || !normalizedArticles.every(article => article.nomProduit && article.prix)) {
       return NextResponse.json({ message: "Articles invalides" }, { status: 400 });
     }
 
@@ -17,7 +19,7 @@ export async function POST(req: NextRequest) {
       price_data: {
         currency: 'chf',
         product_data: {
-          name: article.nomArticle,
+          name: article.nomProduit,
         },
         unit_amount: article.prix * 100,
       },
