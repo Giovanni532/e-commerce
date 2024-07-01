@@ -113,16 +113,9 @@ export function ButtonWalletOnImage({ article }: ButtonWalletProps) {
         removeArticle(article.id);
     };
 
-    if (isInCart) {
-        return (
-            <Button isIconOnly variant="flat" radius="lg" size="md" onClick={handleRemove} style={{ marginTop: -10, marginRight: -10 }}>
-
-            </Button>
-        );
-    }
-
     return (
-        <Button isIconOnly variant="flat" radius="lg" size="md" onClick={handleAdd} style={{ marginTop: -10, marginRight: -10 }}>
+        <Button isIconOnly variant="solid" radius="lg" size="md" onClick={isInCart ? handleRemove : handleAdd}>
+            <div style={isInCart ? { position: 'absolute', left: 0, width: '100%', height: 2, backgroundColor: 'black', transform: 'rotate(-45deg)' } : { position: 'relative' }} />
             <ShoppingBasket />
         </Button>
     );

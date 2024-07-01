@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { deleteCookie } from "cookies-next";
 import { Input } from "@/components/ui/input";
 import Logout from "@/db/firebase/auth/logout";
-import { Search, ShoppingCart } from 'lucide-react';
+import { Search, ShoppingBasket } from 'lucide-react';
 import { useUserProvider } from "@/provider/userProvider";
 import { UserRound, LogOut, Building } from 'lucide-react';
 import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Badge } from "@nextui-org/react";
@@ -48,7 +48,7 @@ export default function NavbarUi() {
                         isIconOnly
                     >
                         <Badge color="danger" content={articles.length} isInvisible={articles.length === 0 ? true : false} shape="circle" size="md">
-                            <ShoppingCart className="h-6 w-6" />
+                            <ShoppingBasket className="h-6 w-6" />
                         </Badge>
                     </Button>
                 </SheetTrigger>

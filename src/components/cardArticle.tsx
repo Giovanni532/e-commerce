@@ -42,7 +42,7 @@ export default function CardArticle({ article }: CardArticleProps) {
         <Card className="space-y-5 p-4" radius="lg" isPressable onPress={handlePress}>
             <div className='relative mx-auto'>
                 <Skeleton isLoaded={isLoaded} className="rounded-lg">
-                    <div className="absolute top-0 right-0 rounded-xl z-10">
+                    <div className="absolute top-0 right-0 rounded-full z-10" style={{ marginTop: -10, marginRight: -10 }}>
                         <ButtonWalletOnImage article={article} />
                     </div>
                     <Image
