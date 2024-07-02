@@ -12,7 +12,7 @@ const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-  title: "Mode revivre",
+  title: "Mode Revive | Page d'accueil",
   description: "Votre boutique de seconde main en ligne",
 };
 

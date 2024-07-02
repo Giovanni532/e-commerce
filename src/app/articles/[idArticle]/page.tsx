@@ -6,10 +6,27 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import ButtonBuy from '@/components/buttonBuy'
 import ButtonWalletCard from '@/components/buttonWallet'
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
+
 
 interface ArticleDetailProps {
   params: {
     idArticle: string
+  }
+}
+
+export async function generateMetadata({ params }: ArticleDetailProps): Promise<Metadata> {
+  const article = await fetchArticlesById(parseInt(params.idArticle))
+  if (!article) {
+    return {
+      title: 'Mode Revive | Article non trouvé',
+      description: 'L\'article demandé n\'a pas été trouvé',
+    }
+  }
+
+  return {
+    title: `Mode Revive | ${article.nomProduit}`,
+    description: article.description,
   }
 }
 
