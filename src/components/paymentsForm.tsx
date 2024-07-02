@@ -192,7 +192,7 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep, removeAllArticles 
                 </div>
                 <Button
                     type="submit"
-                    disabled={!stripe || formData.loading || articles.length === 0}
+                    disabled={!stripe || formData.loading}
                     className='my-4'
                 >
                     {formData.loading ? 'Paiement en cours...' : `Payer ${prixTotal} CHF`}

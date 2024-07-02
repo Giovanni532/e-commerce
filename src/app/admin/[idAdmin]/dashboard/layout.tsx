@@ -9,6 +9,7 @@ import AdminDashboardNewCategorie from "./new/categorie/page";
 import AdminDashboardNewSousCategorie from "./new/sousCategorie/page";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
+import NotFoundAdmin from "./not-found";
 
 
 export const metadata: Metadata = {
@@ -101,18 +102,16 @@ export default function AdminLayout() {
     let user;
 
     if (!userData) {
-        return <p>Vous n&apos;êtes pas connecté</p>;
+        return NotFoundAdmin();
     } else {
         user = JSON.parse(userData as string);
     }
 
     if (user.role !== "ADMIN") {
-        return <p>Vous n&apos;êtes pas autorisé à accéder à cette page</p>;
+        return NotFoundAdmin();
     }
 
     return (
-        <main>
-            <TabsAdmin tabs={tabs} />
-        </main>
+        <TabsAdmin tabs={tabs} />
     );
 }
