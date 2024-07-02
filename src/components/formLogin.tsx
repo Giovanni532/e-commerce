@@ -1,11 +1,9 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { AuthLogin, checkUser } from '@/app/action/authAction';
-import { Button } from '@nextui-org/react';
+import { Button, Input } from '@nextui-org/react';
 import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle';
 import { useRouter } from 'next/navigation';
 import ProgressBar from './progress-bar';
@@ -66,16 +64,28 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
     return (
         <>
             <form className="my-8" onSubmit={handleSubmit}>
-                <LabelInputContainer className="mb-4">
-                    <Label htmlFor="email">Email Address</Label>
-                    <Input id="email" name="email" placeholder="projectmayhem@fc.com" type="email" />
-                    {formState.message.email && <p className="text-red-500 text-sm">{formState.message.email}</p>}
-                </LabelInputContainer>
-                <LabelInputContainer className="mb-4">
-                    <Label htmlFor="password">Password</Label>
-                    <Input id="password" name="password" placeholder="••••••••" type="password" />
-                    {formState.message.password && <p className="text-red-500 text-sm">{formState.message.password}</p>}
-                </LabelInputContainer>
+                <Input
+                    className='p-4'
+                    id="email"
+                    name="email"
+                    placeholder="johndoe@gmail.com"
+                    type="email"
+                    label="Email"
+                    labelPlacement='outside'
+                    isInvalid={!!formState.message.email}
+                    errorMessage={formState.message.email}
+                />
+                <Input
+                    className='p-4'
+                    id="password"
+                    name="password"
+                    placeholder="••••••••"
+                    type="password"
+                    label="Mot de passe"
+                    labelPlacement='outside'
+                    isInvalid={!!formState.message.password}
+                    errorMessage={formState.message.password}
+                />
                 {formState.message.erreur && <p className="text-red-500 text-sm text-center mb-2">{formState.message.erreur}</p>}
                 <Button
                     variant='solid'
@@ -85,39 +95,15 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
                     isLoading={formState.loading}
                 >
                     Se connecter
-                    <BottomGradient />
                 </Button>
             </form>
             <div className="flex flex-col space-y-4">
                 {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
-                <ButtonGoogle googleSubmit={googleSubmit} BottomGradient={BottomGradient} />
+                <ButtonGoogle googleSubmit={googleSubmit} />
             </div>
             <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous n&apos;avez pas de compte ?</p>
         </>
     );
 }
-
-const BottomGradient = () => {
-    return (
-        <>
-            <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
-            <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
-        </>
-    );
-};
-
-const LabelInputContainer = ({
-    children,
-    className,
-}: {
-    children: React.ReactNode;
-    className?: string;
-}) => {
-    return (
-        <div className={cn("flex flex-col space-y-2 w-full", className)}>
-            {children}
-        </div>
-    );
-};
 
 export default FormLogin;
