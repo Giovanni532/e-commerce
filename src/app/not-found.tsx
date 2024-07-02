@@ -15,7 +15,7 @@ export default function NotFoundRoot() {
                     La page que vous cherchez n&apos;existe pas, pas de soucis nous avons plein d&apos;autres articles sur notre plateforme.
                 </p>
                 <Link className="text-blue-500 hover:underline" href={paths.homePath()}>
-                    Retournez à l'accueil
+                    Retournez à l&apos;accueil
                 </Link>
             </div>
         </div>
