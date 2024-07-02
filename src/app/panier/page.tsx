@@ -5,7 +5,7 @@ import StripeProvider from '@/provider/stripeProvider';
 import { useStore } from '@/provider/storeProvider';
 import PaymentForm from '@/components/paymentsForm';
 import { Button, Card } from '@nextui-org/react';
-import CardArticleSheet from '@/components/cardArticleSheet';
+import { CardArticlePanier } from '@/components/cardArticle';
 import { useUserProvider } from '@/provider/userProvider';
 import { useRouter } from 'next/navigation';
 import paths from '@/path';
@@ -31,6 +31,8 @@ export default function PanierPage() {
 
     const totalArticles = articles.reduce((acc, article) => acc + article.prix, 0);
 
+    console.log(currentUser)
+
     return (
         <StripeProvider>
             <div className="container mx-auto p-4">
@@ -39,18 +41,18 @@ export default function PanierPage() {
                         <h1 className="text-2xl font-bold mb-4">Votre panier</h1>
                         {articles.map((article) => (
                             <div key={article.id} className='my-5'>
-                                <CardArticleSheet article={article} />
+                                <CardArticlePanier article={article} />
                             </div>
                         ))}
                     </div>
                     <Card className='mt-12'>
                         {invitedUser || currentUser ? (
-                            <PaymentForm articles={articles} prixTotal={totalArticles} />
+                            <PaymentForm articles={articles} prixTotal={totalArticles} user={currentUser} />
                         ) : (
                             <div className='text-center'>
                                 <h2 className="text-2xl font-bold my-5">Vous n&apos;êtes pas connecté</h2>
                                 <p>Pour continuer vous avez deux options :</p>
-                                <div className="flex justify-between px-10 my-5">
+                                <div className="flex justify-between max-w-md mx-auto py-5">
                                     <Button
                                         onClick={() => router.push(paths.authPath())}
                                     >

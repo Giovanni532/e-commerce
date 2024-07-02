@@ -4,18 +4,24 @@ import React, { useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { Button, Input } from '@nextui-org/react';
 
-const PaymentForm: React.FC<{ articles: any[], prixTotal: number }> = ({ articles, prixTotal }) => {
+interface PaymentFormProps {
+    articles: any[];
+    prixTotal: number;
+    user: any;
+}
+
+const PaymentForm = ({ articles, prixTotal, user }: PaymentFormProps) => {
     const stripe = useStripe();
     const elements = useElements();
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const [formData, setFormData] = useState({
-        prenom: '',
-        nom: '',
-        adresse: '',
-        codePostal: '',
-        ville: '',
+        prenom: user?.prenom || '',
+        nom: user?.nom || '',
+        adresse: user?.adresse || '',
+        codePostal: user?.codePostal || '',
+        ville: user?.ville || '',
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

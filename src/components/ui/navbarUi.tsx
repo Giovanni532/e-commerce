@@ -12,7 +12,7 @@ import { UserRound, LogOut, Building } from 'lucide-react';
 import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Badge } from "@nextui-org/react";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./sheet";
 import { useStore } from "@/provider/storeProvider";
-import CardArticleSheet from "../cardArticleSheet";
+import { CardArticleSheet } from "../cardArticle";
 
 export default function NavbarUi() {
     const { currentUser, setCurrentUser } = useUserProvider();

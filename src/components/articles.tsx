@@ -62,14 +62,14 @@ export default function Articles({ articles, categories, sousCategories }: Artic
     }, [articles, filters]);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 p-4 md:p-8">
-            <Card className='flex flex-col p-4 md:h-screen md:max-h-[50vh] md:overflow-auto'>
+        <div className="grid grid-cols-1 md:grid-cols-[270px_1fr] gap-8 p-4 md:p-8">
+            <Card className='flex flex-col p-4 md:h-screen md:max-h-[60vh] md:overflow-auto'>
                 <h2 className='p-2'>
                     Filtrer les articles
                 </h2>
                 <FiltreArticles onFilterChange={handleFilterChange} categories={categories} sousCategories={sousCategories} />
             </Card>
-            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 p-4 md:p-8">
+            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 px-4 md:px-8">
                 {filteredArticles.length === 0 ? (
                     <h2 className="flex flex-col items-center justify-center p-4">Aucun articles trouvés</h2>
                 ) : (

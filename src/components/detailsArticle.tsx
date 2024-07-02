@@ -36,14 +36,14 @@ export default function DetailsArticle({ onClose, article }: DetailsArticleProps
                             <CarouselItem key={index}>
                                 <div className="p-1">
                                     <Card
-                                        className="border-none h-[250px]"
+                                        className="border-none h-[400px]"
                                         shadow='sm'
                                     >
                                         <CardBody className="flex items-center justify-center ">
                                             <Image
                                                 as={NextImage}
                                                 alt={`Image ${index} de l'article ${article.nomProduit}`}
-                                                height={200}
+                                                height={400}
                                                 shadow="sm"
                                                 src={image}
                                                 width={200}
