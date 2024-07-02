@@ -40,7 +40,7 @@ export default function CardArticle({ article }: CardArticleProps) {
     }, [isLoaded]);
 
     return (
-        <Card className="space-y-1 p-4 mx-auto" radius="lg" isPressable onPress={handlePress}>
+        <Card className="space-y-5 p-4 mx-auto max-w-sm" radius="lg">
             <div className='relative mx-auto'>
                 <Skeleton isLoaded={isLoaded} className="rounded-lg">
                     <div className="absolute top-0 right-0 rounded-full z-10" style={{ marginTop: -10, marginRight: -10 }}>
@@ -53,7 +53,7 @@ export default function CardArticle({ article }: CardArticleProps) {
                         src={article.urlsImages[0]}
                         quality={100}
                         height={700}
-                        width={500}
+                        width={250}
                         priority
                     />
                 </Skeleton>
@@ -71,7 +71,7 @@ export default function CardArticle({ article }: CardArticleProps) {
             </CardBody>
             <CardFooter className="justify-between items-center">
                 <Skeleton isLoaded={isLoaded} className='rounded-lg'>
-                    <ButtonBuy />
+                    <ButtonBuy article={article} />
                 </Skeleton>
                 <Skeleton isLoaded={isLoaded} className='rounded-lg'>
                     <Button
@@ -126,7 +126,7 @@ export function CardArticleSheet({ article }: CardArticleProps) {
                                     </div>
                                 </div>
                                 <div className="flex w-full items-center justify-between">
-                                    <ButtonBuy />
+                                    <ButtonBuy article={article} />
                                     <ButtonWalletCard article={article} />
                                 </div>
                             </div>

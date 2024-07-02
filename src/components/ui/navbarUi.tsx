@@ -63,9 +63,9 @@ export default function NavbarUi() {
                         ) : (
                             <div>
                                 {articles.map(article => (
-                                    <div className="py-2" key={article.id}>
+                                    <SheetClose className="py-2" key={article.id} asChild>
                                         <CardArticleSheet article={article} />
-                                    </div>
+                                    </SheetClose>
                                 ))}
                                 <div className="flex justify-center mt-4">
                                     <SheetClose asChild>

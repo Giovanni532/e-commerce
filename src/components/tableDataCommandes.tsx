@@ -28,11 +28,11 @@ import ModalEdit from './modalEdit';
 import ModalDetails from './modalDetails';
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
-    EnAttente: "success",
-    EnCoursDeLivraison: "warning",
-    Expédiée: "primary",
-    Livré: "primary",
-    Annulé: "danger",
+    "en attente": "success",
+    "en cours de livraison": "warning",
+    "expédiée": "primary",
+    "livré": "primary",
+    "annulé": "danger",
 };
 
 const INITIAL_VISIBLE_COLUMNS = ["id", "dateCommande", "dateLivraison", "statut", "prixTotal", "action"];

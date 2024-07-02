@@ -8,9 +8,10 @@ interface PaymentFormProps {
     articles: any[];
     prixTotal: number;
     user: any;
+    handleStep: (id: number, enCours: boolean, valide: boolean) => void;
 }
 
-const PaymentForm = ({ articles, prixTotal, user }: PaymentFormProps) => {
+const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps) => {
     const stripe = useStripe();
     const elements = useElements();
     const [isLoading, setIsLoading] = useState(false);
@@ -77,6 +78,8 @@ const PaymentForm = ({ articles, prixTotal, user }: PaymentFormProps) => {
             } else {
                 if (result.paymentIntent?.status === 'succeeded') {
                     // Handle post-payment logic here
+                    handleStep(2, false, true);
+                    handleStep(3, true, false);
                     alert('Paiement réussi !');
                 }
             }
