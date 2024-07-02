@@ -10,12 +10,13 @@ import { useUserProvider } from '@/provider/userProvider';
 import { useRouter } from 'next/navigation';
 import paths from '@/path';
 import Stepper from '@/components/stepper';
+import SuccessCommande from '@/components/successCommande';
 
 export default function PanierPage() {
     const router = useRouter();
     const { currentUser } = useUserProvider();
     const [invitedUser, setInvitedUser] = useState(false)
-    const { articles } = useStore() as {
+    const { articles, removeAllArticles } = useStore() as {
         articles: Array<{
             id: number;
             nomProduit: string;
@@ -28,6 +29,7 @@ export default function PanierPage() {
             idCategorie: number;
             idSousCategorie: number;
         }>;
+        removeAllArticles: () => void;
     };
     const [step, setStep] = useState([
         {
@@ -72,42 +74,46 @@ export default function PanierPage() {
     return (
         <>
             <Stepper step={step} />
-            <StripeProvider>
-                <div className="container mx-auto p-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className='mt-12'>
-                            <h1 className="text-2xl font-bold mb-4">Votre panier</h1>
-                            {articles.map((article) => (
-                                <div key={article.id} className='my-5'>
-                                    <CardArticlePanier article={article} />
-                                </div>
-                            ))}
-                        </div>
-                        <Card className='mt-12'>
-                            {invitedUser || currentUser ? (
-                                <PaymentForm articles={articles} prixTotal={totalArticles} user={currentUser} handleStep={handleStep} />
-                            ) : (
-                                <div className='text-center'>
-                                    <h2 className="text-2xl font-bold my-5">Vous n&apos;êtes pas connecté</h2>
-                                    <p>Pour continuer vous avez deux options :</p>
-                                    <div className="flex justify-between max-w-md mx-auto py-5">
-                                        <Button
-                                            onClick={() => router.push(paths.authPath())}
-                                        >
-                                            Se connecter
-                                        </Button>
-                                        <Button
-                                            onClick={handleInvited}
-                                        >
-                                            Continuer sans se connecter
-                                        </Button>
+            {!step[2].valide ? (
+                <StripeProvider>
+                    <div className="container mx-auto p-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className='mt-12'>
+                                <h1 className="text-2xl font-bold mb-4">Votre panier</h1>
+                                {articles.map((article) => (
+                                    <div key={article.id} className='my-5'>
+                                        <CardArticlePanier article={article} />
                                     </div>
-                                </div>
-                            )}
-                        </Card>
+                                ))}
+                            </div>
+                            <Card className='mt-12'>
+                                {invitedUser || currentUser ? (
+                                    <PaymentForm articles={articles} prixTotal={totalArticles} user={currentUser} handleStep={handleStep} removeAllArticles={removeAllArticles} />
+                                ) : (
+                                    <div className='text-center'>
+                                        <h2 className="text-2xl font-bold my-5">Vous n&apos;êtes pas connecté</h2>
+                                        <p>Pour continuer vous avez deux options :</p>
+                                        <div className="flex justify-between max-w-md mx-auto py-5">
+                                            <Button
+                                                onClick={() => router.push(paths.authPath())}
+                                            >
+                                                Se connecter
+                                            </Button>
+                                            <Button
+                                                onClick={handleInvited}
+                                            >
+                                                Continuer sans se connecter
+                                            </Button>
+                                        </div>
+                                    </div>
+                                )}
+                            </Card>
+                        </div>
                     </div>
-                </div>
-            </StripeProvider>
+                </StripeProvider>
+            ) : (
+                <SuccessCommande isInvited={invitedUser} />
+            )}
         </>
     );
 }

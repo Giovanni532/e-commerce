@@ -10,13 +10,13 @@ interface PaymentFormProps {
     prixTotal: number;
     user: any;
     handleStep: (id: number, enCours: boolean, valide: boolean) => void;
+    removeAllArticles: () => void;
 }
 
-const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps) => {
+const PaymentForm = ({ articles, prixTotal, user, handleStep, removeAllArticles }: PaymentFormProps) => {
     const stripe = useStripe();
     const elements = useElements();
     const [errorMessage, setErrorMessage] = useState('');
-
     const [formData, setFormData] = useState({
         prenom: user?.prenom || '' as string,
         nom: user?.nom || '' as string,
@@ -86,8 +86,11 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps
                 if (result.paymentIntent?.status === 'succeeded') {
                     const response = await createPaiementIntent(articles, user.id, { ...formData, errors: {} });
                     handleStep(2, false, true);
-                    handleStep(3, true, false);
-                    setFormData(response)
+                    setFormData(response);
+                    if (response.success) {
+                        removeAllArticles();
+                        handleStep(3, false, true);
+                    }
                 }
             }
         } catch (error: any) {
