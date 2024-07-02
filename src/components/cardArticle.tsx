@@ -102,7 +102,7 @@ export function CardArticleSheet({ article }: CardArticleProps) {
             >
                 <Card
                     isBlurred
-                    className="border-none bg-background/60 dark:bg-default-100/50 max-w-[610px]"
+                    className="border-none bg-background/60 dark:bg-default-100/50 max-w-[610px] my-3"
                     shadow="sm"
                 >
                     <CardBody>
