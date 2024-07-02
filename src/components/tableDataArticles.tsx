@@ -29,8 +29,8 @@ import ModalDetails from './modalDetails';
 
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
-    EnVente: "success",
-    vendu: "warning",
+    "En vente": "success",
+    "vendu": "warning",
 };
 
 const INITIAL_VISIBLE_COLUMNS = ["id", "nomProduit", "prix", "statut", "action"];

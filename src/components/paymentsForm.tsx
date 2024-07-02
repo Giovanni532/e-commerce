@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { Button, Input } from '@nextui-org/react';
+import { createPaiementIntent } from '@/app/action/userAction';
 
 interface PaymentFormProps {
     articles: any[];
@@ -14,15 +15,18 @@ interface PaymentFormProps {
 const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps) => {
     const stripe = useStripe();
     const elements = useElements();
-    const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const [formData, setFormData] = useState({
-        prenom: user?.prenom || '',
-        nom: user?.nom || '',
-        adresse: user?.adresse || '',
-        codePostal: user?.codePostal || '',
-        ville: user?.ville || '',
+        prenom: user?.prenom || '' as string,
+        nom: user?.nom || '' as string,
+        adresse: user?.adresse || '' as string,
+        email: user?.email || '' as string,
+        codePostal: user?.codePostal || '' as string,
+        ville: user?.ville || '' as string,
+        loading: false,
+        errors: {} as Record<string, string>,
+        success: false,
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +44,10 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps
             return;
         }
 
-        setIsLoading(true);
+        setFormData((prevData) => ({
+            ...prevData,
+            loading: true,
+        }));
 
         try {
             const response = await fetch('/api/stripe-payment', {
@@ -77,16 +84,14 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps
                 setErrorMessage(result.error.message || 'Une erreur est survenue lors du paiement.');
             } else {
                 if (result.paymentIntent?.status === 'succeeded') {
-                    // Handle post-payment logic here
+                    const response = await createPaiementIntent(articles, user.id, { ...formData, errors: {} });
                     handleStep(2, false, true);
                     handleStep(3, true, false);
-                    alert('Paiement réussi !');
+                    setFormData(response)
                 }
             }
         } catch (error: any) {
             setErrorMessage(error.message);
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -101,6 +106,8 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps
                     labelPlacement='outside'
                     value={formData.prenom}
                     onChange={handleChange}
+                    isInvalid={!!formData.errors.prenom}
+                    errorMessage={formData.errors.prenom}
                     required
                     className="block w-full px-3 py-2"
                 />
@@ -111,6 +118,22 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps
                     labelPlacement='outside'
                     value={formData.nom}
                     onChange={handleChange}
+                    isInvalid={!!formData.errors.nom}
+                    errorMessage={formData.errors.nom}
+                    required
+                    className="block w-full px-3 py-2"
+                />
+            </div>
+            <div>
+                <Input
+                    type="text"
+                    name="email"
+                    label="Email"
+                    labelPlacement='outside'
+                    value={formData.email}
+                    onChange={handleChange}
+                    isInvalid={!!formData.errors.email}
+                    errorMessage={formData.errors.email}
                     required
                     className="block w-full px-3 py-2"
                 />
@@ -123,6 +146,8 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps
                     labelPlacement='outside'
                     value={formData.codePostal}
                     onChange={handleChange}
+                    isInvalid={!!formData.errors.codePostal}
+                    errorMessage={formData.errors.codePostal}
                     required
                     className="block w-full px-3 py-2"
                 />
@@ -133,6 +158,8 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps
                     labelPlacement='outside'
                     value={formData.ville}
                     onChange={handleChange}
+                    isInvalid={!!formData.errors.ville}
+                    errorMessage={formData.errors.ville}
                     required
                     className="block w-full px-3 py-2"
                 />
@@ -145,6 +172,8 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps
                     labelPlacement='outside'
                     value={formData.adresse}
                     onChange={handleChange}
+                    isInvalid={!!formData.errors.adresse}
+                    errorMessage={formData.errors.adresse}
                     required
                     className="block w-full px-3 py-2"
                 />
@@ -160,10 +189,10 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep }: PaymentFormProps
                 </div>
                 <Button
                     type="submit"
-                    disabled={!stripe || isLoading}
+                    disabled={!stripe || formData.loading}
                     className='my-4'
                 >
-                    {isLoading ? 'Paiement en cours...' : `Payer ${prixTotal} CHF`}
+                    {formData.loading ? 'Paiement en cours...' : `Payer ${prixTotal} CHF`}
                 </Button>
             </div>
             {errorMessage && <div className="my-2 text-sm text-center text-red-600">{errorMessage}</div>}

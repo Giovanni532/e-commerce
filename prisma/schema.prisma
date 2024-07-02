@@ -76,7 +76,8 @@ model Commande {
   id               Int               @id @default(autoincrement())
   createdAt        DateTime          @default(now())
   dateCommande     String
-  idUtilisateur    String
+  idUtilisateur    String?
+  email            String?
   statut           String
   adresse          String
   ville            String
@@ -84,7 +85,7 @@ model Commande {
   dateLivraison    String
   prixTotal        Float
   commandeProduits CommandeProduit[]
-  utilisateur      Utilisateur       @relation(fields: [idUtilisateur], references: [id])
+  utilisateur      Utilisateur?      @relation(fields: [idUtilisateur], references: [id])
   paiements        Paiement[]
 
   @@map("commandes")

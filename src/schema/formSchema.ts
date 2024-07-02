@@ -23,3 +23,12 @@ export const signupSchema = z.object({
         .string()
         .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, {message: "Votre mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule et un chiffre"})
 })
+
+export const paiementSchema = z.object({
+    prenom: z.string().min(3, {message: "Prenom invalide"}),
+    nom: z.string().min(3, {message: "Nom invalide"}),
+    adresse: z.string().min(3, {message: "Adresse invalide"}),
+    email: z.string().min(8, {message: "Email invalide"}),
+    codePostal: z.string().min(4, {message: "Code postal invalide"}),
+    ville: z.string().min(3, {message: "Ville invalide"}),
+});
