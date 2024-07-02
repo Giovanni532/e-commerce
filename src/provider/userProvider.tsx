@@ -12,7 +12,6 @@ interface User {
   nom: string | null;
   prenom: string | null;
   email: string | null;
-  emailVerified: Date | null;
   image: string | null;
   createdAt: Date;
   updatedAt: Date;
