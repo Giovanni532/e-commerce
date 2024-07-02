@@ -4,12 +4,11 @@ import Link from "next/link";
 import paths from "@/path";
 import { useRouter } from "next/navigation";
 import { deleteCookie } from "cookies-next";
-import { Input } from "@/components/ui/input";
 import Logout from "@/db/firebase/auth/logout";
 import { Search, ShoppingBasket } from 'lucide-react';
 import { useUserProvider } from "@/provider/userProvider";
 import { UserRound, LogOut, Building } from 'lucide-react';
-import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Badge } from "@nextui-org/react";
+import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Badge, Input } from "@nextui-org/react";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./sheet";
 import { useStore } from "@/provider/storeProvider";
 import { CardArticleSheet } from "../cardArticle";
@@ -83,8 +82,14 @@ export default function NavbarUi() {
                 </SheetContent>
             </Sheet>
             <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-5 w-5 text-gray-500 dark:text-gray-400" />
-                <Input placeholder="Chercher ..." className="pl-8 sm:w-[200px] md:w-[300px] input-bg" />
+                <Input
+                    isClearable
+                    radius="lg"
+                    placeholder="Rechercher un article ..."
+                    startContent={
+                        <Search className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
+                    }
+                />
             </div>
             {currentUser?.role === "ADMIN" ? (
                 <Dropdown placement="bottom-end">
