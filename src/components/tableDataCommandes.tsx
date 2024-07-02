@@ -28,11 +28,11 @@ import ModalEdit from './modalEdit';
 import ModalDetails from './modalDetails';
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
-    "en attente": "success",
-    "en cours de livraison": "warning",
-    "expédiée": "primary",
-    "livré": "primary",
-    "annulé": "danger",
+    "En attente": "success",
+    "En cours de traitement": "warning",
+    "Expédiée": "primary",
+    "Livré": "primary",
+    "Annulé": "danger",
 };
 
 const INITIAL_VISIBLE_COLUMNS = ["id", "dateCommande", "dateLivraison", "statut", "prixTotal", "action"];
@@ -42,7 +42,8 @@ interface TableDataProps {
     commandes: {
         id: number;
         dateCommande: string;
-        idUtilisateur: string;
+        idUtilisateur: string | null;
+        email: string | null;
         statut: string;
         adresse: string;
         ville: string;

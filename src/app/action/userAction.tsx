@@ -51,7 +51,7 @@ export async function createPaiementIntent(
                 }
             },
             data: {
-                statut: 'vendu'
+                statut: 'Vendu'
             }
         });
 
@@ -70,7 +70,7 @@ export async function createPaiementIntent(
 
         const commande = await dbPrisma.commande.create({
             data: {
-                statut: 'en attente',
+                statut: 'En attente',
                 adresse: formState.adresse,
                 ville: formState.ville,
                 codePostal: formState.codePostal,

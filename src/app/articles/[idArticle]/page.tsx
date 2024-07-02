@@ -66,7 +66,7 @@ export default async function ArticleDetail({ params }: ArticleDetailProps) {
             </div>
           </div>
           <div className="flex flex-col space-y-4">
-            <ButtonBuy />
+            <ButtonBuy article={article} />
             {article ? <ButtonWalletCard article={article} /> : null}
           </div>
         </div>

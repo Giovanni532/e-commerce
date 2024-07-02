@@ -51,7 +51,8 @@ const columns = [
 
 const statusOptions = [
   { name: "En attente", key: "En attente" },
-  { name: "En cours de livraison", key: "En cours de livraison" },
+  { name: "En cours de traitement", key: "En cours de traitement" },
+  { name: "Expédiée", key: "Expédiée" },
   { name: "Livré", key: "Livré" },
   { name: "Annulé", key: "Annulé" },
 ];

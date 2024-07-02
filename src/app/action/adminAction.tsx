@@ -18,6 +18,16 @@ export async function fetchSousCategories() {
     return response;
 }
 
+export async function fetchArticlesAdmin() {
+    const response = await dbPrisma.produit.findMany({
+        include: {
+            sousCategorie: true,
+            categorie: true
+        }
+    });
+    return response;
+}
+
 export async function fetchArticles() {
     const response = await dbPrisma.produit.findMany({
         include: {
