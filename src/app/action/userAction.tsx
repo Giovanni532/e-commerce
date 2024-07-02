@@ -1,7 +1,9 @@
 "use server"
 
 import dbPrisma from "@/db";
+import { getCurrentDate, getDateIn14Days } from "@/lib/dateGenerator";
 import { paiementSchema } from "@/schema/formSchema";
+import { revalidatePath } from "next/cache";
 
 export async function fetchUserData(idFirebase: string) {
 
@@ -18,23 +20,21 @@ export async function fetchUserData(idFirebase: string) {
 }
 
 
-export async function createPaiementIntent(articles: any[], idUtilisateur: string, formState: {
-    prenom: string;
-    nom: string;
-    adresse: string;
-    email: string;
-    codePostal: string;
-    ville: string;
-    loading: boolean;
-    errors: Record<string, string>;
-    success: boolean;
-}) {
-    console.log('articles', articles);
-    console.log('idUtilisateur', idUtilisateur);
-    console.log('formState', formState);
-
-
-
+export async function createPaiementIntent(
+    articles: any[],
+    idUtilisateur: string | null,
+    formState: {
+        prenom: string;
+        nom: string;
+        adresse: string;
+        email: string;
+        codePostal: string;
+        ville: string;
+        loading: boolean;
+        errors: Record<string, string>;
+        success: boolean;
+    }
+) {
     const validation = paiementSchema.safeParse(formState);
 
     if (!validation.success) {
@@ -51,20 +51,22 @@ export async function createPaiementIntent(articles: any[], idUtilisateur: strin
                 }
             },
             data: {
-                etat: 'vendu'
+                statut: 'vendu'
             }
         });
 
-        await dbPrisma.utilisateur.update({
-            where: {
-                id: idUtilisateur
-            },
-            data: {
-                adresse: formState.adresse,
-                ville: formState.ville,
-                codePostal: formState.codePostal
-            }
-        });
+        if (idUtilisateur) {
+            await dbPrisma.utilisateur.update({
+                where: {
+                    id: idUtilisateur
+                },
+                data: {
+                    adresse: formState.adresse,
+                    ville: formState.ville,
+                    codePostal: formState.codePostal
+                }
+            });
+        }
 
         const commande = await dbPrisma.commande.create({
             data: {
@@ -72,11 +74,11 @@ export async function createPaiementIntent(articles: any[], idUtilisateur: strin
                 adresse: formState.adresse,
                 ville: formState.ville,
                 codePostal: formState.codePostal,
-                dateLivraison: '',
-                dateCommande: '',
+                dateLivraison: getDateIn14Days(),
+                dateCommande: getCurrentDate(),
                 prixTotal: articles.reduce((acc, article) => acc + article.prix, 0),
                 email: formState.email,
-                idUtilisateur
+                idUtilisateur: idUtilisateur || undefined
             }
         });
 
@@ -90,14 +92,16 @@ export async function createPaiementIntent(articles: any[], idUtilisateur: strin
         await dbPrisma.paiement.create({
             data: {
                 idCommande: commande.id,
-                datePaiement: commande.dateCommande,
                 montant: commande.prixTotal,
                 methodePaiement: 'carte de crédit'
             }
         });
+
+        revalidatePath('/');
         return { ...formState, loading: false, success: true };
     }
 }
+
 
 
 export async function fetchUserOrders(idUtilisateur: string) {
