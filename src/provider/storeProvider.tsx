@@ -1,5 +1,6 @@
 "use client"
 
+import { setCookie } from 'cookies-next';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const StoreContext = createContext({});
@@ -37,6 +38,7 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
             const updatedArticles = [...articles, article];
             setArticles(updatedArticles);
             localStorage.setItem('panierArticles', JSON.stringify(updatedArticles));
+            setCookie('panierArticles', JSON.stringify(updatedArticles))
         }
     };
 
@@ -44,6 +46,7 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
         const updatedArticles = articles.filter(article => article.id !== id);
         setArticles(updatedArticles);
         localStorage.setItem('panierArticles', JSON.stringify(updatedArticles));
+        setCookie('panierArticles', JSON.stringify(updatedArticles))
     };
 
     const removeAllExcept = (articleToBuy: Article) => {
@@ -58,11 +61,13 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
 
         setArticles(updatedArticles);
         localStorage.setItem('panierArticles', JSON.stringify(updatedArticles));
+        setCookie('panierArticles', JSON.stringify(updatedArticles))
     };
 
     const removeAllArticles = () => {
         setArticles([]);
         localStorage.setItem('panierArticles', JSON.stringify([]));
+        setCookie('panierArticles', JSON.stringify([]))
     };
 
     const store = {

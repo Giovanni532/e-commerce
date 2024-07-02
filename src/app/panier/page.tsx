@@ -79,11 +79,19 @@ export default function PanierPage() {
                     <div className="container mx-auto p-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className='mt-12'>
-                                <h1 className="text-2xl font-bold mb-4">Votre panier</h1>
-                                {articles.map((article) => (
-                                    <div key={article.id} className='my-5'>
-                                        <CardArticlePanier article={article} />
+                                {articles.length === 0 ? (
+                                    <div className="flex max-w-md flex-col items-center justify-center gap-4 text-center">
+                                        <h1 className="text-2xl font-bold tracking-tighter ">
+                                            Votre panier est vide
+                                        </h1>
                                     </div>
+                                ) : articles.map((article) => (
+                                    <>
+                                        <h1 className="text-2xl font-bold mb-4">Votre panier</h1>
+                                        <div key={article.id} className='my-5'>
+                                            <CardArticlePanier article={article} />
+                                        </div>
+                                    </>
                                 ))}
                             </div>
                             <Card className='mt-12'>
