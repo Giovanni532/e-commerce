@@ -30,7 +30,7 @@ export async function AuthSignup(formData: FormData) {
     if (error) {
         return { message: { erreur: error }, success: false, loading: false };
     } else {
-        await dbPrisma.utilisateur.create({
+        const newUser = await dbPrisma.utilisateur.create({
             data: {
                 idFirebase: uid,
                 email,
@@ -38,6 +38,16 @@ export async function AuthSignup(formData: FormData) {
                 prenom,
             },
         });
+
+        await dbPrisma.commande.updateMany({
+            where: {
+                email: newUser.email,
+            },
+            data: {
+                idUtilisateur: newUser.id,
+            },
+        });
+
         return { message: { uid }, success: true, loading: false };
     }
 }
