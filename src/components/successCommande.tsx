@@ -6,9 +6,10 @@ import React from 'react'
 
 interface SuccessCommandeProps {
     isInvited: boolean;
+    userId: string | undefined;
 }
 
-export default function SuccessCommande({ isInvited }: SuccessCommandeProps) {
+export default function SuccessCommande({ isInvited, userId }: SuccessCommandeProps) {
     return (
         <div className="flex flex-col items-center justify-center gap-8 px-4 md:px-6">
             <div className="flex max-w-md flex-col items-center justify-center gap-4 text-center">
@@ -19,7 +20,7 @@ export default function SuccessCommande({ isInvited }: SuccessCommandeProps) {
                 <p className="text-gray-500 dark:text-gray-400">
                     Merci pour votre achat. Vous recevrez une confirmation par e-mail avec les détails de votre commande.
                 </p>
-                {isInvited && (
+                {isInvited ? (
                     <div className='flex flex-col gap-4'>
                         <p className="text-gray-500 dark:text-gray-400">
                             Vous avez passé cette commande en tant qu&apos;invité. Si vous souhaitez suivre votre commande, veuillez créer un compte.
@@ -28,6 +29,16 @@ export default function SuccessCommande({ isInvited }: SuccessCommandeProps) {
                             Créé un compte
                         </Button>
                     </div>
+                ) : (userId && (
+                    <div className='flex flex-col gap-4'>
+                        <p className="text-gray-500 dark:text-gray-400">
+                            Vous pouvez suivre votre commande dans votre profil.
+                        </p>
+                        <Button as={Link} href={paths.userProfilePath(userId)} size='md'>
+                            Mon compte
+                        </Button>
+                    </div>
+                )
                 )}
                 <Link className="text-blue-500 hover:underline" href={paths.homePath()}>
                     Retournez à la page d&apos;accueil

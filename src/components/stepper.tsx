@@ -11,7 +11,7 @@ interface StepperProps {
 
 export default function Stepper({ step }: StepperProps) {
     return (
-        <div className="flex mx-auto p-8 rounded-md max-w-lg">
+        <div className="flex mx-auto p-8 rounded-md max-w-2xl">
             {step.map((s) => (
                 <>
                     <div key={s.id} className="flex flex-col items-center text-center space-y-4 w-full">

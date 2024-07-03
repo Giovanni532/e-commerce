@@ -117,7 +117,7 @@ export default function PanierPage() {
                     </div>
                 </StripeProvider>
             ) : (
-                <SuccessCommande isInvited={invitedUser} />
+                <SuccessCommande isInvited={invitedUser} userId={currentUser?.id} />
             )}
         </>
     );
