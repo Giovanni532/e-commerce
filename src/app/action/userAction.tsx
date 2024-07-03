@@ -5,11 +5,11 @@ import { getCurrentDate, getDateIn14Days } from "@/lib/dateGenerator";
 import { paiementSchema } from "@/schema/formSchema";
 import { revalidatePath } from "next/cache";
 
-export async function fetchUserData(idFirebase: string) {
+export async function fetchUserData(id: string) {
 
     const data = await dbPrisma.utilisateur.findFirst({
         where: {
-            idFirebase: idFirebase
+            id
         },
     });
 
@@ -102,10 +102,14 @@ export async function createPaiementIntent(
 
 
 export async function fetchUserOrders(idUtilisateur: string) {
-
     const data = await dbPrisma.commande.findMany({
         where: {
             idUtilisateur
+        },
+        include: {
+            utilisateur: true,
+            paiements: true,
+            commandeProduits: true
         }
     });
 
