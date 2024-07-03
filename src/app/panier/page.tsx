@@ -1,13 +1,13 @@
 "use client";
 
-import React, { use, useState } from 'react';
+import React, { useState } from 'react';
 import StripeProvider from '@/provider/stripeProvider';
 import { useStore } from '@/provider/storeProvider';
 import PaymentForm from '@/components/paymentsForm';
 import { Button, Card } from '@nextui-org/react';
 import { CardArticlePanier } from '@/components/cardArticle';
 import { useUserProvider } from '@/provider/userProvider';
-import { notFound, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import paths from '@/path';
 import Stepper from '@/components/stepper';
 import SuccessCommande from '@/components/successCommande';
@@ -72,10 +72,6 @@ export default function PanierPage() {
 
     const totalArticles = articles.reduce((acc, article) => acc + article.prix, 0);
 
-    if (articles.length === 0) {
-        return notFound();
-    }
-
     return (
         <>
             <Stepper step={step} />
@@ -85,11 +81,15 @@ export default function PanierPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className='mt-12'>
                                 <h1 className="text-2xl font-bold mb-4">Votre panier</h1>
-                                {articles.map((article) => (
-                                    <div key={article.id} className='my-5'>
-                                        <CardArticlePanier article={article} />
+                                {articles.length === 0 ? (
+                                    <p>Votre panier est vide</p>
+                                ) : (
+                                    <div className="grid grid-cols-1 gap-4">
+                                        {articles.map((article) => (
+                                            <CardArticlePanier key={article.id} article={article} />
+                                        ))}
                                     </div>
-                                ))}
+                                )}
                             </div>
                             <Card className='mt-12'>
                                 {invitedUser || currentUser ? (

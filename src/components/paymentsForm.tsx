@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { Button, Input } from '@nextui-org/react';
 import { createPaiementIntent } from '@/app/action/userAction';
@@ -98,6 +98,15 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep, removeAllArticles 
         }
     };
 
+    useEffect(() => {
+        if (errorMessage.length > 0) {
+            setFormData((prevData) => ({
+                ...prevData,
+                loading: false,
+            }))
+        }
+    }, [errorMessage]);
+
     return (
         <form onSubmit={handleSubmit} className='gap-4 p-5'>
             <h1 className="text-2xl text-center font-bold">Vos informations</h1>
@@ -192,7 +201,7 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep, removeAllArticles 
                 </div>
                 <Button
                     type="submit"
-                    disabled={!stripe || formData.loading}
+                    disabled={!stripe || formData.loading || articles.length === 0}
                     className='my-4'
                 >
                     {formData.loading ? 'Paiement en cours...' : `Payer ${prixTotal} CHF`}
