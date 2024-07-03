@@ -88,7 +88,7 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                         errorMessage={formState.message.nom}
                     />
                 </div>
-                <Input className='p-4'
+                <Input className='p-2'
                     color='secondary'
                     id="email"
                     name="email"
@@ -100,7 +100,7 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                     errorMessage={formState.message.email}
                 />
                 <Input
-                    className='p-4 mb-4'
+                    className='p-2 mb-4'
                     color='secondary'
                     id="password"
                     name="password"
