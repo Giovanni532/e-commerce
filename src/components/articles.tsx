@@ -5,6 +5,7 @@ import React, { useState, useMemo } from 'react';
 import FiltreArticles from './filtreArticles';
 import CardArticle from './cardArticle';
 import { motion } from 'framer-motion';
+import { useSearchParams } from 'next/navigation'
 
 interface ArticlesProps {
     articles: {
@@ -30,6 +31,7 @@ interface ArticlesProps {
 }
 
 export default function Articles({ articles, categories, sousCategories }: ArticlesProps) {
+    const searchParams = useSearchParams();
     const [filters, setFilters] = useState<{
         categories: string[],
         sousCategories: string[],
@@ -37,6 +39,7 @@ export default function Articles({ articles, categories, sousCategories }: Artic
         taille: string[],
         prix: string[]
     }>({ categories: [], sousCategories: [], etat: [], taille: [], prix: [] });
+    const searchQuery = searchParams && searchParams.get("q");
 
     const handleFilterChange = (newFilters: { categories: string[], sousCategories: string[], etat: string[], taille: string[], prix: string[] }) => {
         setFilters(newFilters);
@@ -48,8 +51,9 @@ export default function Articles({ articles, categories, sousCategories }: Artic
             const matchSousCategory = filters.sousCategories.length === 0 || filters.sousCategories.includes(article.idSousCategorie.toString());
             const matchEtat = filters.etat.length === 0 || filters.etat.includes(article.etat);
             const matchTaille = filters.taille.length === 0 || filters.taille.includes(article.taille);
+            const matchQuery = !searchQuery || article.nomProduit.toLowerCase().includes(searchQuery.toLowerCase());
 
-            return matchCategory && matchSousCategory && matchEtat && matchTaille;
+            return matchCategory && matchSousCategory && matchEtat && matchTaille && matchQuery;
         });
 
         if (filters.prix[0] === "asc") {

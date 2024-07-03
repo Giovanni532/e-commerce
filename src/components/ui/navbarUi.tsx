@@ -12,6 +12,7 @@ import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, 
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./sheet";
 import { useStore } from "@/provider/storeProvider";
 import { CardArticleSheet } from "../cardArticle";
+import { useState } from "react";
 
 export default function NavbarUi() {
     const { currentUser, setCurrentUser } = useUserProvider();
@@ -30,6 +31,22 @@ export default function NavbarUi() {
             idSousCategorie: number;
         }>
     };
+    const [query, setQuery] = useState("");
+
+    const handleChange = (event: any) => {
+        const inputValue = event.target.value;
+        setQuery(inputValue);
+    }
+
+    const handleSearch = () => {
+        if (query) return router.push(`/articles?q=${query}`);
+        if (!query) return router.push("/articles")
+
+    }
+
+    const handleKeyPress = (event: { key: any; }) => {
+        if (event.key === "Enter") return handleSearch()
+    }
 
     const handleLogout = async () => {
         await Logout();
@@ -86,6 +103,9 @@ export default function NavbarUi() {
                     isClearable
                     radius="lg"
                     placeholder="Rechercher un article ..."
+                    value={query}
+                    onKeyDown={handleKeyPress}
+                    onChange={handleChange}
                     startContent={
                         <Search className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
                     }
