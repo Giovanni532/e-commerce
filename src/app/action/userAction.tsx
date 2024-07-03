@@ -3,6 +3,7 @@
 import dbPrisma from "@/db";
 import { getCurrentDate, getDateIn14Days } from "@/lib/dateGenerator";
 import { paiementSchema } from "@/schema/formSchema";
+import { error } from "console";
 import { revalidatePath } from "next/cache";
 
 export async function fetchUserData(idFirebase: string) {
@@ -22,7 +23,6 @@ export async function fetchUserData(idFirebase: string) {
 
 export async function createPaiementIntent(
     articles: any[],
-    idUtilisateur: string | null,
     formState: {
         prenom: string;
         nom: string;
@@ -33,7 +33,8 @@ export async function createPaiementIntent(
         loading: boolean;
         errors: Record<string, string>;
         success: boolean;
-    }
+    },
+    idUtilisateur?: string,
 ) {
     const validation = paiementSchema.safeParse(formState);
 
@@ -44,7 +45,7 @@ export async function createPaiementIntent(
         }, {} as Record<string, string>);
         return { ...formState, errors, loading: false };
     } else {
-        await dbPrisma.produit.updateMany({
+        const updateArticles = await dbPrisma.produit.updateMany({
             where: {
                 id: {
                     in: articles.map(article => article.id)
@@ -78,7 +79,7 @@ export async function createPaiementIntent(
                 dateCommande: getCurrentDate(),
                 prixTotal: articles.reduce((acc, article) => acc + article.prix, 0),
                 email: formState.email,
-                idUtilisateur: idUtilisateur || undefined
+                idUtilisateur: idUtilisateur || null
             }
         });
 

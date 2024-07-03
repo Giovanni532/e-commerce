@@ -8,7 +8,20 @@ import { createPaiementIntent } from '@/app/action/userAction';
 interface PaymentFormProps {
     articles: any[];
     prixTotal: number;
-    user: any;
+    user: {
+        id: string;
+        idFirebase: string;
+        nom: string | null;
+        prenom: string | null;
+        email: string | null;
+        image: string | null;
+        adresse: string | null;
+        codePostal: string | null;
+        ville: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+        role: string;
+    } | null;
     handleStep: (id: number, enCours: boolean, valide: boolean) => void;
     removeAllArticles: () => void;
 }
@@ -84,7 +97,7 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep, removeAllArticles 
                 setErrorMessage(result.error.message || 'Une erreur est survenue lors du paiement.');
             } else {
                 if (result.paymentIntent?.status === 'succeeded') {
-                    const response = await createPaiementIntent(articles, user.id, { ...formData, errors: {} });
+                    const response = await createPaiementIntent(articles, { ...formData, errors: {} }, user?.id);
                     handleStep(2, false, true);
                     setFormData(response);
                     if (response.success) {

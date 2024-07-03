@@ -13,6 +13,9 @@ interface User {
   prenom: string | null;
   email: string | null;
   image: string | null;
+  adresse: string | null;
+  codePostal: string | null;
+  ville: string | null;
   createdAt: Date;
   updatedAt: Date;
   role: string;
