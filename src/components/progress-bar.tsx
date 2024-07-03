@@ -2,6 +2,7 @@
 
 import { Progress } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+import LoadingBackground from "./loadingBackground";
 
 interface ProgressProps {
     description: string;
@@ -19,22 +20,25 @@ export default function ProgressBar({ description }: ProgressProps) {
     }, []);
 
     return (
-        <div className="flex items-center justify-center">
-            <div className="space-y-4 text-center">
-                <p className="text-md mt-20">{description}</p>
-                <div className="flex items-center justify-center w-full max-w-lg">
-                    <Progress
-                        size="md"
-                        value={value}
-                        aria-label="progress-bar"
-                        classNames={{
-                            base: "w-lg",
-                            track: "drop-shadow-lg",
-                            indicator: "bg-gradient-to-r from-cyan-300 to-indigo-500",
-                            label: "tracking-wider font-medium text-default-600",
-                            value: "text-foreground/60",
-                        }}
-                    />
+        <div className="relative w-full h-screen overflow-hidden">
+            <LoadingBackground />
+            <div className="flex items-center justify-center">
+                <div className="space-y-4 text-center">
+                    <p className="text-md mt-20">{description}</p>
+                    <div className="flex items-center justify-center w-full max-w-lg">
+                        <Progress
+                            size="md"
+                            value={value}
+                            aria-label="progress-bar"
+                            classNames={{
+                                base: "w-lg",
+                                track: "drop-shadow-lg",
+                                indicator: "bg-gradient-to-r from-cyan-300 to-indigo-500",
+                                label: "tracking-wider font-medium text-default-600",
+                                value: "text-foreground/60",
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

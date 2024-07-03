@@ -11,6 +11,7 @@ import { useUserProvider } from '@/provider/userProvider'
 import { fetchUserData } from '@/app/action/userAction'
 import { setCookie } from 'cookies-next'
 import { Link } from "@nextui-org/react";
+import LoadingBackground from './loadingBackground'
 
 interface FormSignupProps {
     handleChange: () => void;
@@ -55,13 +56,18 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
     }
 
     if (formState.success) {
-        setTimeout(() => { router.push('/') }, 2000);
-        return <ProgressBar description="Vous allez être redirigée merci de patientez ..." />
+        setTimeout(() => { router.push('/') }, 3000);
+        return (
+            <div className="relative h-5/6 w-full mx-auto p-4">
+                <p className='text-center font-bold text-md'>Redirection en cours ..</p>
+                <LoadingBackground />
+            </div>
+        );
     }
 
     return (
         <>
-            <form className="mt-10" onSubmit={handleSubmit}>
+            <form className="mt-10 max-w-md mx-auto" onSubmit={handleSubmit}>
                 <div className="flex flex-col md:flex-row">
                     <Input
                         className='p-2'
@@ -118,8 +124,8 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                     S&apos;inscrire
                 </Button>
             </form>
-            <Divider className="my-5" />
-            <div className="flex flex-col space-y-4">
+            <Divider className="my-5 max-w-md mx-auto" />
+            <div className="flex flex-col space-y-4 max-w-md mx-auto">
                 {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
                 <ButtonGoogle googleSubmit={googleSubmit} />
                 <Link style={{ cursor: 'pointer' }} color='secondary' className='mx-auto' onClick={handleChange}>Vous avez un compte ?</Link>

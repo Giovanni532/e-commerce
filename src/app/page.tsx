@@ -1,3 +1,4 @@
+import LoadingBackground from "@/components/loadingBackground";
 import { Button } from "@nextui-org/react";
 
 export default function Home() {
