@@ -8,7 +8,7 @@ import Logout from "@/db/firebase/auth/logout";
 import { Search, ShoppingBasket } from 'lucide-react';
 import { useUserProvider } from "@/provider/userProvider";
 import { UserRound, LogOut, Building } from 'lucide-react';
-import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Badge, Input } from "@nextui-org/react";
+import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, Badge, Input, Divider } from "@nextui-org/react";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./sheet";
 import { useStore } from "@/provider/storeProvider";
 import { CardArticleSheet } from "../cardArticle";
@@ -63,19 +63,19 @@ export default function NavbarUi() {
                         variant="light"
                         isIconOnly
                     >
-                        <Badge color="danger" content={articles.length} isInvisible={articles.length === 0 ? true : false} shape="circle" size="md">
+                        <Badge color="primary" content={articles.length} isInvisible={articles.length === 0 ? true : false} shape="circle" size="md">
                             <ShoppingBasket className="h-6 w-6" />
                         </Badge>
                     </Button>
                 </SheetTrigger>
                 <SheetContent side='right'>
                     <SheetHeader>
-                        <SheetTitle>Votre panier</SheetTitle>
+                        <SheetTitle className="text-primary">Votre panier</SheetTitle>
                         <SheetClose />
                     </SheetHeader>
                     <SheetDescription>
                         {articles.length === 0 ? (
-                            <p>Votre panier est vide</p>
+                            <p className="text-center mt-5">Votre panier est vide</p>
                         ) : (
                             <div>
                                 {articles.map(article => (
@@ -83,9 +83,11 @@ export default function NavbarUi() {
                                         <CardArticleSheet article={article} />
                                     </SheetClose>
                                 ))}
-                                <div className="flex justify-center mt-4">
+                                <div className="flex flex-col justify-center mt-4">
+                                    <Divider className="my-4" />
                                     <SheetClose asChild>
                                         <Button
+                                            color="primary"
                                             href={paths.panierPath()}
                                             as={Link}
                                         >
@@ -103,11 +105,10 @@ export default function NavbarUi() {
                     isClearable
                     radius="lg"
                     placeholder="Rechercher un article ..."
-                    value={query}
                     onKeyDown={handleKeyPress}
                     onChange={handleChange}
                     startContent={
-                        <Search className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
+                        <Search className="mb-0.5 dark:text-white/90 pointer-events-none flex-shrink-0" />
                     }
                 />
             </div>
@@ -117,6 +118,7 @@ export default function NavbarUi() {
                         <Avatar
                             showFallback
                             isBordered
+                            color="primary"
                             as="button"
                             className="transition-transform"
                             src={currentUser.image ? currentUser.image : ""}
@@ -125,6 +127,7 @@ export default function NavbarUi() {
                     <DropdownMenu aria-label="Profile Actions" variant="flat">
                         <DropdownItem
                             key="Mon profile"
+                            color="primary"
                             as={Link}
                             startContent={<UserRound className="text-xl pointer-events-none flex-shrink-0" />}
                             href={paths.userProfilePath(currentUser.id)}
@@ -133,6 +136,7 @@ export default function NavbarUi() {
                         </DropdownItem>
                         <DropdownItem
                             key="Dashbaord admin"
+                            color="primary"
                             as={Link}
                             startContent={<Building className="text-xl pointer-events-none flex-shrink-0" />}
                             href={paths.adminDashboardPath(currentUser.id)}
@@ -190,6 +194,7 @@ export default function NavbarUi() {
                         <Button
                             href="/auth"
                             as={Link}
+                            color="primary"
                             variant="ghost"
                         >
                             Connexion

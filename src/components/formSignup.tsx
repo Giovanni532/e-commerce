@@ -65,7 +65,6 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                 <div className="flex flex-col md:flex-row">
                     <Input
                         className='p-2'
-                        color='secondary'
                         id="prenom"
                         name="prenom"
                         placeholder="Tyler"
@@ -77,7 +76,6 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                     />
                     <Input
                         className='p-2'
-                        color='secondary'
                         id="nom"
                         name='nom'
                         placeholder="Durden"
@@ -89,7 +87,6 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                     />
                 </div>
                 <Input className='p-2'
-                    color='secondary'
                     id="email"
                     name="email"
                     placeholder="projectmayhem@fc.com"
@@ -101,7 +98,6 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                 />
                 <Input
                     className='p-2 mb-4'
-                    color='secondary'
                     id="password"
                     name="password"
                     placeholder="••••••••"
@@ -126,7 +122,7 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
             <div className="flex flex-col space-y-4">
                 {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
                 <ButtonGoogle googleSubmit={googleSubmit} />
-                <Link color='secondary' className='mx-auto' onClick={handleChange}>Vous avez un compte ?</Link>
+                <Link style={{ cursor: 'pointer' }} color='secondary' className='mx-auto' onClick={handleChange}>Vous avez un compte ?</Link>
             </div>
         </>
     );

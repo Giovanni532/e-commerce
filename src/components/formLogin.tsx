@@ -66,7 +66,6 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
             <form className="mt-10" onSubmit={handleSubmit}>
                 <Input
                     className='p-4'
-                    color='secondary'
                     id="email"
                     name="email"
                     placeholder="johndoe@gmail.com"
@@ -78,7 +77,6 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
                 />
                 <Input
                     className='p-4 mb-2'
-                    color='secondary'
                     id="password"
                     name="password"
                     placeholder="••••••••"
@@ -103,7 +101,7 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
             <div className="flex flex-col space-y-4">
                 {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
                 <ButtonGoogle googleSubmit={googleSubmit} />
-                <Link color='secondary' className='mx-auto' onClick={handleChange}>Vous n&apos;avez pas de compte ?</Link>
+                <Link style={{ cursor: 'pointer' }} color='secondary' className='mx-auto' onClick={handleChange}>Vous n&apos;avez pas de compte ?</Link>
             </div>
         </>
     );

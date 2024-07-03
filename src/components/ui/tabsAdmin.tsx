@@ -22,7 +22,7 @@ export default function TabsAdmin({ tabs: propTabs }: { tabs: TabType[] }) {
     const currentTabContent = propTabs.find(tab => tab.value === selectedTab)?.content;
 
     return (
-        <div className={isTabletOrMobile ? "flex flex-col px-4" : "flex flex-row px-4"}>
+        <div className={isTabletOrMobile ? "flex flex-col px-4 mt-5" : "flex flex-row px-4 mt-5"}>
             <div className="flex flex-col">
                 <Tabs
                     size={isTabletOrMobile ? "sm" : "md"}

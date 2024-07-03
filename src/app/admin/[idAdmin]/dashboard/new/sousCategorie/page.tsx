@@ -39,6 +39,7 @@ export default function AdminDashboardNewSousCategorie() {
                     id="nomSousCategorie"
                     name="nomSousCategorie"
                     label="Nom de la sous-catégorie"
+                    labelPlacement='outside'
                     placeholder="Robe, pantalon, t-shirt..."
                     type="text"
                     onChange={(e) => setFormState({ ...formState, nomSousCategorie: e.target.value })}

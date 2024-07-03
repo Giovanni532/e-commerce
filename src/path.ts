@@ -23,6 +23,9 @@ const paths = {
     articlesPath() {
         return '/articles';
     },
+    contactPath() {
+        return '/contact';
+    },
     articleDetailPath(idArticle: string) {
         return `/articles/${idArticle}`;
     },

@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import {
@@ -9,8 +11,15 @@ import {
 import { Menu, Ribbon } from 'lucide-react';
 import paths from "@/path";
 import NavbarUi from "./ui/navbarUi";
+import LinkMenu from "./linkMenu";
+import { usePathname } from "next/navigation";
 
-export default async function Navbar() {
+
+export default function Navbar() {
+    const pathname = usePathname();
+
+    console.log(pathname)
+
     return (
         <div className="relative">
             <header className="flex h-16 w-full items-center justify-between px-4 md:px-6">
@@ -26,18 +35,21 @@ export default async function Navbar() {
                                 <span className="sr-only">Toggle navigation menu</span>
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side='left' className="flex flex-col gap-2">
+                        <SheetContent side='left' className="flex flex-col items-center gap-2">
+                            <h3 className="font-bold text-xl text-neutral-800 dark:text-neutral-200 mb-4">Menu</h3>
                             <SheetClose asChild>
-                                <Link href={paths.articlesPath()}>Articles</Link>
+                                <LinkMenu
+                                    href={paths.articlesPath()}
+                                    text="Articles"
+                                    isActif={pathname === paths.articlesPath()}
+                                />
                             </SheetClose>
                             <SheetClose asChild>
-                                <Link href={paths.articlesPath()}>Femme</Link>
-                            </SheetClose>
-                            <SheetClose asChild>
-                                <Link href={paths.articlesPath()}>Homme</Link>
-                            </SheetClose>
-                            <SheetClose asChild>
-                                <Link href={paths.articlesPath()}>Contact</Link>
+                                <LinkMenu
+                                    href={paths.contactPath()}
+                                    text="Contact"
+                                    isActif={pathname === paths.contactPath()}
+                                />
                             </SheetClose>
                         </SheetContent>
                     </Sheet>
@@ -46,30 +58,16 @@ export default async function Navbar() {
                         <span className="sr-only">Acme Inc</span>
                     </Link>
                     <nav className="hidden lg:flex gap-4">
-                        <Link
+                        <LinkMenu
                             href={paths.articlesPath()}
-                            className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                        >
-                            Articles
-                        </Link>
-                        <Link
-                            href={paths.articlesPath()}
-                            className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                        >
-                            Femmes
-                        </Link>
-                        <Link
-                            href={paths.articlesPath()}
-                            className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                        >
-                            Hommes
-                        </Link>
-                        <Link
-                            href={paths.articlesPath()}
-                            className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
-                        >
-                            Contact
-                        </Link>
+                            text="Articles"
+                            isActif={pathname === paths.articlesPath()}
+                        />
+                        <LinkMenu
+                            href={paths.contactPath()}
+                            text="Contact"
+                            isActif={pathname === paths.contactPath()}
+                        />
                     </nav>
                 </div>
                 <div className="flex items-center gap-4">

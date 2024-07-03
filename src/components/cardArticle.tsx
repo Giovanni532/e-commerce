@@ -42,21 +42,19 @@ export default function CardArticle({ article }: CardArticleProps) {
     return (
         <Card className="mx-auto max-w-sm" radius="lg">
             <div className='relative mx-auto p-4'>
-                <Skeleton isLoaded={isLoaded} className="rounded-lg">
-                    <div className="absolute top-0 right-0 rounded-full z-10" style={{ marginTop: -10, marginRight: -10 }}>
-                        <ButtonWalletOnImage article={article} />
-                    </div>
-                    <Image
-                        alt={article.nomProduit}
-                        as={NextImage}
-                        className="object-cover object-center rounded-xl h-60 z-0"
-                        src={article.urlsImages[0]}
-                        quality={100}
-                        height={700}
-                        width={300}
-                        priority
-                    />
-                </Skeleton>
+                <div className="absolute top-2 right-2 rounded-full z-10">
+                    <ButtonWalletOnImage article={article} />
+                </div>
+                <Image
+                    alt={article.nomProduit}
+                    as={NextImage}
+                    className="object-cover object-center rounded-xl h-60 z-0"
+                    src={article.urlsImages[0]}
+                    quality={100}
+                    height={700}
+                    width={300}
+                    priority
+                />
             </div>
             <CardBody className="space-y-3">
                 <Skeleton isLoaded={isLoaded} className="w-3/5 rounded-lg">

@@ -3,7 +3,6 @@
 import dbPrisma from "@/db";
 import { getCurrentDate, getDateIn14Days } from "@/lib/dateGenerator";
 import { paiementSchema } from "@/schema/formSchema";
-import { error } from "console";
 import { revalidatePath } from "next/cache";
 
 export async function fetchUserData(idFirebase: string) {
@@ -12,9 +11,6 @@ export async function fetchUserData(idFirebase: string) {
         where: {
             idFirebase: idFirebase
         },
-        include: {
-            commandes: true
-        }
     });
 
     return data;

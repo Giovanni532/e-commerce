@@ -61,14 +61,14 @@ export default function ButtonWalletCard({ article }: ButtonWalletProps) {
 
     if (isInCart) {
         return (
-            <Button className="text-tiny text-white bg-black/20" variant="flat" color="primary" radius="lg" size="sm" onClick={handleRemove}>
+            <Button variant="flat" color="primary" radius="lg" size="sm" onClick={handleRemove}>
                 Retirer du panier
             </Button>
         );
     }
 
     return (
-        <Button className="text-tiny text-white bg-black/20" variant="flat" color="primary" radius="lg" size="sm" onClick={handleAdd}>
+        <Button variant="flat" color="primary" radius="lg" size="sm" onClick={handleAdd}>
             Ajoutez au panier
         </Button>
     );
@@ -114,9 +114,9 @@ export function ButtonWalletOnImage({ article }: ButtonWalletProps) {
     };
 
     return (
-        <Button isIconOnly variant="solid" radius="lg" size="md" onClick={isInCart ? handleRemove : handleAdd}>
-            <div style={isInCart ? { position: 'absolute', left: 0, width: '100%', height: 2, backgroundColor: 'black', transform: 'rotate(-45deg)' } : { position: 'relative' }} />
+        <Button color='primary' isIconOnly variant="solid" radius="lg" size="sm" onClick={isInCart ? handleRemove : handleAdd}>
             <ShoppingBasket />
+            <span style={isInCart ? { position: 'absolute', width: '100%', height: 2, backgroundColor: 'white', transform: 'rotate(-45deg)' } : { position: 'relative' }} />
         </Button>
     );
 }

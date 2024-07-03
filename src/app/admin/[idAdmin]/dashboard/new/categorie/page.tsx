@@ -40,6 +40,7 @@ export default function AdminDashboardNewCategorie() {
                     id="nomCategorie"
                     name="nomCategorie"
                     label="Nom de la catégorie"
+                    labelPlacement='outside'
                     placeholder="Homme, femme, enfant..."
                     type="text"
                     onChange={(e) => setFormState({ ...formState, nomCategorie: e.target.value })}
