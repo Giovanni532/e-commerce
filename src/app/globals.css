@@ -75,3 +75,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes rotate-check {
+  0% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(180deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+
+.animate-rotate-check {
+  animation: rotate-check 0.5s ease-in-out forwards;
+}

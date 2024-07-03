@@ -122,7 +122,7 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep, removeAllArticles 
 
     return (
         <form onSubmit={handleSubmit} className='gap-4 p-5'>
-            <h1 className="text-2xl text-center font-bold">Vos informations</h1>
+            <h1 className="text-2xl text-center font-bold text-primary">Vos informations</h1>
             <div className="flex space-x-4">
                 <Input
                     type="text"
@@ -214,7 +214,9 @@ const PaymentForm = ({ articles, prixTotal, user, handleStep, removeAllArticles 
                 </div>
                 <Button
                     type="submit"
+                    color='primary'
                     disabled={!stripe || formData.loading || articles.length === 0}
+                    isLoading={formData.loading}
                     className='my-4'
                 >
                     {formData.loading ? 'Paiement en cours...' : `Payer ${prixTotal} CHF`}

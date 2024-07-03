@@ -63,7 +63,7 @@ export default function Articles({ articles, categories, sousCategories }: Artic
         }
 
         return filtered;
-    }, [articles, filters]);
+    }, [articles, filters, searchQuery]);
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-[270px_1fr] gap-8 p-4 md:p-8">

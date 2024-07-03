@@ -80,7 +80,7 @@ export default function PanierPage() {
                     <div className="container mx-auto p-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className='mt-12'>
-                                <h1 className="text-2xl font-bold mb-4">Votre panier</h1>
+                                <h1 className="text-2xl font-bold mb-4 text-primary">Votre panier</h1>
                                 {articles.length === 0 ? (
                                     <p>Votre panier est vide</p>
                                 ) : (
@@ -96,16 +96,19 @@ export default function PanierPage() {
                                     <PaymentForm articles={articles} prixTotal={totalArticles} user={currentUser} handleStep={handleStep} removeAllArticles={removeAllArticles} />
                                 ) : (
                                     <div className='text-center max-w-sm mx-auto'>
-                                        <h2 className="text-2xl font-bold my-5">Vous n&apos;êtes pas connecté</h2>
+                                        <h2 className="text-2xl font-bold my-5 text-primary">Vous n&apos;êtes pas connecté</h2>
                                         <p>Pour continuer vous avez deux options :</p>
                                         <div className="flex flex-col py-5 px-20">
                                             <Button
+                                                color='primary'
                                                 onClick={() => router.push(paths.authPath())}
                                             >
                                                 Se connecter
                                             </Button>
                                             <Divider className="my-4" />
                                             <Button
+                                                color='primary'
+                                                variant='bordered'
                                                 onClick={handleInvited}
                                             >
                                                 Continuer sans se connecter
