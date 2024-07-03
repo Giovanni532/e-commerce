@@ -1,9 +1,8 @@
 "use client"
 
 import React, { useState } from 'react';
-import { cn } from '@/lib/utils';
 import { AuthLogin, checkUser } from '@/app/action/authAction';
-import { Button, Input } from '@nextui-org/react';
+import { Button, Divider, Input } from '@nextui-org/react';
 import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle';
 import { useRouter } from 'next/navigation';
 import ProgressBar from './progress-bar';
@@ -11,6 +10,7 @@ import ButtonGoogle from './buttonGoogle';
 import { useUserProvider } from '@/provider/userProvider'
 import { fetchUserData } from '@/app/action/userAction';
 import { setCookie } from 'cookies-next';
+import { Link } from "@nextui-org/react";
 
 interface FormLoginProps {
     handleChange: () => void;
@@ -63,9 +63,10 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
 
     return (
         <>
-            <form className="my-8" onSubmit={handleSubmit}>
+            <form className="mt-10" onSubmit={handleSubmit}>
                 <Input
                     className='p-4'
+                    color='secondary'
                     id="email"
                     name="email"
                     placeholder="johndoe@gmail.com"
@@ -76,7 +77,8 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
                     errorMessage={formState.message.email}
                 />
                 <Input
-                    className='p-4'
+                    className='p-4 mb-2'
+                    color='secondary'
                     id="password"
                     name="password"
                     placeholder="••••••••"
@@ -97,11 +99,12 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
                     Se connecter
                 </Button>
             </form>
+            <Divider className="my-5" />
             <div className="flex flex-col space-y-4">
                 {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
                 <ButtonGoogle googleSubmit={googleSubmit} />
+                <Link color='secondary' className='mx-auto' onClick={handleChange}>Vous n&apos;avez pas de compte ?</Link>
             </div>
-            <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous n&apos;avez pas de compte ?</p>
         </>
     );
 }

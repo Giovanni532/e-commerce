@@ -1,9 +1,8 @@
 "use client"
 
 import React, { useState } from 'react'
-import { cn } from '@/lib/utils'
 import { AuthSignup, checkUser } from '@/app/action/authAction'
-import { Button, Input } from '@nextui-org/react'
+import { Button, Divider, Input } from '@nextui-org/react'
 import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle'
 import { useRouter } from 'next/navigation'
 import ProgressBar from './progress-bar'
@@ -11,6 +10,7 @@ import ButtonGoogle from './buttonGoogle'
 import { useUserProvider } from '@/provider/userProvider'
 import { fetchUserData } from '@/app/action/userAction'
 import { setCookie } from 'cookies-next'
+import { Link } from "@nextui-org/react";
 
 interface FormSignupProps {
     handleChange: () => void;
@@ -61,10 +61,11 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
 
     return (
         <>
-            <form className="my-8" onSubmit={handleSubmit}>
-                <div className="flex flex-col md:flex-row p-4">
+            <form className="mt-10" onSubmit={handleSubmit}>
+                <div className="flex flex-col md:flex-row">
                     <Input
-                        className='mx-2'
+                        className='p-2'
+                        color='secondary'
                         id="prenom"
                         name="prenom"
                         placeholder="Tyler"
@@ -75,7 +76,8 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                         errorMessage={formState.message.prenom}
                     />
                     <Input
-                        className='mx-2'
+                        className='p-2'
+                        color='secondary'
                         id="nom"
                         name='nom'
                         placeholder="Durden"
@@ -86,7 +88,8 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                         errorMessage={formState.message.nom}
                     />
                 </div>
-                <Input className='p-4 mx-2'
+                <Input className='p-4'
+                    color='secondary'
                     id="email"
                     name="email"
                     placeholder="projectmayhem@fc.com"
@@ -97,7 +100,8 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                     errorMessage={formState.message.email}
                 />
                 <Input
-                    className='p-4 mx-2'
+                    className='p-4 mb-4'
+                    color='secondary'
                     id="password"
                     name="password"
                     placeholder="••••••••"
@@ -111,18 +115,19 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                 <Button
                     variant='solid'
                     color='primary'
-                    className="w-full p-4 mx-2"
+                    className="w-full"
                     type="submit"
                     isLoading={formState.loading}
                 >
                     S&apos;inscrire
                 </Button>
             </form>
+            <Divider className="my-5" />
             <div className="flex flex-col space-y-4">
                 {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
                 <ButtonGoogle googleSubmit={googleSubmit} />
+                <Link color='secondary' className='mx-auto' onClick={handleChange}>Vous avez un compte ?</Link>
             </div>
-            <p style={{ cursor: "pointer" }} className='text-neutral-600 mt-4 text-center' onClick={handleChange}>Vous avez un compte ?</p>
         </>
     );
 }

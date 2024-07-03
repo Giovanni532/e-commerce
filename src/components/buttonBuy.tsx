@@ -45,7 +45,7 @@ export default function ButtonBuy({ article }: Article) {
     }
 
     return (
-        <Button className="text-tiny text-white" variant="flat" color="primary" radius="lg" size="sm" onClick={handleBuy}>
+        <Button variant="ghost" color="primary" radius="lg" size="sm" onClick={handleBuy}>
             Achetez
         </Button>
     )
