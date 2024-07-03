@@ -40,8 +40,8 @@ export default function CardArticle({ article }: CardArticleProps) {
     }, [isLoaded]);
 
     return (
-        <Card className="space-y-5 p-4 mx-auto max-w-sm" radius="lg">
-            <div className='relative mx-auto'>
+        <Card className="mx-auto max-w-sm" radius="lg">
+            <div className='relative mx-auto p-4'>
                 <Skeleton isLoaded={isLoaded} className="rounded-lg">
                     <div className="absolute top-0 right-0 rounded-full z-10" style={{ marginTop: -10, marginRight: -10 }}>
                         <ButtonWalletOnImage article={article} />
@@ -49,11 +49,11 @@ export default function CardArticle({ article }: CardArticleProps) {
                     <Image
                         alt={article.nomProduit}
                         as={NextImage}
-                        className="object-cover rounded-xl h-60 z-0"
+                        className="object-cover object-center rounded-xl h-60 z-0"
                         src={article.urlsImages[0]}
                         quality={100}
                         height={700}
-                        width={250}
+                        width={300}
                         priority
                     />
                 </Skeleton>
@@ -63,7 +63,7 @@ export default function CardArticle({ article }: CardArticleProps) {
                     <h4 className="font-bold text-large">{article.nomProduit}</h4>
                 </Skeleton>
                 <Skeleton isLoaded={isLoaded} className="w-4/5 rounded-lg">
-                    <small className="text-default-500 pb-1">{article.description}</small>
+                    <small className="text-default-500">{article.description}</small>
                 </Skeleton>
                 <Skeleton isLoaded={isLoaded} className="w-2/5 rounded-lg">
                     <p className="text-tiny uppercase font-bold">Prix : {article.prix}CHF</p>

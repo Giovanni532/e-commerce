@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import StripeProvider from '@/provider/stripeProvider';
 import { useStore } from '@/provider/storeProvider';
 import PaymentForm from '@/components/paymentsForm';
-import { Button, Card } from '@nextui-org/react';
+import { Button, Card, Divider } from '@nextui-org/react';
 import { CardArticlePanier } from '@/components/cardArticle';
 import { useUserProvider } from '@/provider/userProvider';
 import { useRouter } from 'next/navigation';
@@ -95,15 +95,16 @@ export default function PanierPage() {
                                 {invitedUser || currentUser ? (
                                     <PaymentForm articles={articles} prixTotal={totalArticles} user={currentUser} handleStep={handleStep} removeAllArticles={removeAllArticles} />
                                 ) : (
-                                    <div className='text-center'>
+                                    <div className='text-center max-w-sm mx-auto'>
                                         <h2 className="text-2xl font-bold my-5">Vous n&apos;êtes pas connecté</h2>
                                         <p>Pour continuer vous avez deux options :</p>
-                                        <div className="flex justify-between max-w-md mx-auto py-5">
+                                        <div className="flex flex-col py-5 px-20">
                                             <Button
                                                 onClick={() => router.push(paths.authPath())}
                                             >
                                                 Se connecter
                                             </Button>
+                                            <Divider className="my-4" />
                                             <Button
                                                 onClick={handleInvited}
                                             >
