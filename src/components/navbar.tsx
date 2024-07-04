@@ -18,8 +18,6 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
     const pathname = usePathname();
 
-    console.log(pathname)
-
     return (
         <div className="relative">
             <header className="flex h-16 w-full items-center justify-between px-4 md:px-6">

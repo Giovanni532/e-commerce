@@ -37,13 +37,15 @@ interface CommandeUserProps {
 }
 
 export default function CommandeUser({ commandes }: CommandeUserProps) {
+
+    const render = commandes.map(commande => {
+        return (
+            <CardCommande key={commande.id} commande={commande} />
+        )
+    })
     return (
         <>
-            {
-                commandes.map(commande => (
-                    <CardCommande key={commande.id} commande={commande} />
-                ))
-            }
+            {commandes.length > 0 ? render : <p className='text-center'>Aucune commande</p>}
         </>
     )
 }

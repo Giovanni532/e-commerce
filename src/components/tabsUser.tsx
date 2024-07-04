@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react";
-import { Tabs, Tab, Chip } from "@nextui-org/react";
+import { Tabs, Tab } from "@nextui-org/react";
 
 interface TabsUserProps {
     tabs: {
@@ -13,17 +13,18 @@ interface TabsUserProps {
 
 export default function TabsUser({ tabs }: TabsUserProps) {
     return (
-        <div className="flex max-w-md items-center mx-auto my-5 w-full flex-col">
+        <div className="flex max-w-2xl mx-auto my-5 flex-col">
             <Tabs
                 aria-label="Options"
                 color="primary"
                 variant="underlined"
-                classNames={{
-                    tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider",
-                    cursor: "w-full bg-primary",
-                    tab: "max-w-fit px-0 h-12",
-                    tabContent: "group-data-[selected=true]:text-primary"
-                }}
+                classNames={
+                    {
+                        tabList: "gap-6 w-full relative rounded-none p-0 border-b border-divider",
+                        cursor: "w-full bg-primary",
+                        tab: "max-w-sm w-full mx-auto px-0 h-12",
+                        tabContent: "group-data-[selected=true]:text-primary"
+                    }}
             >
                 {tabs.map((tab) => (
                     <Tab
@@ -35,7 +36,9 @@ export default function TabsUser({ tabs }: TabsUserProps) {
                             </div>
                         }
                     >
-                        {tab.content}
+                        <div className="flex justify-center">
+                            {tab.content}
+                        </div>
                     </Tab>
                 ))
                 }
