@@ -46,7 +46,7 @@ export default function ButtonBuy({ article }: Article) {
 
     return (
         <Button variant="ghost" color="primary" radius="lg" size="sm" onClick={handleBuy}>
-            Achetez
+            Acheter
         </Button>
     )
 }
