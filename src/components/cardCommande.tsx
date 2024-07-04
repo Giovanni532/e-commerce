@@ -125,7 +125,7 @@ export default function CardCommande({ commande }: CardCommandeProps) {
             </CardHeader >
             <CardBody className='flex flex-col gap-y-2'>
                 <p className="text-gray-700">
-                    <span className="font-semibold">Nombre d'articles :</span> {commande.commandeProduits.length}
+                    <span className="font-semibold">Nombre d&apos;articles :</span> {commande.commandeProduits.length}
                 </p>
                 <div className="text-gray-700">
                     <span className="font-semibold">Adresse de livraison :</span><br />
