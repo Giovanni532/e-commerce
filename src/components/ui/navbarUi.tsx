@@ -160,6 +160,7 @@ export default function NavbarUi() {
                     <Dropdown placement="bottom-end">
                         <DropdownTrigger>
                             <Avatar
+                                color="primary"
                                 showFallback
                                 isBordered
                                 as="button"

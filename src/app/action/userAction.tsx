@@ -5,6 +5,17 @@ import { getCurrentDate, getDateIn14Days } from "@/lib/dateGenerator";
 import { paiementSchema } from "@/schema/formSchema";
 import { revalidatePath } from "next/cache";
 
+export async function fetchUserDataWithFirebase(idFirebase: string) {
+
+    const data = await dbPrisma.utilisateur.findFirst({
+        where: {
+            idFirebase
+        },
+    });
+
+    return data;
+}
+
 export async function fetchUserData(id: string) {
 
     const data = await dbPrisma.utilisateur.findFirst({

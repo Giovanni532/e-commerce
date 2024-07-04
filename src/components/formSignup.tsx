@@ -7,7 +7,7 @@ import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle'
 import { useRouter } from 'next/navigation'
 import ButtonGoogle from './buttonGoogle'
 import { useUserProvider } from '@/provider/userProvider'
-import { fetchUserData } from '@/app/action/userAction'
+import { fetchUserDataWithFirebase } from '@/app/action/userAction'
 import { setCookie } from 'cookies-next'
 import { Link } from "@nextui-org/react";
 import LoadingBackground from './loadingBackground'
@@ -30,7 +30,7 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
 
         const result = await AuthSignup(formData);
         setFormState(result);
-        const user = await fetchUserData(result.message.uid);
+        const user = await fetchUserDataWithFirebase(result.message.uid);
         setCurrentUser(user);
         setCookie('currentUser', JSON.stringify(user));
         router.refresh();
@@ -47,7 +47,7 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
                 res.user.displayName ? res.user.displayName.split(" ")[0] : "",
                 res.user.displayName ? res.user.displayName.split(" ")[1] : ""
             );
-            const user = await fetchUserData(res.user.uid);
+            const user = await fetchUserDataWithFirebase(res.user.uid);
             setCurrentUser(user);
             setCookie('currentUser', JSON.stringify(user));
             router.refresh();

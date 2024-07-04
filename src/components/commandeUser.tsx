@@ -45,7 +45,9 @@ export default function CommandeUser({ commandes }: CommandeUserProps) {
     })
     return (
         <>
-            {commandes.length > 0 ? render : <p className='text-center'>Aucune commande</p>}
+            {commandes.length > 0 ? render : <p className="text-center text-gray-600 bg-gray-100 p-4 rounded-md shadow-md mt-4">
+                Aucune commande disponible.
+            </p>}
         </>
     )
 }

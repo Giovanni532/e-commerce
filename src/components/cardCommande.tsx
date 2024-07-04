@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { fetchArticlesById } from '@/app/action/adminAction';
-import { Button, Card, CardBody, CardHeader, Image, Dropdown, Link, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/react';
+import { Button, Card, CardBody, CardHeader, Image, Dropdown, Link, DropdownTrigger, DropdownMenu, DropdownItem, Skeleton } from '@nextui-org/react';
 import { ArrowRight } from 'lucide-react';
 import {
     Carousel,
@@ -97,11 +97,42 @@ export default function CardCommande({ commande }: CardCommandeProps) {
     }
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <Card className="w-full p-4 mt-5 flex flex-col md:flex-row" radius="lg">
+                <div>
+                    <Skeleton className="rounded-lg">
+                        <div className="h-52 w-52 rounded-lg bg-default-300"></div>
+                    </Skeleton>
+                </div>
+                <div className="space-y-3">
+                    <Skeleton className="ml-5 my-5 w-48 rounded-lg">
+                        <div className="h-3 w-52 rounded-lg bg-default-200"></div>
+                    </Skeleton>
+                    <Skeleton className="ml-5 my-5 w-56 rounded-lg">
+                        <div className="h-3 w-56 rounded-lg bg-default-200"></div>
+                    </Skeleton>
+                    <Skeleton className="ml-5 my-5 w-56 rounded-lg">
+                        <div className="h-3 w-56 rounded-lg bg-default-200"></div>
+                    </Skeleton>
+                    <Skeleton className="ml-5 my-5 w-56 rounded-lg">
+                        <div className="h-3 w-56 rounded-lg bg-default-200"></div>
+                    </Skeleton>
+                    <Skeleton className="ml-5 my-5 w-56 rounded-lg">
+                        <div className="h-3 w-56 rounded-lg bg-default-200"></div>
+                    </Skeleton>
+                    <Skeleton className="ml-5 my-5 w-56 rounded-lg">
+                        <div className="h-3 w-56 rounded-lg bg-default-200"></div>
+                    </Skeleton>
+                    <Skeleton className="ml-5 my-5 w-56 rounded-lg">
+                        <div className="h-3 w-56 rounded-lg bg-default-200"></div>
+                    </Skeleton>
+                </div>
+            </Card>
+        )
     }
 
     return (
-        <Card className='flex flex-col md:flex-row mx-auto p-5'>
+        <Card className='flex flex-col md:flex-row mx-auto p-5 mt-5'>
             <CardHeader className={isTabletOrMobile ? 'max-w-xs w-full' : 'max-w-xs w-1/3'}>
                 <Carousel>
                     <CarouselContent>
@@ -160,7 +191,7 @@ export default function CardCommande({ commande }: CardCommandeProps) {
                                 <DropdownItem
                                     key={item.key}
                                     color="primary"
-                                    onClick={() => handleClick(item.key)}
+                                    onPress={() => handleClick(item.key)}
                                 >
                                     {item.label}
                                 </DropdownItem>

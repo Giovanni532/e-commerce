@@ -53,7 +53,7 @@ export default async function UtilisateurProfile({ params }: UtilisateurProfileP
           <div className="flex flex-col pl-5 space-y-2">
             <h1 className="text-xl font-semibold">{`${user.nom} ${user.prenom}`}</h1>
             <p className="text-gray-600">{user.email}</p>
-            <p className="text-gray-600">{`${user.adresse}, ${user.codePostal}, ${user.ville}`}</p>
+            <p className="text-gray-600">{!user.adresse?.length ? '' : `${user.adresse} ${user.codePostal}, ${user.ville}`}</p>
           </div>
         </CardBody>
       </Card>

@@ -7,7 +7,7 @@ import { authWithGoogle } from '@/db/firebase/auth/authWithGoogle';
 import { useRouter } from 'next/navigation';
 import ButtonGoogle from './buttonGoogle';
 import { useUserProvider } from '@/provider/userProvider'
-import { fetchUserData } from '@/app/action/userAction';
+import { fetchUserDataWithFirebase } from '@/app/action/userAction';
 import { setCookie } from 'cookies-next';
 import { Link } from "@nextui-org/react";
 import LoadingBackground from './loadingBackground';
@@ -29,9 +29,8 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
         const formData = new FormData(form);
 
         const result = await AuthLogin(formData);
-        console.log('Result:', result);
         setFormState(result);
-        const user = await fetchUserData(result.message.uid)
+        const user = await fetchUserDataWithFirebase(result.message.uid)
         if (user) {
             setCurrentUser(user);
             setCookie('currentUser', JSON.stringify(user));
@@ -49,7 +48,7 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
                 res.user.displayName ? res.user.displayName.split(" ")[0] : "",
                 res.user.displayName ? res.user.displayName.split(" ")[1] : ""
             );
-            const user = await fetchUserData(res.user.uid);
+            const user = await fetchUserDataWithFirebase(res.user.uid);
             setCurrentUser(user);
             setCookie('currentUser', JSON.stringify(user));
             router.refresh();
