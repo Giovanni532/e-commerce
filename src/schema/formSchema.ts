@@ -32,3 +32,11 @@ export const paiementSchema = z.object({
     codePostal: z.string().min(4, {message: "Code postal invalide"}),
     ville: z.string().min(3, {message: "Ville invalide"}),
 });
+
+export const updateUserSchema = z.object({
+    prenom: z.string().min(3, {message: "Prenom invalide"}),
+    nom: z.string().min(3, {message: "Nom invalide"}),
+    adresse: z.string().min(3, {message: "Adresse invalide"}),
+    codePostal: z.string().min(4, {message: "Code postal invalide"}),
+    ville: z.string().min(3, {message: "Ville invalide"})
+});

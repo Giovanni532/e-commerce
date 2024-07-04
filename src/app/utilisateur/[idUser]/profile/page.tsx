@@ -32,7 +32,7 @@ export default async function UtilisateurProfile({ params }: UtilisateurProfileP
     {
       title: "Modifier mes informations",
       icon: <Cog />,
-      content: <FormUpdateUser />
+      content: <FormUpdateUser user={user} />
     },
   ]
 

@@ -2,8 +2,10 @@
 
 import dbPrisma from "@/db";
 import { getCurrentDate, getDateIn14Days } from "@/lib/dateGenerator";
-import { paiementSchema } from "@/schema/formSchema";
+import { paiementSchema, updateUserSchema } from "@/schema/formSchema";
 import { revalidatePath } from "next/cache";
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from "@/db";
 
 export async function fetchUserDataWithFirebase(idFirebase: string) {
 
@@ -110,8 +112,6 @@ export async function createPaiementIntent(
     }
 }
 
-
-
 export async function fetchUserOrders(idUtilisateur: string) {
     const data = await dbPrisma.commande.findMany({
         where: {
@@ -125,4 +125,63 @@ export async function fetchUserOrders(idUtilisateur: string) {
     });
 
     return data;
+}
+
+type FormState = {
+    nom: string;
+    prenom: string;
+    adresse: string;
+    ville: string;
+    codePostal: string;
+    image: string;
+    errors: Record<string, string | null>;
+    loading: boolean;
+}
+
+export async function updateUser(id: string | undefined, formState: FormState) {
+    const validation = updateUserSchema.safeParse(formState);
+
+    if (!validation.success) {
+        const errors = validation.error.errors.reduce((acc, err) => {
+            acc[err.path[0]] = err.message;
+            return acc;
+        }, {} as Record<string, string>);
+        return { ...formState, errors, loading: false };
+    } else {
+
+        // const uploadImageAndGetDownloadUrl = async (image: File, idImage: string | undefined): Promise<string> => {
+        //     const storageRef = ref(storage, `utilisateur/${idImage}/${image.name}`);
+        //     await uploadBytes(storageRef, image);
+        //     const downloadURL = await getDownloadURL(storageRef);
+        //     return downloadURL;
+        // };
+
+        // let imageFile: File;
+        // if (typeof formState.image === 'string') {
+        //     const response = await fetch(formState.image);
+        //     const blob = await response.blob();
+        //     imageFile = new File([blob], 'image.jpg');
+        // } else {
+        //     imageFile = formState.image;
+        // }
+
+        // const imageUrl = typeof formState.image != 'string' ? await uploadImageAndGetDownloadUrl(imageFile, id) : null;
+
+        await dbPrisma.utilisateur.update({
+            where: {
+                id
+            },
+            data: {
+                nom: formState.nom,
+                prenom: formState.prenom,
+                adresse: formState.adresse,
+                ville: formState.ville,
+                codePostal: formState.codePostal,
+                // image: imageUrl
+            }
+        });
+
+        revalidatePath(`/`);
+        return { ...formState, loading: false, success: true };
+    }
 }
