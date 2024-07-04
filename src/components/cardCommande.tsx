@@ -1,8 +1,8 @@
+import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import React from 'react'
-import CardCommande from './cardCommande';
 
-interface CommandeUserProps {
-    commandes: {
+interface CardCommandeProps {
+    commande: {
         id: number;
         dateCommande: string;
         idUtilisateur: string | null;
@@ -33,17 +33,23 @@ interface CommandeUserProps {
             idCommande: number;
             idProduit: number;
         }[];
-    }[]
+    };
 }
 
-export default function CommandeUser({ commandes }: CommandeUserProps) {
+export default function CardCommande({ commande }: CardCommandeProps) {
     return (
-        <>
-            {
-                commandes.map(commande => (
-                    <CardCommande key={commande.id} commande={commande} />
-                ))
-            }
-        </>
+        <Card>
+            <CardHeader>
+                <h1>{commande.dateCommande}</h1>
+            </CardHeader>
+            <CardBody>
+                <p>{commande.statut}</p>
+                <p>{commande.adresse}</p>
+                <p>{commande.ville}</p>
+                <p>{commande.codePostal}</p>
+                <p>{commande.dateLivraison}</p>
+                <p>{commande.prixTotal}</p>
+            </CardBody>
+        </Card>
     )
 }

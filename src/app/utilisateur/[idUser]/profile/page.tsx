@@ -4,8 +4,8 @@ import { Avatar, Card, CardBody, Divider } from '@nextui-org/react'
 import { notFound } from 'next/navigation'
 import TabsUser from '@/components/tabsUser'
 import { NotebookText, Cog } from 'lucide-react';
-import CommandeUser from '@/components/commandeUser'
 import FormUpdateUser from '@/components/formUpdateUser'
+import CommandeUser from '@/components/commandeUser'
 
 interface UtilisateurProfileProps {
   params: {
