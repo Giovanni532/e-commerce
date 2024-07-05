@@ -6,10 +6,26 @@ import TabsUser from '@/components/tabsUser'
 import { NotebookText, Cog } from 'lucide-react';
 import FormUpdateUser from '@/components/formUpdateUser'
 import CommandeUser from '@/components/commandeUser'
+import type { Metadata } from 'next'
 
 interface UtilisateurProfileProps {
   params: {
     idUser: string
+  }
+}
+
+export async function generateMetadata({ params }: UtilisateurProfileProps): Promise<Metadata> {
+  const user = await fetchUserData(params.idUser);
+  if (!user) {
+    return {
+      title: 'Mode Revive | Utilisateur introuvable',
+      description: 'Utilisateur introuvable',
+    }
+  }
+
+  return {
+    title: `Mode Revive | ${user.nom} ${user.prenom}`,
+    description: "Profil utilisateur",
   }
 }
 
