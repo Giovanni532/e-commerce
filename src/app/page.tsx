@@ -1,4 +1,5 @@
 import CardArticle from "@/components/cardArticle";
+import CarouselHome from "@/components/carouselHome";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
@@ -6,94 +7,99 @@ export default async function Home() {
 
   return (
     <main className="flex-1">
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl">Stay curious.</h1>
-                <p className="max-w-[600px] text-gray-600 md:text-xl">
-                  Discover stories, thinking, and expertise from writers on any topic.
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Link
-                  href="#"
-                  className="inline-flex h-10 items-center justify-center rounded-full bg-black text-white px-6 text-sm font-medium transition-colors hover:bg-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
-                  prefetch={false}
-                >
-                  Start reading
-                </Link>
-                <Link
-                  href="#"
-                  className="inline-flex h-10 items-center justify-center rounded-full border border-gray-300 bg-white px-6 text-sm font-medium transition-colors hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
-                  prefetch={false}
-                >
-                  Become a member
-                </Link>
-              </div>
+      <section className="bg-backgroundRevive py-12">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="flex flex-col justify-center text-center md:text-left">
+            <h1 className="text-3xl font-bold mb-4 text-primary">Mode Revive</h1>
+            <p className="text-gray-600 mb-8">Découvrez nos articles les plus appréciés de la saison.</p>
+            <div className="flex space-x-4 mx-auto md:m-0">
+              <Button color="primary">Voir les produits</Button>
             </div>
-            <img
-              src="/placeholder.svg"
-              width="550"
-              height="550"
-              alt="Hero"
-              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:aspect-square"
-            />
+          </div>
+          <div>
+            <CarouselHome />
           </div>
         </div>
       </section>
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                  Explore new perspectives.
-                </h2>
-                <p className="max-w-[600px] text-gray-600 md:text-xl">
-                  Read thought-provoking stories from independent writers and thinkers.
-                </p>
+      <section className="py-12">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold mb-8">Catégories de produits</h2>
+          <div className="grid grid-cols-4 gap-8">
+            <Link
+              href="#"
+              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+              prefetch={false}
+            >
+              <img src="/placeholder.svg" width={300} height={200} alt="Vêtements" className="rounded-t-lg" />
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-2">Vêtements</h3>
+                <p className="text-gray-600">Découvrez notre collection de vêtements tendance.</p>
               </div>
-              <Link
-                href="#"
-                className="inline-flex h-10 items-center justify-center rounded-full bg-black text-white px-6 text-sm font-medium transition-colors hover:bg-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
-                prefetch={false}
-              >
-                Explore topics
-              </Link>
-            </div>
+            </Link>
+            <Link
+              href="#"
+              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+              prefetch={false}
+            >
+              <img src="/placeholder.svg" width={300} height={200} alt="Accessoires" className="rounded-t-lg" />
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-2">Accessoires</h3>
+                <p className="text-gray-600">Complétez votre look avec nos accessoires de mode.</p>
+              </div>
+            </Link>
+            <Link
+              href="#"
+              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+              prefetch={false}
+            >
+              <img src="/placeholder.svg" width={300} height={200} alt="Chaussures" className="rounded-t-lg" />
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-2">Chaussures</h3>
+                <p className="text-gray-600">Découvrez notre collection de chaussures tendance.</p>
+              </div>
+            </Link>
+            <Link
+              href="#"
+              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+              prefetch={false}
+            >
+              <img src="/placeholder.svg" width={300} height={200} alt="Beauté" className="rounded-t-lg" />
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-2">Beauté</h3>
+                <p className="text-gray-600">Prenez soin de vous avec nos produits de beauté.</p>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                  Write and share your story.
-                </h2>
-                <p className="max-w-[600px] text-gray-600 md:text-xl">
-                  Publish your passions, your way. Get the entire Medium network of curious readers.
-                </p>
+      <section className="bg-gray-100 py-12">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold mb-8">Promotions et nouveautés</h2>
+          <div className="grid grid-cols-3 gap-8">
+            <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <img src="/placeholder.svg" width={400} height={300} alt="Promotion" className="rounded-t-lg" />
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-2">Promotion du mois</h3>
+                <p className="text-gray-600 mb-4">Profitez de nos meilleures offres du moment.</p>
+                <Button>Découvrir</Button>
               </div>
-              <Link
-                href="#"
-                className="inline-flex h-10 items-center justify-center rounded-full bg-black text-white px-6 text-sm font-medium transition-colors hover:bg-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
-                prefetch={false}
-              >
-                Start writing
-              </Link>
             </div>
-            <img
-              src="/placeholder.svg"
-              width="550"
-              height="310"
-              alt="Image"
-              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
-            />
+            <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <img src="/placeholder.svg" width={400} height={300} alt="Nouveauté" className="rounded-t-lg" />
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-2">Nouvelles arrivages</h3>
+                <p className="text-gray-600 mb-4">Découvrez nos dernières tendances mode.</p>
+                <Button>Voir les nouveautés</Button>
+              </div>
+            </div>
+            <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <img src="/placeholder.svg" width={400} height={300} alt="Offre spéciale" className="rounded-t-lg" />
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-2">Offre spéciale</h3>
+                <p className="text-gray-600 mb-4">Ne manquez pas nos meilleures offres.</p>
+                <Button>Découvrir</Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
