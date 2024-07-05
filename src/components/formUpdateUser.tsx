@@ -27,7 +27,7 @@ interface FormUpdateUserProps {
 
 export default function FormUpdateUser({ user }: FormUpdateUserProps) {
     const { toast } = useToast()
-    const { setCurrentUser } = useUserProvider();
+    const { currentUser, setCurrentUser, setUserAndCookie } = useUserProvider();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
     const [formState, setFormState] = useState({
@@ -73,7 +73,7 @@ export default function FormUpdateUser({ user }: FormUpdateUserProps) {
         const res = await updateUser(updatedFormState);
 
         if (Object.keys(res.errors).length === 0) {
-            setCurrentUser({
+            setUserAndCookie({
                 ...formState,
                 image: imageUrl,
                 idFirebase: user.idFirebase,

@@ -24,6 +24,7 @@ interface User {
 interface ProviderContextProps {
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
+  setUserAndCookie: (user: User | null) => void;
 }
 
 const ProviderContext = createContext<ProviderContextProps | undefined>(undefined);
@@ -44,6 +45,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const setUserAndCookie = (user: User | null) => {
+    setCurrentUser(user);
+    if (user) {
+      setCookie('currentUser', JSON.stringify(user));
+    } else {
+      deleteCookie('currentUser');
+    }
+  };
+
   useEffect(() => {
     const storedUser = getCookie('currentUser');
 
@@ -54,11 +64,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
         if (firebaseUser) {
           const userData = await fetchUserData(firebaseUser.uid);
-          setCurrentUser(userData);
-          setCookie('currentUser', JSON.stringify(userData));
+          setUserAndCookie(userData);
         } else {
-          setCurrentUser(null);
-          deleteCookie('currentUser');
+          setUserAndCookie(null);
         }
         setLoading(false);
       });
@@ -69,7 +77,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   const value: ProviderContextProps = {
     currentUser,
-    setCurrentUser,
+    setCurrentUser: setUserAndCookie,
+    setUserAndCookie,
   };
 
   return (
