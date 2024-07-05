@@ -7,8 +7,9 @@ import ButtonBuy from './buttonBuy';
 import { ArrowRight } from 'lucide-react';
 import paths from '@/path';
 import { useRouter } from 'next/navigation';
-import ButtonWalletCard, { ButtonWalletOnImage } from './buttonWallet';
+import ButtonWalletCard from './buttonWallet';
 import { AnimatePresence, motion } from 'framer-motion';
+import ButtonArticleDetail from './buttonArticleDetail';
 
 interface CardArticleProps {
     article: {
@@ -40,19 +41,20 @@ export default function CardArticle({ article }: CardArticleProps) {
     }, [isLoaded]);
 
     return (
-        <Card className="mx-auto max-w-sm" radius="lg">
-            <div className='relative mx-auto p-4'>
-                <div className="absolute top-2 right-2 rounded-full z-10">
-                    <ButtonWalletOnImage article={article} />
+        <Card className="mx-auto max-w-sm" radius="lg" shadow='none'>
+            <div className='relative'>
+                <div className="absolute rounded-full z-10 p-4" style={{ backgroundColor: "white", right: 0, bottom: -10 }}>
+                    <ButtonArticleDetail id={article.id} />
                 </div>
                 <Image
                     alt={article.nomProduit}
+                    isZoomed
                     as={NextImage}
-                    className="object-cover object-center rounded-xl h-60 z-0"
+                    className="object-cover object-center rounded-xl h-60 z-0 w-full"
                     src={article.urlsImages[0]}
                     quality={100}
                     height={700}
-                    width={300}
+                    width={350}
                     priority
                 />
             </div>
@@ -67,21 +69,16 @@ export default function CardArticle({ article }: CardArticleProps) {
                     <p className="text-tiny uppercase font-bold">Prix : {article.prix}CHF</p>
                 </Skeleton>
             </CardBody>
-            <CardFooter className="justify-between items-center">
+            <CardFooter className="flex flex-row justify-between">
                 <Skeleton isLoaded={isLoaded} className='rounded-lg'>
-                    <ButtonBuy article={article} />
+                    <div>
+                        <ButtonBuy article={article} />
+                    </div>
                 </Skeleton>
                 <Skeleton isLoaded={isLoaded} className='rounded-lg'>
-                    <Button
-                        onClick={handlePress}
-                        className="text-tiny"
-                        variant="light"
-                        color="primary"
-                        radius="lg"
-                        size="sm"
-                        endContent={<ArrowRight className='h-4' />}>
-                        Voir plus
-                    </Button>
+                    <div className='mr-5'>
+                        <ButtonWalletCard article={article} />
+                    </div>
                 </Skeleton>
             </CardFooter>
         </Card>
