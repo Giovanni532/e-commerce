@@ -29,6 +29,7 @@ interface FormUpdateProps {
 export default function FormUpdateCommande({ commande, onClose }: FormUpdateProps) {
     const [formState, setFormState] = React.useState({
         id: commande.id,
+        idUtilisateur: commande.idUtilisateur,
         statut: commande.statut,
     });
 

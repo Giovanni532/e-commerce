@@ -97,6 +97,7 @@ export async function createSousCategorie(formState: FormSousCategorie) {
         });
 
         revalidatePath("/");
+        revalidatePath("/articles");
         return { errors: "", loading: false, succes: true };
     }
 }
@@ -131,6 +132,7 @@ export async function createCategorie(formState: FormCategorie) {
         });
 
         revalidatePath("/");
+        revalidatePath("/articles");
         return { errors: "", loading: false, succes: true };
     }
 }
@@ -196,6 +198,7 @@ export async function createArticle(formState: any, formData: FormData) {
         return { errors: { global: "Une erreur est survenue, veuillez réessayer." }, loading: false };
     }
     revalidatePath("/");
+    revalidatePath("/articles");
     return { errors: {}, loading: false };
 }
 
@@ -217,6 +220,7 @@ export async function deleteCommande(id: number) {
         }
     });
     revalidatePath("/");
+    revalidatePath("/articles");
 }
 
 // Update article or commandes
@@ -243,14 +247,21 @@ export async function updateArticle(id: number, formState: any) {
         if (!res) {
             throw new Error("Une erreur est survenue.");
         }
-        revalidatePath("/");
     } catch (error) {
         console.error('Error updating article:', error);
         throw new Error("Une erreur est survenue.");
     }
+    revalidatePath("/");
+    revalidatePath("/articles");
 }
 
-export async function updateCommande(id: number, formState: any) {
+type FormUpdateUser = {
+    id: number;
+    idUtilisateur: string;
+    statut: string;
+}
+
+export async function updateCommande(id: number, formState: FormUpdateUser) {
     try {
         const res = await dbPrisma.commande.update({
             where: {
@@ -264,11 +275,12 @@ export async function updateCommande(id: number, formState: any) {
         if (!res) {
             throw new Error("Une erreur est survenue.");
         }
-        revalidatePath("/");
     } catch (error) {
         console.error('Error updating commande:', error);
         throw new Error("Une erreur est survenue.");
     }
+    revalidatePath("/");
+    revalidatePath(`/utilisateur/${formState.idUtilisateur}/profile`);
 }
 
 // Data for admin dahsboard
