@@ -77,7 +77,7 @@ model Commande {
   createdAt        DateTime          @default(now())
   dateCommande     String
   idUtilisateur    String?
-  email            String?
+  email            String            @unique
   statut           String
   adresse          String
   ville            String
