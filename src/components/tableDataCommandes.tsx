@@ -308,6 +308,7 @@ export default function TableDataCommandes({ columns, commandes, statusOptions }
             topContentPlacement="outside"
             onSelectionChange={setSelectedKeys}
             onSortChange={setSortDescriptor}
+            aria-label='Table des commandes'
         >
             <TableHeader columns={headerColumns}>
                 {(column) => (

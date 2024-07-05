@@ -315,6 +315,7 @@ export default function TableDataArticles({ columns, articles, statusOptions, ca
             topContentPlacement="outside"
             onSelectionChange={setSelectedKeys}
             onSortChange={setSortDescriptor}
+            aria-label='Table des articles'
         >
             <TableHeader columns={headerColumns}>
                 {(column) => (

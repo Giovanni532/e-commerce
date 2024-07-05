@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Tabs, Tab } from "@nextui-org/react";
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface TabsUserProps {
     tabs: {
@@ -36,9 +37,19 @@ export default function TabsUser({ tabs }: TabsUserProps) {
                             </div>
                         }
                     >
-                        <div className="flex justify-center">
-                            {tab.content}
-                        </div>
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={tab.title}
+                                initial={{ opacity: 0, y: 50 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 50 }}
+                                transition={{ duration: 0.4 }}
+                            >
+                                <div className="flex justify-center">
+                                    {tab.content}
+                                </div>
+                            </motion.div>
+                        </AnimatePresence>
                     </Tab>
                 ))
                 }
