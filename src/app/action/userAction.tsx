@@ -4,8 +4,6 @@ import dbPrisma from "@/db";
 import { getCurrentDate, getDateIn14Days } from "@/lib/dateGenerator";
 import { paiementSchema, updateUserSchema } from "@/schema/formSchema";
 import { revalidatePath } from "next/cache";
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from "@/db";
 
 export async function fetchUserDataWithFirebase(idFirebase: string) {
 
@@ -128,6 +126,7 @@ export async function fetchUserOrders(idUtilisateur: string) {
 }
 
 type FormState = {
+    id: string;
     nom: string;
     prenom: string;
     adresse: string;
@@ -138,7 +137,7 @@ type FormState = {
     loading: boolean;
 }
 
-export async function updateUser(id: string | undefined, formState: FormState) {
+export async function updateUser(formState: FormState) {
     const validation = updateUserSchema.safeParse(formState);
 
     if (!validation.success) {
@@ -148,28 +147,9 @@ export async function updateUser(id: string | undefined, formState: FormState) {
         }, {} as Record<string, string>);
         return { ...formState, errors, loading: false };
     } else {
-
-        // const uploadImageAndGetDownloadUrl = async (image: File, idImage: string | undefined): Promise<string> => {
-        //     const storageRef = ref(storage, `utilisateur/${idImage}/${image.name}`);
-        //     await uploadBytes(storageRef, image);
-        //     const downloadURL = await getDownloadURL(storageRef);
-        //     return downloadURL;
-        // };
-
-        // let imageFile: File;
-        // if (typeof formState.image === 'string') {
-        //     const response = await fetch(formState.image);
-        //     const blob = await response.blob();
-        //     imageFile = new File([blob], 'image.jpg');
-        // } else {
-        //     imageFile = formState.image;
-        // }
-
-        // const imageUrl = typeof formState.image != 'string' ? await uploadImageAndGetDownloadUrl(imageFile, id) : null;
-
         await dbPrisma.utilisateur.update({
             where: {
-                id
+                id: formState.id
             },
             data: {
                 nom: formState.nom,
@@ -177,11 +157,12 @@ export async function updateUser(id: string | undefined, formState: FormState) {
                 adresse: formState.adresse,
                 ville: formState.ville,
                 codePostal: formState.codePostal,
-                // image: imageUrl
+                image: formState.image,
             }
         });
 
         revalidatePath(`/`);
-        return { ...formState, loading: false, success: true };
+        revalidatePath(`/utilisateur/${formState.id}/profile`);
+        return { ...formState, loading: false };
     }
 }

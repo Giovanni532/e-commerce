@@ -1,10 +1,12 @@
 "use client"
 
 import { updateUser } from '@/app/action/userAction';
-import { Button, Input, image } from '@nextui-org/react'
+import { Button, Input } from '@nextui-org/react'
 import React, { useRef, useState } from 'react'
 import { useToast } from "@/components/ui/use-toast"
 import { Images } from 'lucide-react';
+import { uploadImageAndGetUrl } from '@/db/firebase/auth/updateUserImage';
+import { useUserProvider } from '@/provider/userProvider';
 
 interface FormUpdateUserProps {
     user: {
@@ -20,15 +22,17 @@ interface FormUpdateUserProps {
         createdAt: Date;
         updatedAt: Date;
         role: string;
-    } | null
+    };
 }
 
 export default function FormUpdateUser({ user }: FormUpdateUserProps) {
     const { toast } = useToast()
+    const { setCurrentUser } = useUserProvider();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
     const [formState, setFormState] = useState({
-        nom: user?.nom || '',
+        id: user.id,
+        nom: user.nom || '',
         prenom: user?.prenom || '',
         adresse: user?.adresse || '',
         ville: user?.ville || '',
@@ -47,7 +51,7 @@ export default function FormUpdateUser({ user }: FormUpdateUserProps) {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             setSelectedFiles(event.target.files);
-        }
+        };
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,23 +60,35 @@ export default function FormUpdateUser({ user }: FormUpdateUserProps) {
             [e.target.name]: e.target.value
         });
     }
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setFormState({ ...formState, loading: true, errors: {} });
-        // if (!selectedFiles || selectedFiles.length === 0) {
-        //     setFormState({ ...formState, errors: { image: 'Une image est requise' }, loading: false });
-        //     return;
-        // }
-        const res = await updateUser(user?.id, { ...formState, loading: true, errors: {} });
-        if (Object.keys(res.errors).length === 0) {
-            toast({
-                description: "Modification avec succès",
-            })
+        let imageUrl = formState.image;
+
+        if (selectedFiles && selectedFiles.length > 0) {
+            imageUrl = await uploadImageAndGetUrl(selectedFiles[0], user.id, formState.image);
         }
 
-        setTimeout(() => setFormState(res), 500);
-    }
+        const updatedFormState = { ...formState, image: imageUrl };
+        const res = await updateUser(updatedFormState);
+
+        if (Object.keys(res.errors).length === 0) {
+            setCurrentUser({
+                ...formState,
+                image: imageUrl,
+                idFirebase: user.idFirebase,
+                email: user.email,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt,
+                role: user.role
+            });
+            toast({
+                description: "Modification de votre compte réaliser avec succès",
+            });
+        }
+        setSelectedFiles(null);
+        setFormState({ ...updatedFormState, loading: false });
+    };
 
     return (
         <form className='w-full' onSubmit={handleSubmit}>
@@ -137,16 +153,18 @@ export default function FormUpdateUser({ user }: FormUpdateUserProps) {
                     className='p-2'
                 />
                 <Button
-                    color={!!formState.errors.images ? 'danger' : 'success'}
+                    color={!!formState.errors.image ? 'danger' : 'success'}
                     endContent={<Images />}
-                    className={!!formState.errors.images ? 'w-full text-white my-2' : 'w-full text-white my-4'}
+                    className={!!formState.errors.image ? 'w-full text-white my-2' : 'w-full text-white my-4'}
                     onClick={handleButtonClick}
                 >
-                    {selectedFiles && selectedFiles.length > 0
-                        ? `${selectedFiles.length} images sélectionnées`
-                        : 'Ajoutez une image'}
+                    {formState.image.length > 0
+                        ? 'Modifier l\'image'
+                        : 'Ajouter une image'
+                    }
                 </Button>
-                {formState.errors.images && <p className="text-red-500 text-center text-sm mb-2">Une image est requise</p>}
+                {selectedFiles && selectedFiles.length > 0 && <p className="text-center text-sm mb-2">Image sélectionnée {selectedFiles[0].name}</p>}
+                {formState.errors.image && <p className="text-red-500 text-center text-sm mb-2">Une image est requise</p>}
                 <input
                     type="file"
                     name='image'

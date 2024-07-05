@@ -45,7 +45,7 @@ export default async function UtilisateurProfile({ params }: UtilisateurProfileP
             isBordered
             color="primary"
             className="w-20 h-20"
-            src={""}
+            src={user.image || ''}
           />
         </div>
         <CardBody className="flex flex-col md:flex-row justify-center text-center md:text-left md:w-2/3">

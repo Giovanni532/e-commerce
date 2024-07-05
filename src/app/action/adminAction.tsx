@@ -286,7 +286,6 @@ export async function updateCommande(id: number, formState: FormUpdateUser) {
 // Data for admin dahsboard
 
 export async function fetchDashboardData() {
-    const articles = await dbPrisma.produit.findMany();
     const commandes = await dbPrisma.commande.findMany();
     const utilisateurs = await dbPrisma.utilisateur.findMany();
 
