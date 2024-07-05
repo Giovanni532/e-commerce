@@ -41,7 +41,7 @@ export async function AuthSignup(formData: FormData) {
 
         await dbPrisma.commande.updateMany({
             where: {
-                email: newUser.email,
+                email: newUser.email || undefined
             },
             data: {
                 idUtilisateur: newUser.id,
