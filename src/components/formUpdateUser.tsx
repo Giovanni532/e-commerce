@@ -2,7 +2,7 @@
 
 import { updateUser } from '@/app/action/userAction';
 import { Button, Input } from '@nextui-org/react'
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useToast } from "@/components/ui/use-toast"
 import { Images } from 'lucide-react';
 import { uploadImageAndGetUrl } from '@/db/firebase/auth/updateUserImage';
@@ -26,20 +26,20 @@ interface FormUpdateUserProps {
 }
 
 export default function FormUpdateUser({ user }: FormUpdateUserProps) {
-    const { toast } = useToast()
-    const { currentUser, setCurrentUser, setUserAndCookie } = useUserProvider();
+    const { toast } = useToast();
+    const { setUserAndCookie } = useUserProvider();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
     const [formState, setFormState] = useState({
         id: user.id,
         nom: user.nom || '',
-        prenom: user?.prenom || '',
-        adresse: user?.adresse || '',
-        ville: user?.ville || '',
-        codePostal: user?.codePostal || '',
-        image: user?.image || '',
+        prenom: user.prenom || '',
+        adresse: user.adresse || '',
+        ville: user.ville || '',
+        codePostal: user.codePostal || '',
+        image: user.image || '',
         errors: {} as Record<string, string | null>,
-        loading: false
+        loading: false,
     });
 
     const handleButtonClick = () => {
@@ -51,44 +51,49 @@ export default function FormUpdateUser({ user }: FormUpdateUserProps) {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             setSelectedFiles(event.target.files);
-        };
+        }
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormState({
-            ...formState,
-            [e.target.name]: e.target.value
-        });
-    }
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setFormState({ ...formState, loading: true, errors: {} });
-        let imageUrl = formState.image;
-
-        if (selectedFiles && selectedFiles.length > 0) {
-            imageUrl = await uploadImageAndGetUrl(selectedFiles[0], user.id, formState.image);
-        }
-
-        const updatedFormState = { ...formState, image: imageUrl };
-        const res = await updateUser(updatedFormState);
-
-        if (Object.keys(res.errors).length === 0) {
-            setUserAndCookie({
-                ...formState,
-                image: imageUrl,
-                idFirebase: user.idFirebase,
-                email: user.email,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt,
-                role: user.role
-            });
-            toast({
-                description: "Modification de votre compte réaliser avec succès",
-            });
-        }
-        setSelectedFiles(null);
-        setFormState({ ...updatedFormState, loading: false });
+        setFormState((prevFormState) => ({
+            ...prevFormState,
+            [e.target.name]: e.target.value,
+        }));
     };
+
+    const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setFormState((prevFormState) => ({ ...prevFormState, loading: true, errors: {} }));
+
+        try {
+            const imageUrl = selectedFiles && selectedFiles.length > 0
+                ? await uploadImageAndGetUrl(selectedFiles[0], user.id, formState.image)
+                : formState.image;
+
+            const updatedFormState = { ...formState, image: imageUrl };
+            const res = await updateUser(updatedFormState);
+
+            if (Object.keys(res.errors).length === 0) {
+                setUserAndCookie({
+                    ...updatedFormState,
+                    idFirebase: user.idFirebase,
+                    email: user.email,
+                    createdAt: user.createdAt,
+                    updatedAt: user.updatedAt,
+                    role: user.role,
+                });
+                toast({
+                    description: "Modification de votre compte réalisée avec succès",
+                });
+            }
+
+            setSelectedFiles(null);
+            setFormState((prevFormState) => ({ ...updatedFormState, loading: false }));
+        } catch (error) {
+            console.error("Error updating user:", error);
+            setFormState((prevFormState) => ({ ...prevFormState, loading: false, errors: { submit: "Une erreur s'est produite" } }));
+        }
+    }, [formState, selectedFiles, setUserAndCookie, toast, user]);
 
     return (
         <form className='w-full' onSubmit={handleSubmit}>
@@ -179,7 +184,7 @@ export default function FormUpdateUser({ user }: FormUpdateUserProps) {
                     isLoading={formState.loading}
                     className='m-4'
                 >
-                    Enregistrer
+                    {formState.loading ? 'En cours...' : 'Modifier'}
                 </Button>
             </div>
         </form>
