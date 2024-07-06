@@ -1,4 +1,6 @@
-import { Link } from '@nextui-org/react';
+"use client"
+
+import { Button, Link } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -6,13 +8,14 @@ interface LinkMenuProps {
   href: string;
   text: string | React.ReactNode;
   isActif: boolean;
+  isButton: boolean;
 }
 
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export default function LinkMenu({ href, text, isActif }: LinkMenuProps) {
+export default function LinkMenu({ href, text, isActif, isButton }: LinkMenuProps) {
   const router = useRouter();
 
   const handleTransition = async (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -38,13 +41,25 @@ export default function LinkMenu({ href, text, isActif }: LinkMenuProps) {
     page.classList.remove('page-transition-enter');
   };
 
+  if (isButton) {
+    return (
+      <Button
+        as={Link}
+        onClick={(e) => handleTransition(e as any)}
+        href={href}
+        color='primary'
+      >
+        {text}
+      </Button>
+    );
+  }
+
   return (
     <Link
       onClick={handleTransition}
       href={href}
       color='primary'
-      underline={isActif ? 'always' : 'hover'}
-      className={isActif ? 'font-medium' : 'font-normal text-gray-600 hover:text-primary'}
+      className={isActif ? 'font-medium' + (!React.isValidElement(text) ? ' border-slide' : '') : 'font-normal text-gray-600 hover:text-primary' + (!React.isValidElement(text) ? ' border-slide' : '')}
     >
       {text}
     </Link>

@@ -1,7 +1,7 @@
 import React from 'react'
-import Link from "next/link"
 import { Compass } from 'lucide-react';
 import paths from '@/path';
+import LinkMenu from '@/components/linkMenu';
 
 export default function NotFoundRoot() {
     return (
@@ -14,9 +14,12 @@ export default function NotFoundRoot() {
                 <p className="text-gray-500 dark:text-gray-400">
                     La page que vous cherchez n&apos;existe pas, pas de soucis nous avons plein d&apos;autres articles sur notre plateforme.
                 </p>
-                <Link className="text-primary hover:underline" href={paths.homePath()}>
-                    Retournez à l&apos;accueil
-                </Link>
+                <LinkMenu
+                    isButton={false}
+                    text="Retournez à l'accueil"
+                    isActif={false}
+                    href={paths.homePath()}
+                />
             </div>
         </div>
     )

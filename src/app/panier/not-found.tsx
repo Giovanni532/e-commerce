@@ -1,6 +1,6 @@
+import LinkMenu from '@/components/linkMenu';
 import paths from '@/path'
 import { Frown } from 'lucide-react';
-import Link from 'next/link'
 import React from 'react'
 
 export default function PanierNotFound() {
@@ -14,9 +14,12 @@ export default function PanierNotFound() {
                 <p className="text-gray-500 dark:text-gray-400">
                     Vous n&apos;avez pas d&apos;articles dans votre panier. Ajoutez des articles pour continuer.
                 </p>
-                <Link className="text-primary hover:underline" href={paths.articlesPath()}>
-                    Cherchez un article qui me convient
-                </Link>
+                <LinkMenu
+                    isButton={false}
+                    text="Retournez à la liste des articles"
+                    isActif={false}
+                    href={paths.articlesPath()}
+                />
             </div>
         </div>
     )

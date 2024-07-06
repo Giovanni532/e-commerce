@@ -37,6 +37,7 @@ export default function Navbar() {
                             <h3 className="font-bold text-xl text-neutral-800 dark:text-neutral-200 mb-4">Menu</h3>
                             <SheetClose asChild>
                                 <LinkMenu
+                                    isButton={false}
                                     href={paths.articlesPath()}
                                     text="Articles"
                                     isActif={pathname === paths.articlesPath()}
@@ -44,6 +45,7 @@ export default function Navbar() {
                             </SheetClose>
                             <SheetClose asChild>
                                 <LinkMenu
+                                    isButton={false}
                                     href={paths.contactPath()}
                                     text="Contact"
                                     isActif={pathname === paths.contactPath()}
@@ -51,14 +53,21 @@ export default function Navbar() {
                             </SheetClose>
                         </SheetContent>
                     </Sheet>
-                    <LinkMenu href={paths.homePath()} text={<Ribbon/>} isActif={pathname === paths.homePath()}/>
+                    <LinkMenu
+                        isButton={false}
+                        href={paths.homePath()}
+                        text={<Ribbon />}
+                        isActif={pathname === paths.homePath()}
+                    />
                     <nav className="hidden lg:flex gap-4">
                         <LinkMenu
+                            isButton={false}
                             href={paths.articlesPath()}
                             text="Articles"
                             isActif={pathname === paths.articlesPath()}
                         />
                         <LinkMenu
+                            isButton={false}
                             href={paths.contactPath()}
                             text="Contact"
                             isActif={pathname === paths.contactPath()}

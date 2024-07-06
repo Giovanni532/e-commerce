@@ -163,3 +163,60 @@ body {
 .page-transition {
   background: #fefdf8;
 }
+
+
+/* Keyframes for sliding in the border from the left */
+@keyframes slideInFromLeftBorder {
+  0% {
+    width: 0;
+    left: 0;
+    right: auto;
+  }
+  100% {
+    width: 100%;
+    left: 0;
+    right: auto;
+  }
+}
+
+/* Keyframes for sliding out the border to the right */
+@keyframes slideOutToRightBorder {
+  0% {
+    width: 100%;
+    left: 0;
+    right: auto;
+  }
+  100% {
+    width: 0;
+    left: auto;
+    right: 0;
+  }
+}
+
+.border-slide {
+  position: relative;
+  display: inline-block;
+}
+
+.border-slide::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px; /* Adjust the height of the border */
+  width: 100%;
+  background: hsl(30, 86%, 68%); /* Adjust the color of the border */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease-in-out;
+}
+
+.border-slide:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+  animation: slideInFromLeftBorder 0.5s forwards;
+}
+
+.border-slide:not(:hover)::after {
+  animation: slideOutToRightBorder 0.5s forwards;
+}

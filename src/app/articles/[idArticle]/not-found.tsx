@@ -1,7 +1,7 @@
 import React from 'react'
-import Link from "next/link"
 import { Compass } from 'lucide-react';
 import paths from '@/path';
+import LinkMenu from '@/components/linkMenu';
 
 export default function ArticleNotFound() {
     return (
@@ -14,9 +14,12 @@ export default function ArticleNotFound() {
                 <p className="text-gray-500 dark:text-gray-400">
                     La page que vous cherchez n&apos;existe pas, pas de soucis nous avons plein d&apos;autres articles sur notre plateforme.
                 </p>
-                <Link className="text-primary hover:underline" href={paths.articlesPath()}>
-                    Cherchez un article qui me convient
-                </Link>
+                <LinkMenu
+                    isButton={false}
+                    text="Retournez à la liste des articles"
+                    isActif={false}
+                    href={paths.articlesPath()}
+                />
             </div>
         </div>
     )

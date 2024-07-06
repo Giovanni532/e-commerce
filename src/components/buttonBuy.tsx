@@ -39,9 +39,22 @@ export default function ButtonBuy({ article }: Article) {
     };
     const router = useRouter();
 
-    const handleBuy = () => {
-        removeAllExcept(article)
-        router.push(paths.panierPath())
+    const handleBuy = async () => {
+        const page = document.querySelector('.page-transition');
+
+        if (page) {
+            page.classList.add('page-transition-exit');
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
+
+        removeAllExcept(article);
+        router.push(paths.panierPath());
+
+        if (page) {
+            await new Promise(resolve => setTimeout(resolve, 500));
+            page.classList.remove('page-transition-exit');
+            page.classList.add('page-transition-enter');
+        }
     }
 
     return (

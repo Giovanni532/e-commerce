@@ -13,6 +13,7 @@ import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTi
 import { useStore } from "@/provider/storeProvider";
 import { CardArticleSheet } from "../cardArticle";
 import { useState } from "react";
+import LinkMenu from "../linkMenu";
 
 export default function NavbarUi() {
     const { currentUser, setCurrentUser } = useUserProvider();
@@ -38,20 +39,51 @@ export default function NavbarUi() {
         setQuery(inputValue);
     }
 
-    const handleSearch = () => {
-        if (query) return router.push(`/articles?q=${query}`);
-        if (!query) return router.push("/articles")
-
+    const sleep = (ms: number) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    const handleKeyPress = (event: { key: any; }) => {
-        if (event.key === "Enter") return handleSearch()
+    const handleTransition = async (url: string) => {
+        const page = document.querySelector('.page-transition');
+
+        if (!page) return;
+
+        page.classList.add('page-transition-exit');
+
+        await sleep(500);
+
+        router.push(url);
+
+        await sleep(500);
+
+        page.classList.remove('page-transition-exit');
+        page.classList.add('page-transition-enter');
+
+        await sleep(500);
+
+        page.classList.remove('page-transition-enter');
+    };
+
+    const handleSearch = async () => {
+        if (query) {
+            await handleTransition(`/articles?q=${query}`);
+        } else {
+            await handleTransition("/articles");
+        }
     }
+
+    const handleKeyPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            await handleSearch();
+        }
+    }
+
 
     const handleLogout = async () => {
         await Logout();
         setCurrentUser(null);
         deleteCookie('currentUser');
+        handleTransition("/");
         router.refresh();
     }
 
@@ -86,13 +118,12 @@ export default function NavbarUi() {
                                 <div className="flex flex-col justify-center mt-4">
                                     <Divider className="my-4" />
                                     <SheetClose asChild>
-                                        <Button
-                                            color="primary"
+                                        <LinkMenu
                                             href={paths.panierPath()}
-                                            as={Link}
-                                        >
-                                            Voir le panier
-                                        </Button>
+                                            text="Voir le panier"
+                                            isActif={false}
+                                            isButton={true}
+                                        />
                                     </SheetClose>
                                 </div>
                             </div>
@@ -131,6 +162,7 @@ export default function NavbarUi() {
                             as={Link}
                             startContent={<UserRound className="text-xl pointer-events-none flex-shrink-0" />}
                             href={paths.userProfilePath(currentUser.id)}
+                            onClick={() => handleTransition(paths.userProfilePath(currentUser.id))}
                         >
                             Mon profile
                         </DropdownItem>
@@ -140,6 +172,8 @@ export default function NavbarUi() {
                             as={Link}
                             startContent={<Building className="text-xl pointer-events-none flex-shrink-0" />}
                             href={paths.adminDashboardPath(currentUser.id)}
+                            onClick={() => handleTransition(paths.adminDashboardPath(currentUser.id))}
+
                         >
                             Dashboard
                         </DropdownItem>
@@ -166,7 +200,7 @@ export default function NavbarUi() {
                                 as="button"
                                 className="transition-transform"
                                 src={currentUser.image ? currentUser.image : ""}
-                            />
+                                />
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Profile Actions" variant="flat">
                             <DropdownItem
@@ -174,6 +208,7 @@ export default function NavbarUi() {
                                 as={Link}
                                 startContent={<UserRound className="text-xl pointer-events-none flex-shrink-0" />}
                                 href={paths.userProfilePath(currentUser.id)}
+                                onClick={() => handleTransition(paths.userProfilePath(currentUser.id))}
                             >
                                 Mon profile
                             </DropdownItem>
@@ -192,14 +227,12 @@ export default function NavbarUi() {
                 )
                     :
                     <div className="flex items-center gap-4">
-                        <Button
-                            href="/auth"
-                            as={Link}
-                            color="primary"
-                            variant="ghost"
-                        >
-                            Connexion
-                        </Button>
+                        <LinkMenu
+                            isButton={true}
+                            href={paths.authPath()}
+                            text="Connexion"
+                            isActif={false}
+                        />
                     </div>
             }</>
     )
