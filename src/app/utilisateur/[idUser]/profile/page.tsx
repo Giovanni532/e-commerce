@@ -7,6 +7,8 @@ import { NotebookText, Cog } from 'lucide-react';
 import FormUpdateUser from '@/components/formUpdateUser'
 import CommandeUser from '@/components/commandeUser'
 import type { Metadata } from 'next'
+import { getCookie } from 'cookies-next'
+import { cookies } from 'next/headers'
 
 interface UtilisateurProfileProps {
   params: {
@@ -32,6 +34,12 @@ export async function generateMetadata({ params }: UtilisateurProfileProps): Pro
 
 export default async function UtilisateurProfile({ params }: UtilisateurProfileProps) {
   if (!params.idUser) return notFound();
+
+  const cookieUser = getCookie('currentUser', { cookies });
+
+  const currentUser = cookieUser ? JSON.parse(cookieUser) : null;
+
+  if (!currentUser || currentUser.id !== params.idUser) return notFound();
 
   const user = await fetchUserData(params.idUser);
 
