@@ -27,23 +27,11 @@ interface CardArticleProps {
 }
 
 export default function CardArticle({ article }: CardArticleProps) {
-    const [isLoaded, setIsLoaded] = React.useState(false);
-    const router = useRouter();
-
-    const handlePress = () => {
-        router.push(paths.articleDetailPath(article.id.toString()));
-    }
-
-    React.useEffect(() => {
-        setTimeout(() => {
-            setIsLoaded(true);
-        }, 500);
-    }, [isLoaded]);
 
     return (
         <Card className="mx-auto max-w-sm" radius="lg" shadow='none'>
-            <div className='relative'>
-                <div className="absolute rounded-full z-10 p-4" style={{ backgroundColor: "white", right: 0, bottom: -10 }}>
+            <CardBody className="relative">
+                <div className="absolute rounded-full z-10 p-4" style={{ backgroundColor: "white", right: -15, bottom: 0 }}>
                     <ButtonArticleDetail id={article.id} />
                 </div>
                 <Image
@@ -57,29 +45,15 @@ export default function CardArticle({ article }: CardArticleProps) {
                     width={350}
                     priority
                 />
-            </div>
-            <CardBody className="space-y-3">
-                <Skeleton isLoaded={isLoaded} className="w-3/5 rounded-lg">
-                    <h4 className="font-bold text-large">{article.nomProduit}</h4>
-                </Skeleton>
-                <Skeleton isLoaded={isLoaded} className="w-4/5 rounded-lg">
-                    <small className="text-default-500">{article.description}</small>
-                </Skeleton>
-                <Skeleton isLoaded={isLoaded} className="w-2/5 rounded-lg">
-                    <p className="text-tiny uppercase font-bold">Prix : {article.prix}CHF</p>
-                </Skeleton>
             </CardBody>
-            <CardFooter className="flex flex-row justify-between">
-                <Skeleton isLoaded={isLoaded} className='rounded-lg'>
-                    <div>
-                        <ButtonBuy article={article} />
-                    </div>
-                </Skeleton>
-                <Skeleton isLoaded={isLoaded} className='rounded-lg'>
-                    <div className='mr-5'>
-                        <ButtonWalletCard article={article} />
-                    </div>
-                </Skeleton>
+            <CardFooter className="flex flex-col items-start space-y-2">
+                <h4 className="font-bold text-large">{article.nomProduit}</h4>
+                <small className="text-default-500">{article.description}</small>
+                <p className="text-tiny uppercase font-bold">Prix : {article.prix}CHF</p>
+                <div className='w-full flex flex-row justify-between items-center mt-2'>
+                    <ButtonBuy article={article} />
+                    <ButtonWalletCard article={article} />
+                </div>
             </CardFooter>
         </Card>
     );

@@ -106,6 +106,7 @@ export async function createPaiementIntent(
         });
 
         revalidatePath('/');
+        revalidatePath('/articles');
         return { ...formState, loading: false, success: true };
     }
 }

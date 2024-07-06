@@ -19,7 +19,7 @@ export default function Navbar() {
     const pathname = usePathname();
 
     return (
-        <div className="relative">
+        <div className="relative bg-background">
             <header className="flex h-16 w-full items-center justify-between px-4 md:px-6">
                 <div className="flex items-center gap-4">
                     <Sheet>
