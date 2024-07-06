@@ -31,7 +31,9 @@ export default function RootLayout({
       >
         <Provider>
           <Navbar />
+          <div className="page-transition">
           {children}
+          </div>
         </Provider>
         <Toaster />
       </body>

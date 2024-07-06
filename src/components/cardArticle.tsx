@@ -29,7 +29,7 @@ interface CardArticleProps {
 export default function CardArticle({ article }: CardArticleProps) {
 
     return (
-        <Card className="mx-auto max-w-sm" radius="lg" shadow='none'>
+        <Card className="mx-auto max-w-sm" radius="lg">
             <CardBody className="relative">
                 <div className="absolute rounded-full z-10 p-4" style={{ backgroundColor: "white", right: -15, bottom: 0 }}>
                     <ButtonArticleDetail id={article.id} />

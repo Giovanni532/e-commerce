@@ -1,4 +1,3 @@
-import CardArticle from "@/components/cardArticle";
 import CarouselHome from "@/components/carouselHome";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
@@ -21,7 +20,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <section className="py-12">
+      <section className="py-12 bg-white">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold mb-8">Catégories de produits</h2>
           <div className="grid grid-cols-4 gap-8">

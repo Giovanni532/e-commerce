@@ -2,11 +2,11 @@ import { FormAuth } from "@/components/formAuth";
 
 export default async function AuthPage() {
     return (
-        <div className="w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 bg-white dark:bg-black">
-            <h2 className="font-bold text-center text-xl text-neutral-800 dark:text-neutral-200">
+        <div className="w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8">
+            <h2 className="font-bold text-center text-xl text-neutral-800">
                 Bienvenue sur <span className="text-primary">Mode Revive</span>
             </h2>
-            <p className="text-neutral-600 text-center text-sm mt-2 dark:text-neutral-300">
+            <p className="text-neutral-600 text-center text-sm mt-2">
                 Connectez vous pour accéder à votre compte.
             </p>
             <FormAuth />

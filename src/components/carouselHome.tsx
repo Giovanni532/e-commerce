@@ -19,7 +19,7 @@ export default function CarouselHome() {
     return (
         <Carousel
             plugins={[plugin.current]}
-            className="w-full max-w-xs lg:max-w-sm mx-auto"
+            className="w-full max-w-xs lg:max-w-md mx-auto"
             onMouseEnter={plugin.current.stop}
             onMouseLeave={plugin.current.reset}
         >

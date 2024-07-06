@@ -51,10 +51,7 @@ export default function Navbar() {
                             </SheetClose>
                         </SheetContent>
                     </Sheet>
-                    <Link href={paths.homePath()} className="flex items-center">
-                        <Ribbon className="h-6 w-6" />
-                        <span className="sr-only">Acme Inc</span>
-                    </Link>
+                    <LinkMenu href={paths.homePath()} text={<Ribbon/>} isActif={pathname === paths.homePath()}/>
                     <nav className="hidden lg:flex gap-4">
                         <LinkMenu
                             href={paths.articlesPath()}

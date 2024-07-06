@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Mode revive | Articles en ligne",
+    title: "Mode Revive | Articles en ligne",
     description: "Votre boutique de seconde main en ligne",
 };
 
