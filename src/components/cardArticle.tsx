@@ -28,7 +28,7 @@ interface CardArticleProps {
 
 export default function CardArticle({ article }: CardArticleProps) {
     return (
-        <Card className="mx-auto max-w-xs" radius="lg">
+        <Card className="mx-auto max-w-xs" radius="lg" >
             <CardBody className="relative">
                 <div className="absolute rounded-full z-10 p-4" style={{ backgroundColor: "white", right: 0, bottom: 0 }}>
                     <ButtonArticleDetail id={article.id} />
@@ -49,7 +49,7 @@ export default function CardArticle({ article }: CardArticleProps) {
                 <h4 className="font-bold text-large">{article.nomProduit}</h4>
                 <small className="text-default-500">{article.description}</small>
                 <p className="text-tiny uppercase font-bold">Prix : {article.prix}CHF</p>
-                <div className='w-full flex flex-row justify-between items-center mt-2'>
+                <div className='w-full flex flex-row justify-between items-center'>
                     <ButtonBuy article={article} />
                     <ButtonWalletCard article={article} />
                 </div>
