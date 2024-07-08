@@ -5,6 +5,8 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '@/db';
 import { Input, Button } from '@nextui-org/react';
 import { forgotPassword } from '@/app/action/userAction';
+import LinkMenu from '@/components/linkMenu';
+import paths from '@/path';
 
 export default function ForgotPasswordPage() {
 
@@ -61,7 +63,11 @@ export default function ForgotPasswordPage() {
                     className="block w-full px-3 py-2"
                 />
                 <Button type="submit" color="primary" fullWidth>Envoyer</Button>
-                {formState.success && <p className="text-primary text-center mt-4">Un email de réinitialisation a été envoyé à votre adresse.</p>}
+                {formState.success && <div className='text-center space-y-2'>
+                    <p className="text-primary text-center mt-4">Un email de réinitialisation a été envoyé à votre adresse.</p>
+                    <LinkMenu href={paths.authPath()} text="Retournez à la page de connexion" isActif={false} isButton={false} />
+                </div>
+                }
                 {formState.error && <p className="text-red-500 text-center mt-4">{formState.error}</p>}
             </form>
         </div>
