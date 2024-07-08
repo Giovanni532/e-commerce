@@ -29,20 +29,20 @@ interface CardArticleProps {
 export default function CardArticle({ article }: CardArticleProps) {
 
     return (
-        <Card className="mx-auto max-w-sm" radius="lg">
+        <Card className="mx-auto max-w-xs" radius="lg">
             <CardBody className="relative">
-                <div className="absolute rounded-full z-10 p-4" style={{ backgroundColor: "white", right: -15, bottom: 0 }}>
+                <div className="absolute rounded-full z-10 p-4" style={{ backgroundColor: "white", right: 0, bottom: 0 }}>
                     <ButtonArticleDetail id={article.id} />
                 </div>
                 <Image
                     alt={article.nomProduit}
                     isZoomed
                     as={NextImage}
-                    className="object-cover object-center rounded-xl h-60 z-0 w-full"
+                    className="object-cover object-center rounded-xl h-60 z-0"
                     src={article.urlsImages[0]}
                     quality={100}
                     height={700}
-                    width={350}
+                    width={300}
                     priority
                 />
             </CardBody>
