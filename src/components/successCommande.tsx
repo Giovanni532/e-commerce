@@ -1,8 +1,7 @@
 import paths from '@/path'
-import { Button } from '@nextui-org/react';
 import { CheckCircle } from 'lucide-react'
-import Link from 'next/link'
 import React from 'react'
+import LinkMenu from './linkMenu';
 
 interface SuccessCommandeProps {
     isInvited: boolean;
@@ -25,24 +24,18 @@ export default function SuccessCommande({ isInvited, userId }: SuccessCommandePr
                         <p className="text-gray-500 dark:text-gray-400">
                             Vous avez passé cette commande en tant qu&apos;invité. Si vous souhaitez suivre votre commande, veuillez créer un compte.
                         </p>
-                        <Button color='primary' as={Link} href={paths.authPath()} size='md'>
-                            Créé un compte
-                        </Button>
+                        <LinkMenu text="Créé un compte" isActif={true} isButton={true} href={paths.authPath()} />
                     </div>
                 ) : (userId && (
                     <div className='flex flex-col gap-4'>
                         <p className="text-gray-500 dark:text-gray-400">
                             Vous pouvez suivre votre commande dans votre profil.
                         </p>
-                        <Button color='primary' as={Link} href={paths.userProfilePath(userId)} size='md'>
-                            Mon compte
-                        </Button>
+                        <LinkMenu text="Mon compte" isActif={true} isButton={true} href={paths.userProfilePath(userId)} />
                     </div>
                 )
                 )}
-                <Link className="text-primary hover:underline" href={paths.homePath()}>
-                    Retournez à la page d&apos;accueil
-                </Link>
+                <LinkMenu text="Retournez à la page d'accueil" isActif={false} isButton={false} href={paths.homePath()} />
             </div>
         </div>
     )
