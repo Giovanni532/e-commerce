@@ -3,6 +3,7 @@
 import dbPrisma from "@/db";
 import { getCurrentDate, getDateIn14Days } from "@/lib/dateGenerator";
 import { contactSchema, paiementSchema, updateUserSchema } from "@/schema/formSchema";
+import { sendEmail } from "@/sendEmail";
 import { revalidatePath } from "next/cache";
 
 export async function fetchUserDataWithFirebase(idFirebase: string) {
@@ -120,6 +121,14 @@ export async function createPaiementIntent(
         }
     });
 
+    const emailContent = `<p>Bonjour ${formState.prenom} ${formState.nom},</p><p>Merci pour votre achat. Votre commande est en attente de traitement.</p><p>Adresse de livraison : ${formState.adresse}, ${formState.codePostal}, ${formState.ville}</p><p>Merci pour votre confiance.</p>`;
+
+    await sendEmail({
+        to: formState.email,
+        subject: 'Confirmation de votre achat',
+        html: emailContent,
+    });
+
     revalidatePath('/');
     revalidatePath('/articles');
 
@@ -203,7 +212,6 @@ export async function createContact(formState: ContactFormState) {
         }, {} as Record<string, string>);
         return { ...formState, errors, loading: false };
     } else {
-
         await dbPrisma.contact.create({
             data: {
                 nom: formState.nom,
@@ -211,6 +219,12 @@ export async function createContact(formState: ContactFormState) {
                 email: formState.email,
                 message: formState.message
             }
+        });
+        const emailContent = `<p>Bonjour ${formState.prenom} ${formState.nom},</p><p>Nous avons bien reçu votre message :</p><p>${formState.message}</p><p>Nous vous répondrons dans les plus brefs délais.</p>`;
+        await sendEmail({
+            to: formState.email,
+            subject: 'Confirmation de réception de votre message',
+            html: emailContent,
         });
         return { ...formState, loading: false, success: true };
     }

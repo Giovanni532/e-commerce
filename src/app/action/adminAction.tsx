@@ -5,6 +5,7 @@ import { newArticleSchema } from "@/schema/formSchema";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from "@/db";
 import { revalidatePath } from "next/cache";
+import { sendEmail } from "@/sendEmail";
 
 // Fetch categories, sous-categories, articles and commandes
 
@@ -248,7 +249,6 @@ export async function updateArticle(id: number, formState: any) {
             throw new Error("Une erreur est survenue.");
         }
     } catch (error) {
-        console.error('Error updating article:', error);
         throw new Error("Une erreur est survenue.");
     }
     revalidatePath("/");
@@ -275,8 +275,22 @@ export async function updateCommande(id: number, formState: FormUpdateUser) {
         if (!res) {
             throw new Error("Une erreur est survenue.");
         }
+
+        const user = await dbPrisma.utilisateur.findFirst({
+            where: {
+                id: formState.idUtilisateur
+            }
+        }) as { email: string };
+
+
+        const emailContent = `<p>Bonjour,</p><p>Le statut de votre commande a été mis à jour à : ${formState.statut}</p><p>Merci pour votre confiance.</p>`;
+        await sendEmail({
+            to: user.email,
+            subject: 'Mise à jour de votre commande',
+            html: emailContent,
+        });
+
     } catch (error) {
-        console.error('Error updating commande:', error);
         throw new Error("Une erreur est survenue.");
     }
     revalidatePath("/");

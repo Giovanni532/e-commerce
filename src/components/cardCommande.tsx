@@ -139,15 +139,15 @@ export default function CardCommande({ commande }: CardCommandeProps) {
                         {articles.map((article) => (
                             <CarouselItem key={article?.id} className='flex justify-center'>
                                 <Image
-                                    as={NextImage}
-                                    src={article?.urlsImages[0]}
                                     alt={article?.nomProduit}
-                                    objectFit='cover'
-                                    objectPosition='center'
-                                    layout='responsive'
-                                    width={150}
-                                    height={150}
-                                    className='rounded-xl'
+                                    isZoomed
+                                    as={NextImage}
+                                    className="object-cover object-center rounded-xl h-48 z-0"
+                                    src={article?.urlsImages[0]}
+                                    quality={100}
+                                    height={700}
+                                    width={300}
+                                    priority
                                 />
                             </CarouselItem>
                         ))}
@@ -177,7 +177,6 @@ export default function CardCommande({ commande }: CardCommandeProps) {
                 <div className='flex justify-end'>
                     <Dropdown backdrop="blur">
                         <DropdownTrigger>
-
                             <Button
                                 color='primary'
                                 variant='flat'
@@ -198,7 +197,6 @@ export default function CardCommande({ commande }: CardCommandeProps) {
                             )}
                         </DropdownMenu>
                     </Dropdown>
-
                 </div>
             </CardBody>
         </Card>

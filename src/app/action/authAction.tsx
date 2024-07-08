@@ -96,7 +96,6 @@ export const checkUser = async (id: string, email: string, prenom: string, nom: 
             });
         }
     } catch (error) {
-        console.error("Database connection error:", error);
         throw new Error("Unable to connect to the database.");
     }
 }
