@@ -40,3 +40,10 @@ export const updateUserSchema = z.object({
     codePostal: z.string().min(4, {message: "Code postal invalide"}),
     ville: z.string().min(3, {message: "Ville invalide"})
 });
+
+export const contactSchema = z.object({
+    nom: z.string().min(3, {message: "Nom invalide"}),
+    prenom: z.string().min(3, {message: "Prenom invalide"}),
+    email: z.string().min(8, {message: "Email invalide"}),
+    message: z.string().min(10, {message: "Message invalide"})
+});

@@ -2,7 +2,7 @@
 
 import dbPrisma from "@/db";
 import { getCurrentDate, getDateIn14Days } from "@/lib/dateGenerator";
-import { paiementSchema, updateUserSchema } from "@/schema/formSchema";
+import { contactSchema, paiementSchema, updateUserSchema } from "@/schema/formSchema";
 import { revalidatePath } from "next/cache";
 
 export async function fetchUserDataWithFirebase(idFirebase: string) {
@@ -180,5 +180,39 @@ export async function updateUser(formState: FormState) {
         revalidatePath(`/`);
         revalidatePath(`/utilisateur/${formState.id}/profile`);
         return { ...formState, loading: false };
+    }
+}
+
+type ContactFormState = {
+    nom: string;
+    prenom: string;
+    email: string;
+    message: string;
+    errors: Record<string, string | null>;
+    success: boolean;
+    loading: boolean;
+}
+
+export async function createContact(formState: ContactFormState) {
+    const validation = contactSchema.safeParse(formState);
+
+    if (!validation.success) {
+        const errors = validation.error.errors.reduce((acc, err) => {
+            acc[err.path[0]] = err.message;
+            return acc;
+        }, {} as Record<string, string>);
+        return { ...formState, errors, loading: false };
+    } else {
+
+        await dbPrisma.contact.create({
+            data: {
+                nom: formState.nom,
+                prenom: formState.prenom,
+                email: formState.email,
+                message: formState.message
+            }
+        });
+        console.log('Contact form sent : ', formState);
+        return { ...formState, loading: false, success: true };
     }
 }
