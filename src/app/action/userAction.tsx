@@ -53,15 +53,14 @@ export async function createPaiementIntent(
         return { ...formState, errors, loading: false };
     } else {
 
-        if (formState.email.length > 0) {
-            const userFind = await dbPrisma.utilisateur.findUnique({
-                where: {
-                    email: formState.email
-                }
-            });
-            if (userFind) {
-                return { ...formState, errors: { email: 'Cet email est déjà utilisé veuillez vous connectez.' }, loading: false };
+        const userFind = await dbPrisma.utilisateur.findUnique({
+            where: {
+                email: formState.email
             }
+        });
+
+        if (userFind) {
+            return { ...formState, errors: { email: 'Cet email est déjà utilisé veuillez vous connectez.' }, loading: false };
         }
 
         await dbPrisma.produit.updateMany({
