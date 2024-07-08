@@ -11,6 +11,8 @@ import { fetchUserDataWithFirebase } from '@/app/action/userAction'
 import { setCookie } from 'cookies-next'
 import { Link } from "@nextui-org/react";
 import LoadingBackground from './loadingBackground'
+import { motion, AnimatePresence } from 'framer-motion';
+
 
 interface FormSignupProps {
     handleChange: () => void;
@@ -65,71 +67,83 @@ const FormSignup = ({ handleChange }: FormSignupProps) => {
     }
 
     return (
-        <>
-            <form className="mt-10 max-w-md mx-auto" onSubmit={handleSubmit}>
-                <div className="flex flex-col md:flex-row">
+        <AnimatePresence mode="wait">
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 50 }}
+                transition={{ duration: 0.4 }}
+            >
+                <form className="mt-10 max-w-md mx-auto" onSubmit={handleSubmit}>
+                    <div className="flex flex-col md:flex-row">
+                        <Input
+                            isRequired
+                            className='p-2'
+                            id="prenom"
+                            name="prenom"
+                            placeholder="Tyler"
+                            type="text"
+                            label="Prenom"
+                            labelPlacement='outside'
+                            isInvalid={!!formState.message.prenom}
+                            errorMessage={formState.message.prenom}
+                        />
+                        <Input
+                            isRequired
+                            className='p-2'
+                            id="nom"
+                            name='nom'
+                            placeholder="Durden"
+                            type="text"
+                            label="Nom"
+                            labelPlacement='outside'
+                            isInvalid={!!formState.message.nom}
+                            errorMessage={formState.message.nom}
+                        />
+                    </div>
                     <Input
+                        isRequired
                         className='p-2'
-                        id="prenom"
-                        name="prenom"
-                        placeholder="Tyler"
-                        type="text"
-                        label="Prenom"
+                        id="email"
+                        name="email"
+                        placeholder="projectmayhem@fc.com"
+                        type="email"
+                        label="Email"
                         labelPlacement='outside'
-                        isInvalid={!!formState.message.prenom}
-                        errorMessage={formState.message.prenom}
+                        isInvalid={!!formState.message.email}
+                        errorMessage={formState.message.email}
                     />
                     <Input
-                        className='p-2'
-                        id="nom"
-                        name='nom'
-                        placeholder="Durden"
-                        type="text"
-                        label="Nom"
+                        isRequired
+                        className='p-2 mb-4'
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        type="password"
+                        label="Mot de passe"
                         labelPlacement='outside'
-                        isInvalid={!!formState.message.nom}
-                        errorMessage={formState.message.nom}
+                        isInvalid={!!formState.message.password}
+                        errorMessage={formState.message.password}
                     />
+                    {formState.message.erreur && <p className="text-red-500 text-sm text-center mb-2">{formState.message.erreur}</p>}
+                    <Button
+                        variant='solid'
+                        color='primary'
+                        className="w-full"
+                        type="submit"
+                        isLoading={formState.loading}
+                    >
+                        S&apos;inscrire
+                    </Button>
+                </form>
+                <Divider className="my-5 max-w-md mx-auto" />
+                <div className="flex flex-col space-y-4 max-w-md mx-auto">
+                    {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
+                    <ButtonGoogle googleSubmit={googleSubmit} />
+                    <Link style={{ cursor: 'pointer' }} color='secondary' className='mx-auto' onClick={handleChange}>Vous avez un compte ?</Link>
                 </div>
-                <Input className='p-2'
-                    id="email"
-                    name="email"
-                    placeholder="projectmayhem@fc.com"
-                    type="email"
-                    label="Email"
-                    labelPlacement='outside'
-                    isInvalid={!!formState.message.email}
-                    errorMessage={formState.message.email}
-                />
-                <Input
-                    className='p-2 mb-4'
-                    id="password"
-                    name="password"
-                    placeholder="••••••••"
-                    type="password"
-                    label="Mot de passe"
-                    labelPlacement='outside'
-                    isInvalid={!!formState.message.password}
-                    errorMessage={formState.message.password}
-                />
-                {formState.message.erreur && <p className="text-red-500 text-sm text-center mb-2">{formState.message.erreur}</p>}
-                <Button
-                    variant='solid'
-                    color='primary'
-                    className="w-full"
-                    type="submit"
-                    isLoading={formState.loading}
-                >
-                    S&apos;inscrire
-                </Button>
-            </form>
-            <Divider className="my-5 max-w-md mx-auto" />
-            <div className="flex flex-col space-y-4 max-w-md mx-auto">
-                {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
-                <ButtonGoogle googleSubmit={googleSubmit} />
-                <Link style={{ cursor: 'pointer' }} color='secondary' className='mx-auto' onClick={handleChange}>Vous avez un compte ?</Link>
-            </div>
-        </>
+            </motion.div>
+        </AnimatePresence>
     );
 }
 

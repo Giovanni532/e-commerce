@@ -212,7 +212,20 @@ export async function createContact(formState: ContactFormState) {
                 message: formState.message
             }
         });
-        console.log('Contact form sent : ', formState);
         return { ...formState, loading: false, success: true };
     }
+}
+
+export async function forgotPassword(email: string) {
+    const user = await dbPrisma.utilisateur.findUnique({
+        where: {
+            email
+        }
+    });
+
+    if (!user) {
+        return { email, error: 'Aucun utilisateur trouvé avec cet email', success: false, loading: false };
+    }
+
+    return { email, error: '', success: true, loading: true };
 }

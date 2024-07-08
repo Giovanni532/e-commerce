@@ -10,7 +10,10 @@ import { useUserProvider } from '@/provider/userProvider'
 import { fetchUserDataWithFirebase } from '@/app/action/userAction';
 import { setCookie } from 'cookies-next';
 import { Link } from "@nextui-org/react";
+import NextLink from 'next/link';
 import LoadingBackground from './loadingBackground';
+import { motion, AnimatePresence } from 'framer-motion';
+import paths from '@/path';
 
 interface FormLoginProps {
     handleChange: () => void;
@@ -66,48 +69,58 @@ const FormLogin = ({ handleChange }: FormLoginProps) => {
     }
 
     return (
-        <>
-            <form className="mt-10 mx-auto max-w-md" onSubmit={handleSubmit}>
-                <Input
-                    className='p-4'
-                    id="email"
-                    name="email"
-                    placeholder="johndoe@gmail.com"
-                    type="email"
-                    label="Email"
-                    labelPlacement='outside'
-                    isInvalid={!!formState.message.email}
-                    errorMessage={formState.message.email}
-                />
-                <Input
-                    className='p-4 mb-2'
-                    id="password"
-                    name="password"
-                    placeholder="••••••••"
-                    type="password"
-                    label="Mot de passe"
-                    labelPlacement='outside'
-                    isInvalid={!!formState.message.password}
-                    errorMessage={formState.message.password}
-                />
-                {formState.message.erreur && <p className="text-red-500 text-sm text-center mb-2">{formState.message.erreur}</p>}
-                <Button
-                    variant='solid'
-                    color='primary'
-                    className="w-full"
-                    type="submit"
-                    isLoading={formState.loading}
-                >
-                    Se connecter
-                </Button>
-            </form>
-            <Divider className="my-5 max-w-md mx-auto" />
-            <div className="flex flex-col space-y-4 max-w-md mx-auto">
-                {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
-                <ButtonGoogle googleSubmit={googleSubmit} />
-                <Link style={{ cursor: 'pointer' }} color='secondary' className='mx-auto' onClick={handleChange}>Vous n&apos;avez pas de compte ?</Link>
-            </div>
-        </>
+        <AnimatePresence mode="wait">
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 50 }}
+                transition={{ duration: 0.4 }}
+            >
+                <form className="mt-10 mx-auto max-w-md" onSubmit={handleSubmit}>
+                    <Input
+                        className='p-4'
+                        id="email"
+                        name="email"
+                        placeholder="johndoe@gmail.com"
+                        type="email"
+                        label="Email"
+                        labelPlacement='outside'
+                        isInvalid={!!formState.message.email}
+                        errorMessage={formState.message.email}
+                    />
+                    <Input
+                        className='p-4 mb-2'
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        type="password"
+                        label="Mot de passe"
+                        labelPlacement='outside'
+                        isInvalid={!!formState.message.password}
+                        errorMessage={formState.message.password}
+                    />
+                    {formState.message.erreur && <p className="text-red-500 text-sm text-center mb-2">{formState.message.erreur}</p>}
+                    <Button
+                        variant='solid'
+                        color='primary'
+                        className="w-full"
+                        type="submit"
+                        isLoading={formState.loading}
+                    >
+                        Se connecter
+                    </Button>
+                </form>
+                <Divider className="my-5 max-w-md mx-auto" />
+                <div className="flex flex-col space-y-4 max-w-md mx-auto">
+                    {formState.message.global && <p className="text-red-500 text-sm text-center">{formState.message.global}</p>}
+                    <ButtonGoogle googleSubmit={googleSubmit} />
+                    <div className="flex flex-row p-2">
+                        <Link style={{ cursor: 'pointer' }} color='secondary' className='mx-auto' onClick={handleChange}>Vous n&apos;avez pas de compte ?</Link>
+                        <Link style={{ cursor: 'pointer' }} color='secondary' className='mx-auto' href={paths.authForgotPasswordPath()} as={NextLink}>Mot de passe oublié ?</Link>
+                    </div>
+                </div>
+            </motion.div>
+        </AnimatePresence>
     );
 }
 
