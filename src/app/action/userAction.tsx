@@ -51,75 +51,79 @@ export async function createPaiementIntent(
             return acc;
         }, {} as Record<string, string>);
         return { ...formState, errors, loading: false };
-    } else {
+    }
 
-        const userFind = await dbPrisma.utilisateur.findUnique({
-            where: {
-                email: formState.email
-            }
-        });
-
-        if (userFind) {
-            return { ...formState, errors: { email: 'Cet email est déjà utilisé veuillez vous connectez.' }, loading: false };
+    const userFind = await dbPrisma.utilisateur.findUnique({
+        where: {
+            email: formState.email
         }
+    });
 
-        await dbPrisma.produit.updateMany({
+    if (userFind) {
+        return {
+            ...formState,
+            errors: { email: 'Cet email est déjà utilisé, veuillez vous connecter.' },
+            loading: false
+        };
+    }
+
+    await dbPrisma.produit.updateMany({
+        where: {
+            id: {
+                in: articles.map(article => article.id)
+            }
+        },
+        data: {
+            statut: 'Vendu'
+        }
+    });
+
+    if (idUtilisateur) {
+        await dbPrisma.utilisateur.update({
             where: {
-                id: {
-                    in: articles.map(article => article.id)
-                }
+                id: idUtilisateur
             },
             data: {
-                statut: 'Vendu'
-            }
-        });
-
-        if (idUtilisateur) {
-            await dbPrisma.utilisateur.update({
-                where: {
-                    id: idUtilisateur
-                },
-                data: {
-                    adresse: formState.adresse,
-                    ville: formState.ville,
-                    codePostal: formState.codePostal
-                }
-            });
-        }
-
-        const commande = await dbPrisma.commande.create({
-            data: {
-                statut: 'En attente',
                 adresse: formState.adresse,
                 ville: formState.ville,
-                codePostal: formState.codePostal,
-                dateLivraison: getDateIn14Days(),
-                dateCommande: getCurrentDate(),
-                prixTotal: articles.reduce((acc, article) => acc + article.prix, 0),
-                email: formState.email,
-                idUtilisateur: idUtilisateur || null
+                codePostal: formState.codePostal
             }
         });
-
-        await dbPrisma.commandeProduit.createMany({
-            data: articles.map(article => ({
-                idProduit: article.id,
-                idCommande: commande.id,
-            }))
-        });
-
-        await dbPrisma.paiement.create({
-            data: {
-                idCommande: commande.id,
-                montant: commande.prixTotal,
-                methodePaiement: 'carte de crédit'
-            }
-        });
-
-        revalidatePath('/');
-        revalidatePath('/articles');
-        return { ...formState, loading: false, success: true };
     }
+
+    const commande = await dbPrisma.commande.create({
+        data: {
+            statut: 'En attente',
+            adresse: formState.adresse,
+            ville: formState.ville,
+            codePostal: formState.codePostal,
+            dateLivraison: getDateIn14Days(),
+            dateCommande: getCurrentDate(),
+            prixTotal: articles.reduce((acc, article) => acc + article.prix, 0),
+            email: formState.email,
+            idUtilisateur: idUtilisateur || null
+        }
+    });
+
+    await dbPrisma.commandeProduit.createMany({
+        data: articles.map(article => ({
+            idProduit: article.id,
+            idCommande: commande.id,
+        }))
+    });
+
+    await dbPrisma.paiement.create({
+        data: {
+            idCommande: commande.id,
+            montant: commande.prixTotal,
+            methodePaiement: 'carte de crédit'
+        }
+    });
+
+    revalidatePath('/');
+    revalidatePath('/articles');
+
+    return { ...formState, loading: false, success: true };
 }
 
 export async function fetchUserOrders(idUtilisateur: string) {
