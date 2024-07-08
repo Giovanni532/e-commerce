@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import paths from "@/path";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { deleteCookie } from "cookies-next";
 import Logout from "@/db/firebase/auth/logout";
 import { Search, ShoppingBasket } from 'lucide-react';
@@ -16,6 +16,7 @@ import { useState } from "react";
 import LinkMenu from "../linkMenu";
 
 export default function NavbarUi() {
+    const pathname = usePathname();
     const { currentUser, setCurrentUser } = useUserProvider();
     const router = useRouter();
     const { articles } = useStore() as {
@@ -66,9 +67,12 @@ export default function NavbarUi() {
 
     const handleSearch = async () => {
         if (query) {
+            if (pathname.startsWith("/articles")) {
+                return router.push(`/articles?q=${query}`);
+            }
             await handleTransition(`/articles?q=${query}`);
         } else {
-            await handleTransition("/articles");
+            router.push(paths.articlesPath());
         }
     }
 
@@ -200,7 +204,7 @@ export default function NavbarUi() {
                                 as="button"
                                 className="transition-transform"
                                 src={currentUser.image ? currentUser.image : ""}
-                                />
+                            />
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Profile Actions" variant="flat">
                             <DropdownItem
