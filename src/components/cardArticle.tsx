@@ -77,13 +77,15 @@ export function CardArticleSheet({ article }: CardArticleProps) {
                         <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center">
                             <div className="relative col-span-6 md:col-span-4 mx-auto">
                                 <Image
-                                    as={NextImage}
                                     alt={article.nomProduit}
-                                    className="object-cover h-24"
-                                    height={200}
-                                    shadow="sm"
+                                    isZoomed
+                                    as={NextImage}
+                                    className="object-cover object-center rounded-xl h-24 z-0 border"
                                     src={article.urlsImages[0]}
-                                    width={200}
+                                    quality={100}
+                                    height={700}
+                                    width={300}
+                                    priority
                                 />
                             </div>
                             <div className="flex flex-col col-span-6 md:col-span-8">
@@ -132,13 +134,15 @@ export function CardArticlePanier({ article }: CardArticleProps) {
                         <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center">
                             <div className="relative col-span-6 md:col-span-4 mx-auto">
                                 <Image
-                                    as={NextImage}
                                     alt={article.nomProduit}
-                                    className="object-cover h-40"
-                                    height={200}
-                                    shadow="sm"
+                                    isZoomed
+                                    as={NextImage}
+                                    className="object-cover object-center rounded-xl h-40 z-0"
                                     src={article.urlsImages[0]}
-                                    width={200}
+                                    quality={100}
+                                    height={700}
+                                    width={300}
+                                    priority
                                 />
                             </div>
                             <div className="flex flex-col col-span-6 md:col-span-8">
@@ -148,12 +152,11 @@ export function CardArticlePanier({ article }: CardArticleProps) {
                                         <p className="text-small text-foreground/80 pb-2 pl-2">Prix : {article.prix} CHF</p>
                                     </div>
                                 </div>
-                                <div className="flex w-full items-center justify-between py-2">
+                                <div className="flex w-full items-center justify-between py-2 mt-5">
                                     <ButtonWalletCard article={article} />
                                     <Button
                                         onClick={handlePress}
                                         className="text-tiny"
-                                        variant="light"
                                         color="primary"
                                         radius="lg"
                                         size="sm"
