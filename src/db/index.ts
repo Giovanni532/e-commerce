@@ -3,17 +3,7 @@ import { initializeApp, getApps } from "firebase/app";
 import { getStorage } from 'firebase/storage';
 import { getAuth } from "firebase/auth";
 
-const prismaClientSingleton = () => {
-  return new PrismaClient()
-}
-
-declare const globalThis: {
-  prismaGlobal: ReturnType<typeof prismaClientSingleton>;
-} & typeof global;
-
-const dbPrisma = globalThis.prismaGlobal ?? prismaClientSingleton()
-
-if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = dbPrisma
+const dbPrisma = new PrismaClient();
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

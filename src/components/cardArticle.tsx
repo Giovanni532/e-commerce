@@ -27,7 +27,6 @@ interface CardArticleProps {
 }
 
 export default function CardArticle({ article }: CardArticleProps) {
-
     return (
         <Card className="mx-auto max-w-xs" radius="lg">
             <CardBody className="relative">
