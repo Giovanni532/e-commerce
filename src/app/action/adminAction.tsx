@@ -283,12 +283,12 @@ export async function updateCommande(id: number, formState: FormUpdateUser) {
         }) as { email: string };
 
 
-        const emailContent = `<p>Bonjour,</p><p>Le statut de votre commande a été mis à jour à : ${formState.statut}</p><p>Merci pour votre confiance.</p>`;
-        await sendEmail({
-            to: user.email,
-            subject: 'Mise à jour de votre commande',
-            html: emailContent,
-        });
+        // const emailContent = `<p>Bonjour,</p><p>Le statut de votre commande a été mis à jour à : ${formState.statut}</p><p>Merci pour votre confiance.</p>`;
+        // await sendEmail({
+        //     to: user.email,
+        //     subject: 'Mise à jour de votre commande',
+        //     html: emailContent,
+        // });
 
     } catch (error) {
         throw new Error("Une erreur est survenue.");

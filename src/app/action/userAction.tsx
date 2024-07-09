@@ -121,13 +121,13 @@ export async function createPaiementIntent(
         }
     });
 
-    const emailContent = `<p>Bonjour ${formState.prenom} ${formState.nom},</p><p>Merci pour votre achat. Votre commande est en attente de traitement.</p><p>Adresse de livraison : ${formState.adresse}, ${formState.codePostal}, ${formState.ville}</p><p>Merci pour votre confiance.</p>`;
+    // const emailContent = `<p>Bonjour ${formState.prenom} ${formState.nom},</p><p>Merci pour votre achat. Votre commande est en attente de traitement.</p><p>Adresse de livraison : ${formState.adresse}, ${formState.codePostal}, ${formState.ville}</p><p>Merci pour votre confiance.</p>`;
 
-    await sendEmail({
-        to: formState.email,
-        subject: 'Confirmation de votre achat',
-        html: emailContent,
-    });
+    // await sendEmail({
+    //     to: formState.email,
+    //     subject: 'Confirmation de votre achat',
+    //     html: emailContent,
+    // });
 
     revalidatePath('/');
     revalidatePath('/articles');
@@ -220,12 +220,12 @@ export async function createContact(formState: ContactFormState) {
                 message: formState.message
             }
         });
-        const emailContent = `<p>Bonjour ${formState.prenom} ${formState.nom},</p><p>Nous avons bien reçu votre message :</p><p>${formState.message}</p><p>Nous vous répondrons dans les plus brefs délais.</p>`;
-        await sendEmail({
-            to: formState.email,
-            subject: 'Confirmation de réception de votre message',
-            html: emailContent,
-        });
+        // const emailContent = `<p>Bonjour ${formState.prenom} ${formState.nom},</p><p>Nous avons bien reçu votre message :</p><p>${formState.message}</p><p>Nous vous répondrons dans les plus brefs délais.</p>`;
+        // await sendEmail({
+        //     to: formState.email,
+        //     subject: 'Confirmation de réception de votre message',
+        //     html: emailContent,
+        // });
         return { ...formState, loading: false, success: true };
     }
 }
