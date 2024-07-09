@@ -118,7 +118,7 @@ export default function TableDataCommandes({ columns, commandes, statusOptions }
         switch (columnKey) {
             case "statut":
                 return (
-                    <Chip color={statusColorMap[cellValue as string]}>{cellValue}</Chip>
+                    <Chip color={statusColorMap[cellValue as string]} className='text-white'>{cellValue}</Chip>
                 );
             case "action":
                 return (

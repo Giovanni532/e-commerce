@@ -120,7 +120,7 @@ export default function TableDataArticles({ columns, articles, statusOptions, ca
         switch (columnKey) {
             case "statut":
                 return (
-                    <Chip color={statusColorMap[cellValue as string]}>{cellValue}</Chip>
+                    <Chip color={statusColorMap[cellValue as string]} className='text-white'>{cellValue}</Chip>
                 );
             case "action":
                 return (
