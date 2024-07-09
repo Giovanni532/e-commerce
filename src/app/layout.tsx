@@ -14,6 +14,11 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: "Mode Revive | Page d'accueil",
   description: "Votre boutique de seconde main en ligne",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/icon.png",
+    shortcut: "/icon.png",
+  }
 };
 
 export default function RootLayout({
@@ -32,7 +37,7 @@ export default function RootLayout({
         <Provider>
           <Navbar />
           <div className="page-transition">
-          {children}
+            {children}
           </div>
         </Provider>
         <Toaster />
