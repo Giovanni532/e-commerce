@@ -45,7 +45,7 @@ export default async function Home() {
           <div className="parallax-container"></div>
         </div>
       </section>
-      <section className="py-12 bg-white w-screen h-1/2">
+      <section className="py-12 bg-white w-full h-1/2">
         <div className="mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-center">Nos articles</h2>
           <ParallaxScroll images={images} />
