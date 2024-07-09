@@ -1,5 +1,34 @@
+import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
+
+const images = [
+  "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80",
+  "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3070&q=80",
+  "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80",
+  "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80",
+  "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3070&q=80",
+  "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80",
+  "https://images.unsplash.com/photo-1682686581854-5e71f58e7e3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80",
+  "https://images.unsplash.com/photo-1510784722466-f2aa9c52fff6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80",
+  "https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80",
+  "https://images.unsplash.com/photo-1439853949127-fa647821eba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2640&q=80",
+  "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80",
+  "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3070&q=80",
+  "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80",
+  "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80",
+  "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3070&q=80",
+  "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80",
+  "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3070&q=80",
+  "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80",
+  "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80",
+  "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3070&q=80",
+  "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80",
+  "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3070&q=80",
+  "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80",
+  "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80",
+  "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3070&q=80",
+];
 
 export default async function Home() {
   return (
@@ -7,7 +36,7 @@ export default async function Home() {
       <section className="bg-backgroundRevive  h-screen">
         <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 h-full relative">
           <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left px-20 z-10">
-            <h1 className="text-3xl font-bold mb-4 text-white md:text-gray-800">Mode <span className="bg-white text-primary rounded-lg p-2">Revive</span></h1>
+            <h1 className="text-3xl font-bold mb-4 text-white md:text-gray-800">Mode <span className="bg-white text-primary rounded-xl p-2">Revive</span></h1>
             <p className=" text-lg font-bold mb-8 text-white md:text-gray-600">Découvrez nos articles les plus appréciés de la saison.</p>
             <div className="flex space-x-4 mx-auto md:mx-0">
               <Button color="primary">Voir les produits</Button>
@@ -16,55 +45,10 @@ export default async function Home() {
           <div className="parallax-container"></div>
         </div>
       </section>
-      <section className="py-12 bg-white">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold mb-8">Catégories de produits</h2>
-          <div className="grid grid-cols-4 gap-8">
-            <Link
-              href="#"
-              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
-              prefetch={false}
-            >
-              <img src="/placeholder.svg" width={300} height={200} alt="Vêtements" className="rounded-t-lg" />
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-2">Vêtements</h3>
-                <p className="text-gray-600">Découvrez notre collection de vêtements tendance.</p>
-              </div>
-            </Link>
-            <Link
-              href="#"
-              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
-              prefetch={false}
-            >
-              <img src="/placeholder.svg" width={300} height={200} alt="Accessoires" className="rounded-t-lg" />
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-2">Accessoires</h3>
-                <p className="text-gray-600">Complétez votre look avec nos accessoires de mode.</p>
-              </div>
-            </Link>
-            <Link
-              href="#"
-              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
-              prefetch={false}
-            >
-              <img src="/placeholder.svg" width={300} height={200} alt="Chaussures" className="rounded-t-lg" />
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-2">Chaussures</h3>
-                <p className="text-gray-600">Découvrez notre collection de chaussures tendance.</p>
-              </div>
-            </Link>
-            <Link
-              href="#"
-              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
-              prefetch={false}
-            >
-              <img src="/placeholder.svg" width={300} height={200} alt="Beauté" className="rounded-t-lg" />
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-2">Beauté</h3>
-                <p className="text-gray-600">Prenez soin de vous avec nos produits de beauté.</p>
-              </div>
-            </Link>
-          </div>
+      <section className="py-12 bg-white w-screen h-1/2">
+        <div className="mx-auto">
+          <h2 className="text-3xl font-bold mb-8 text-center">Nos articles</h2>
+          <ParallaxScroll images={images} />
         </div>
       </section>
       <section className="bg-gray-100 py-12">
