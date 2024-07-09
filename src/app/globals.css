@@ -121,14 +121,11 @@
   opacity: 0;
 }
 
-/* globals.css */
-
 body {
-  transition-property: opacity, background, transform;
+  transition-property: opacity, transform;
   transition-timing-function: ease-in-out;
 }
 
-/* Keyframes for sliding in from the left */
 @keyframes slideInFromLeft {
   0% {
     transform: translateX(-100%);
@@ -140,7 +137,6 @@ body {
   }
 }
 
-/* Keyframes for sliding out to the right */
 @keyframes slideOutToRight {
   0% {
     transform: translateX(0);
@@ -164,8 +160,6 @@ body {
   background: #fefdf8;
 }
 
-
-/* Keyframes for sliding in the border from the left */
 @keyframes slideInFromLeftBorder {
   0% {
     width: 0;
@@ -179,7 +173,6 @@ body {
   }
 }
 
-/* Keyframes for sliding out the border to the right */
 @keyframes slideOutToRightBorder {
   0% {
     width: 100%;
@@ -199,13 +192,13 @@ body {
 }
 
 .border-slide::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 1px; /* Adjust the height of the border */
+  height: 1px;
   width: 100%;
-  background: hsl(30, 86%, 68%); /* Adjust the color of the border */
+  background: hsl(30, 86%, 68%);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.5s ease-in-out;
@@ -219,4 +212,26 @@ body {
 
 .border-slide:not(:hover)::after {
   animation: slideOutToRightBorder 0.5s forwards;
+}
+
+.parallax-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 20%;
+  background-image: url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  clip-path: polygon(52% 0, 100% 0, 100% 100%, 0% 100%);
+  z-index: 1;
+  transition: ease-in-out 0.5s;
+}
+
+@media (max-width: 1024px) {
+  .parallax-container {
+    left: 0;
+    clip-path: none;
+  }
 }

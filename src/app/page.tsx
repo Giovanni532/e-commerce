@@ -1,23 +1,19 @@
-import CarouselHome from "@/components/carouselHome";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 
 export default async function Home() {
-
   return (
     <main className="flex-1">
-      <section className="bg-backgroundRevive py-12">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex flex-col justify-center text-center md:text-left">
-            <h1 className="text-3xl font-bold mb-4 text-primary">Mode Revive</h1>
-            <p className="text-gray-600 mb-8">Découvrez nos articles les plus appréciés de la saison.</p>
-            <div className="flex space-x-4 mx-auto md:m-0">
+      <section className="bg-backgroundRevive  h-screen">
+        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 h-full relative">
+          <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left px-20 z-10">
+            <h1 className="text-3xl font-bold mb-4 text-white md:text-gray-800">Mode <span className="bg-white text-primary rounded-lg p-2">Revive</span></h1>
+            <p className=" text-lg font-bold mb-8 text-white md:text-gray-600">Découvrez nos articles les plus appréciés de la saison.</p>
+            <div className="flex space-x-4 mx-auto md:mx-0">
               <Button color="primary">Voir les produits</Button>
             </div>
           </div>
-          <div>
-            <CarouselHome />
-          </div>
+          <div className="parallax-container"></div>
         </div>
       </section>
       <section className="py-12 bg-white">
