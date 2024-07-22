@@ -25,9 +25,8 @@ Template e-commerce avec toutes les features et prêt au **déploiement**.
    
  3 Dans le terminal 
  --
- 
-
-    npm run dev
+   npx prisma db push
+   npm run dev
 
 ## Ce template utilise comme librairies/framework
 
